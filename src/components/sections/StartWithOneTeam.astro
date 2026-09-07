@@ -1,0 +1,53 @@
+---
+import Section from "../layout/Section.astro";
+import Container from "../layout/Container.astro";
+import startDeco from "../../assets/images/start-deco.svg";
+import startTeam from "../../assets/images/start-team.avif";
+---
+
+<Section class="bg-white py-20 px-8 tablet:py-18 tablet:px-6 landscape:py-14 landscape:px-5 portrait:px-4">
+  <Container size="xl">
+    <div class="grid grid-cols-[minmax(0,671fr)_minmax(0,795fr)] items-center gap-[3.75rem] tablet:grid-cols-1 tablet:gap-10">
+      <div
+        class="relative aspect-[16/11] w-full overflow-hidden rounded-[1.25rem] bg-sky landscape:aspect-[4/3]"
+        data-reveal
+      >
+        <img src={startDeco.src} alt="" class="absolute left-[5%] w-[90%] mix-blend-screen opacity-60" />
+        <img
+          src={startTeam.src}
+          alt="A team of learners celebrating together"
+          class="absolute inset-0 aspect-square h-full w-full object-cover object-bottom"
+        />
+      </div>
+      <div class="flex flex-col items-start" data-reveal>
+        <h2 class="font-display text-[clamp(2rem,1.3rem+2.3vw,3.5rem)] font-normal uppercase leading-[1.1] tracking-[-0.05rem] text-ink">
+          Start with one team
+        </h2>
+        <p class="mt-6 max-w-[47.5rem] text-[clamp(1.0625rem,0.969rem+0.312vw,1.25rem)] leading-normal text-smoke landscape:mt-4">
+          You do not need a computer lab, a coding background or a big budget. You need one team of
+          learners willing to try things.
+        </p>
+        <div class="mt-7 flex flex-wrap items-center gap-7 landscape:gap-4">
+          <a
+            href="https://form.jotform.com/262253513708051"
+            class="group inline-flex items-center justify-center gap-3 rounded-full bg-lime py-2 pl-6 pr-2 text-lg font-semibold leading-normal tracking-[0.0125rem] text-ink no-underline transition-transform duration-200 motion-safe:hover:-translate-y-0.5 portrait:w-full portrait:justify-between"
+          >
+            Join the Coding Cup
+            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-lg font-semibold text-lime transition-transform duration-200 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5">
+              ↗
+            </span>
+          </a>
+          <a
+            href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3BLqC0QE8NU_CnwJjlRbXTd0lSHvnJu1ZJ-rrEff0z2RwsAbF0bdjnE5ZL_ER4BfMY8rvdaLQN"
+            class="group inline-flex items-center justify-center gap-3 rounded-full border-[1.5px] border-[#343434] py-2 pl-6 pr-2 text-lg font-semibold leading-normal tracking-[0.0125rem] text-ink no-underline transition-transform duration-200 motion-safe:hover:-translate-y-0.5 portrait:w-full portrait:justify-between"
+          >
+            Book a short call
+            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-lg font-semibold text-white transition-transform duration-200 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5">
+              ↗
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</Section>

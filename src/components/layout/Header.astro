@@ -1,0 +1,178 @@
+---
+const navLinkClass =
+  "navbar-link inline-block px-2 py-2 text-sm font-medium text-ink motion-safe:transition-colors motion-safe:duration-150 hover:text-teal landscape:w-full landscape:px-0 landscape:py-2.5 landscape:text-center";
+
+const dropdownLinkClass =
+  "block whitespace-nowrap rounded-lg px-4 py-2 text-sm text-ink hover:bg-peach hover:text-teal";
+---
+
+<header class="sticky top-0 z-50 w-full bg-ice">
+  <div
+    class="mx-auto flex h-[4.5rem] w-full max-w-[92rem] items-center justify-between px-8 tablet:px-6 landscape:px-4"
+  >
+    <a href="/" aria-label="home" class="block w-[7.5rem] shrink-0 text-ink">
+      <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 151 20" fill="none">
+        <path
+          d="M110.878 9.5519C111.063 9.87132 111.393 9.91254 111.65 10.0568C113.382 11.0666 114.227 12.5401 114.155 14.5596C114.072 16.5277 113.031 17.8157 111.321 18.6194C110.094 19.1964 108.775 19.485 107.436 19.5056C103.623 19.5571 99.8201 19.5262 96.0072 19.5571C95.3992 19.5571 95.358 19.2583 95.358 18.7946C95.3683 16.5277 95.358 14.2608 95.358 12.0043C95.358 8.43907 95.358 4.86358 95.358 1.29839C95.358 0.504983 95.3683 0.484375 96.1412 0.484375C99.5728 0.484375 103.004 0.484375 106.436 0.525591C108.033 0.546199 109.579 0.834711 110.991 1.63842C112.939 2.74095 113.732 4.80175 113.062 6.92438C112.805 7.72809 112.341 8.39785 111.692 8.93366C111.434 9.15004 111.156 9.33551 110.878 9.54159V9.5519ZM104.107 15.0542C104.653 15.0542 105.199 15.0542 105.746 15.0542C106.127 15.0542 106.498 15.013 106.848 14.8482C107.394 14.5906 107.693 14.1681 107.673 13.5499C107.652 12.9831 107.384 12.5607 106.859 12.3443C106.611 12.2412 106.333 12.1485 106.065 12.1382C104.767 12.1073 103.468 12.1176 102.159 12.1073C101.809 12.1073 101.665 12.2515 101.675 12.5916C101.685 13.0656 101.675 13.5499 101.675 14.0341C101.675 15.1058 101.572 15.0542 102.644 15.0542C103.128 15.0542 103.602 15.0542 104.086 15.0542H104.107ZM103.633 7.83113C103.633 7.82083 103.633 7.81052 103.633 7.80022C104.179 7.80022 104.725 7.80022 105.272 7.80022C105.375 7.80022 105.478 7.77961 105.581 7.759C106.354 7.58383 106.776 7.12015 106.786 6.44009C106.786 5.74972 106.405 5.30665 105.612 5.10057C105.004 4.94601 104.385 4.94601 103.777 4.98722C103.107 5.02844 102.242 4.6678 101.819 5.1727C101.428 5.64668 101.737 6.49161 101.696 7.17167C101.696 7.2438 101.696 7.30563 101.696 7.37775C101.665 7.73839 101.861 7.85174 102.19 7.84143C102.664 7.83113 103.149 7.84143 103.623 7.84143L103.633 7.83113Z"
+          fill="currentColor"></path>
+        <path
+          d="M47.5525 11.1489C47.5525 11.6332 47.5525 12.035 47.5525 12.4369C47.5525 14.5595 47.5525 16.6925 47.5525 18.8151C47.5525 19.5364 47.5319 19.5467 46.8105 19.5467C45.2647 19.5467 43.7189 19.5467 42.1732 19.5467C41.3281 19.5467 41.3178 19.5364 41.3178 18.7223C41.3178 16.6615 41.3178 14.6007 41.3178 12.5502C41.3178 8.8408 41.3178 5.14167 41.3178 1.43223C41.3178 0.535778 41.3178 0.535778 42.2041 0.525474C43.3686 0.525474 44.5434 0.56669 45.7078 0.504866C46.4086 0.46365 46.8414 0.752162 47.2639 1.26736C49.1395 3.54455 51.0459 5.80112 52.9421 8.0577C53.1688 8.33591 53.3646 8.66564 53.7356 8.8408C53.952 8.46986 53.8592 8.11952 53.8592 7.8001C53.8592 5.63626 53.8592 3.47242 53.8592 1.31888C53.8592 0.546082 53.8695 0.535778 54.6527 0.525474C56.1985 0.525474 57.7443 0.525474 59.29 0.525474C60.0938 0.525474 60.1042 0.546082 60.1042 1.40131C60.1042 5.41988 60.1042 9.42813 60.1042 13.4467C60.1042 15.2293 60.1042 17.0119 60.1042 18.8048C60.1042 19.5364 60.0835 19.5467 59.3725 19.557C58.1049 19.5673 56.8271 19.5261 55.5596 19.5776C54.9722 19.5982 54.6218 19.3715 54.2611 18.9387C52.3134 16.5894 50.3452 14.2504 48.3872 11.9114C48.1811 11.6641 48.0162 11.355 47.5628 11.1592L47.5525 11.1489Z"
+          fill="currentColor"></path>
+        <path
+          d="M81.9827 13.6218C81.9827 14.6213 81.9105 15.6208 82.0033 16.61C82.0754 17.4446 81.725 17.8465 81.0346 18.1968C78.7262 19.3715 76.3045 19.9897 73.7076 20C71.492 20 69.4001 19.5466 67.5348 18.3411C64.3196 16.2906 62.8872 13.2509 63.0624 9.51052C63.2376 5.79078 64.9792 2.92627 68.3696 1.29824C72.1206 -0.504964 75.9438 -0.39162 79.6949 1.40128C80.5709 1.82374 81.3231 2.42137 82.0033 3.11174C82.5701 3.68876 82.5701 3.70937 82.0033 4.22457C80.9831 5.14163 79.9319 6.02777 78.922 6.95513C78.551 7.29517 78.3346 7.26425 77.9946 6.91392C76.7992 5.67744 75.3358 5.15193 73.6149 5.28588C71.6878 5.44044 70.2657 6.58419 69.7504 8.44921C69.4928 9.36627 69.4722 10.2936 69.6577 11.2004C70.3791 14.6625 73.584 15.2705 75.9645 14.4977C76.3973 14.3534 76.4179 14.0546 76.4076 13.6939C76.4076 12.5605 76.4076 11.4271 76.4076 10.2936C76.4076 9.50022 76.4282 9.48992 77.2011 9.48992C78.5098 9.48992 79.8083 9.48992 81.117 9.48992C81.9724 9.48992 81.9827 9.50022 81.9827 10.3245C81.9827 11.4271 81.9827 12.5193 81.9827 13.6218Z"
+          fill="currentColor"></path>
+        <path
+          d="M134.293 9.9536C134.293 7.09939 134.293 4.25549 134.293 1.40128C134.293 0.535744 134.304 0.515136 135.107 0.515136C139.745 0.515137 144.382 0.515137 149.019 0.515137C149.761 0.515137 149.772 0.535745 149.782 1.23642C149.782 2.36986 149.761 3.5033 149.792 4.63674C149.803 5.16224 149.638 5.34771 149.092 5.34771C146.69 5.32711 144.279 5.33741 141.878 5.33741C141.641 5.33741 141.394 5.35802 141.157 5.33741C140.744 5.3065 140.652 5.52288 140.621 5.89383C140.497 7.59399 140.487 7.59399 142.177 7.59399C144.063 7.59399 145.959 7.59399 147.845 7.59399C148.669 7.59399 148.679 7.60429 148.679 8.45952C148.679 9.45901 148.679 10.4482 148.679 11.4477C148.679 12.1793 148.659 12.1896 147.927 12.1999C145.794 12.1999 143.671 12.1999 141.538 12.1999C140.641 12.1999 140.641 12.2102 140.621 13.0963C140.607 14.1817 141.15 14.7244 142.249 14.7244C144.588 14.7244 146.917 14.7244 149.256 14.7244C150.132 14.7244 150.143 14.7347 150.143 15.6414C150.143 16.6718 150.143 17.7022 150.143 18.7326C150.143 19.526 150.132 19.5363 149.36 19.5466C148.123 19.5466 146.886 19.5466 145.65 19.5466C142.146 19.5466 138.642 19.5466 135.138 19.5466C134.293 19.5466 134.283 19.5363 134.283 18.712C134.283 15.796 134.283 12.8799 134.283 9.9536H134.293Z"
+          fill="currentColor"></path>
+        <path
+          d="M16.9586 19.5569C16.8968 19.1139 17.1132 18.8253 17.2472 18.5162C19.7307 12.8181 22.2349 7.14061 24.6875 1.43219C24.9966 0.710912 25.3676 0.47392 26.1405 0.504832C27.6863 0.566656 29.2321 0.535744 30.7778 0.515136C31.2416 0.515136 31.5198 0.618176 31.7259 1.09216C34.3434 7.14061 36.9919 13.1684 39.6197 19.2066C39.6403 19.2684 39.63 19.3405 39.6403 19.4127C39.5475 19.6084 39.3517 19.5466 39.1972 19.5466C37.4144 19.5466 35.6213 19.5363 33.8385 19.5569C33.3232 19.5569 33.0141 19.4436 32.8595 18.9078C32.6534 18.2174 32.3236 17.5683 32.0866 16.8882C31.932 16.4451 31.7259 16.2287 31.2107 16.239C29.2218 16.27 27.2226 16.27 25.2337 16.239C24.7802 16.239 24.5535 16.3833 24.4093 16.8161C24.1619 17.558 23.8425 18.2895 23.5642 19.0314C23.4509 19.3302 23.3169 19.5569 22.915 19.5569C20.9261 19.5363 18.9475 19.5569 16.9689 19.5569H16.9586ZM28.2428 6.89331C27.8718 7.85158 27.5832 8.57286 27.305 9.30445C27.0268 10.0566 26.6558 10.7779 26.4806 11.6641C27.7069 11.6332 28.8199 11.7259 29.8916 11.6125C30.005 11.3962 29.9225 11.2725 29.871 11.1489C29.3557 9.80934 28.8405 8.46982 28.2428 6.89331Z"
+          fill="currentColor"></path>
+        <path
+          d="M8.85399 0.484336C11.5024 0.484336 14.1405 0.484336 16.789 0.484337C17.6134 0.484337 17.6237 0.494641 17.6237 1.34987C17.6237 2.51422 17.6134 3.68888 17.6237 4.85323C17.6237 5.33752 17.4691 5.52299 16.9745 5.51269C15.6657 5.49208 14.3672 5.50238 13.0585 5.51269C11.9249 5.51269 12.0383 5.43026 12.0383 6.59461C12.0383 10.5101 12.0383 14.4256 12.0383 18.3309C12.0383 19.6807 12.2032 19.557 10.8532 19.557C9.41047 19.557 7.96775 19.557 6.52502 19.557C5.62847 19.557 5.61816 19.557 5.61816 18.6606C5.61816 14.8172 5.61816 10.9738 5.61816 7.13042C5.61816 6.89342 5.61816 6.64613 5.61816 6.40914C5.60786 5.51269 5.60785 5.51269 4.71131 5.50238C3.40255 5.50238 2.1041 5.50238 0.795342 5.50238C0.0430648 5.50238 0.022457 5.48178 0.0121519 4.79141C0.00184675 3.58584 0.0327648 2.39058 0.00184937 1.18501C-0.00845577 0.638896 0.187345 0.474032 0.712908 0.484336C3.42317 0.504944 6.13343 0.484336 8.84369 0.484336H8.85399Z"
+          fill="currentColor"></path>
+        <path
+          d="M116.98 10.0565C116.98 7.17142 116.98 4.2863 116.98 1.41148C116.98 0.545948 116.98 0.535644 117.794 0.535644C119.371 0.535644 120.948 0.535644 122.535 0.535644C123.39 0.535645 123.4 0.545949 123.4 1.463C123.4 5.37853 123.4 9.28374 123.4 13.1993C123.4 14.7758 123.184 14.58 124.74 14.5903C126.904 14.6006 129.068 14.5903 131.222 14.5903C132.005 14.5903 132.015 14.6006 132.015 15.3837C132.015 16.5172 132.015 17.6506 132.015 18.784C132.015 19.5465 131.995 19.5568 131.201 19.5568C128.666 19.5568 126.121 19.5568 123.586 19.5568C121.628 19.5568 119.67 19.5568 117.712 19.5568C116.99 19.5568 116.98 19.5362 116.98 18.8046C116.98 15.8886 116.98 12.9726 116.98 10.0565Z"
+          fill="currentColor"></path>
+        <path
+          d="M85.2509 10.067C85.2509 7.15096 85.2509 4.23493 85.2509 1.3189C85.2509 0.535795 85.2612 0.515187 86.0444 0.515187C87.6932 0.515187 89.3317 0.525491 90.9806 0.504883C91.5164 0.504883 91.6813 0.669747 91.6813 1.20556C91.6607 7.06853 91.6813 12.9315 91.671 18.7945C91.671 19.5261 91.6504 19.5364 90.9393 19.5467C89.3317 19.5467 87.7138 19.5467 86.1062 19.5467C85.2715 19.5467 85.2612 19.5364 85.2509 18.7017C85.2509 15.8166 85.2509 12.9418 85.2509 10.0567V10.067Z"
+          fill="currentColor"></path>
+      </svg>
+    </a>
+
+    <!-- Desktop navigation -->
+    <nav aria-label="Primary" class="tablet:hidden">
+      <ul class="flex list-none items-center gap-1">
+        <li><a href="/" class={navLinkClass}>Home</a></li>
+        <li class="group relative">
+          <button
+            type="button"
+            class={`${navLinkClass} inline-flex items-center gap-1`}
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Teacher Training
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+              <path
+                d="M1 1L5 5L9 1"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </button>
+          <div
+            class="invisible absolute left-0 top-full min-w-[16rem] rounded-xl bg-white p-2 opacity-0 shadow-lg motion-safe:transition-opacity motion-safe:duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
+          >
+            <a
+              href="https://elearning.creative-hut.com/course/tangiblecodingalgorithms"
+              class={dropdownLinkClass}>Coding and Algorithms Online</a
+            >
+            <a href="/design-thinking" class={dropdownLinkClass}>Design Thinking</a>
+          </div>
+        </li>
+        <li><a href="/news-feed/ teacher-support-chatbot" class={navLinkClass}>Teacher Support</a></li>
+        <li><a href="/coding-club" class={navLinkClass}>C# Coding Club</a></li>
+        <li><a href="/news-feed" class={navLinkClass}>News Feed</a></li>
+        <li><a href="/our-coding" class={navLinkClass}>Our Coding Games</a></li>
+        <li aria-hidden="true"><span class="mx-2 inline-block h-[22px] w-px bg-[#E4EBF3]"></span></li>
+        <li>
+          <a href="/contact" class="border-b-2 border-teal px-2 py-2 text-sm font-medium text-ink"
+            >Contact</a
+          >
+        </li>
+        <li>
+          <a
+            href="/shop"
+            class="ml-2 inline-block rounded-full bg-cyan px-6 py-2.5 text-sm font-semibold text-ice motion-safe:transition-transform motion-safe:duration-200 hover:motion-safe:-translate-y-0.5"
+            >Shop</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Mobile hamburger toggle -->
+    <button
+      id="nav-toggle"
+      type="button"
+      class="hidden items-center justify-center rounded-lg p-2 text-ink tablet:flex"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="Toggle menu"
+    >
+      <svg id="icon-menu" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M3 6H21M3 12H21M3 18H21"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"></path>
+      </svg>
+      <svg id="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" class="hidden">
+        <path
+          d="M6 6L18 18M18 6L6 18"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile navigation panel -->
+  <div id="mobile-nav" class="hidden border-t border-mist bg-ice">
+    <ul class="flex list-none flex-col items-center gap-1 px-6 py-4">
+      <li class="w-full"><a href="/" class={navLinkClass}>Home</a></li>
+      <li class="w-full text-center">
+        <span class="block px-2 py-2.5 text-sm font-semibold text-ink">Teacher Training</span>
+        <a
+          href="https://elearning.creative-hut.com/course/tangiblecodingalgorithms"
+          class={`${navLinkClass} text-smoke`}>Coding and Algorithms Online</a
+        >
+        <a href="/design-thinking" class={`${navLinkClass} text-smoke`}>Design Thinking</a>
+      </li>
+      <li class="w-full"><a href="/news-feed/ teacher-support-chatbot" class={navLinkClass}>Teacher Support</a></li>
+      <li class="w-full"><a href="/coding-club" class={navLinkClass}>C# Coding Club</a></li>
+      <li class="w-full"><a href="/news-feed" class={navLinkClass}>News Feed</a></li>
+      <li class="w-full"><a href="/our-coding" class={navLinkClass}>Our Coding Games</a></li>
+      <li class="my-1 h-px w-full bg-mist" aria-hidden="true"></li>
+      <li class="w-full"><a href="/contact" class={navLinkClass}>Contact</a></li>
+      <li class="w-full pt-1 text-center">
+        <a
+          href="/shop"
+          class="inline-block rounded-full bg-cyan px-8 py-2.5 text-sm font-semibold text-ice"
+          >Shop</a
+        >
+      </li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById("nav-toggle");
+  const panel = document.getElementById("mobile-nav");
+  const iconMenu = document.getElementById("icon-menu");
+  const iconClose = document.getElementById("icon-close");
+
+  if (toggle && panel && iconMenu && iconClose) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      panel.classList.toggle("hidden", !open);
+      iconMenu.classList.toggle("hidden", open);
+      iconClose.classList.toggle("hidden", !open);
+    };
+
+    toggle.addEventListener("click", () => {
+      setOpen(toggle.getAttribute("aria-expanded") !== "true");
+    });
+
+    panel.addEventListener("click", (event) => {
+      if ((event.target as HTMLElement).closest("a")) {
+        setOpen(false);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    });
+  }
+</script>

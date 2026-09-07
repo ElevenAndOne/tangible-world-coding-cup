@@ -1,0 +1,89 @@
+---
+import Section from "../layout/Section.astro";
+import Container from "../layout/Container.astro";
+
+interface TimeRow {
+  time: string;
+  place: string;
+}
+
+const africaEuropeAsia: TimeRow[] = [
+  { time: "09:30", place: "UK/Ireland" },
+  { time: "10:30", place: "Central Europe" },
+  { time: "11:30", place: "South Africa" },
+  { time: "15:00", place: "India" },
+  { time: "16:30", place: "Jakarta / Western Indonesia" },
+  { time: "18:30", place: "South Korea / Japan" },
+];
+
+const americas: TimeRow[] = [
+  { time: "12:00", place: "US Pacific" },
+  { time: "14:00", place: "US Central / Mexico" },
+  { time: "15:00", place: "US Eastern" },
+  { time: "17:00", place: "Brazil / Chile" },
+];
+
+const cardClass =
+  "flex h-full flex-col items-start gap-4 rounded-lg bg-peach px-8 pt-7 pb-8 portrait:px-5 motion-safe:transition-transform motion-safe:duration-[250ms] hover:motion-safe:-translate-y-[3px]";
+---
+
+<Section class="bg-white px-8 py-20 tablet:px-6 tablet:py-[4.5rem] landscape:px-5 landscape:py-14 portrait:px-4">
+  <Container size="lg">
+    <div class="mb-12 flex flex-col items-center gap-4 text-center tablet:mb-10" data-reveal>
+      <h2 class="font-display text-[clamp(2rem,1.3rem+2.3vw,3.5rem)] uppercase leading-[1.1] tracking-[-0.05rem] text-ink">
+        When do we race?
+      </h2>
+      <p class="max-w-[45rem] text-[clamp(1.0625rem,0.969rem+0.312vw,1.25rem)] leading-[1.5] text-smoke">
+        The Coding Cup runs in two regional sessions so teams around the world can play live.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 items-stretch gap-8 tablet:grid-cols-1 tablet:gap-6">
+      <div class={cardClass} data-reveal>
+        <h3 class="w-full font-display text-[clamp(1.375rem,1.188rem+0.624vw,1.75rem)] leading-[1.25] tracking-[-0.0125rem] text-teal">
+          Africa, Europe and Asia-Pacific
+        </h3>
+        <div class="h-1 w-full shrink-0 bg-lime"></div>
+        <div class="flex w-full flex-col items-start gap-2.5">
+          {
+            africaEuropeAsia.map((row, index) => (
+              <div
+                class="motion-safe:transition-transform motion-safe:duration-[250ms] hover:motion-safe:-translate-y-[3px] flex w-full items-center gap-4"
+                data-reveal
+                style={`--reveal-delay: ${index * 80}ms`}
+              >
+                <div class="w-14 shrink-0 text-base font-semibold leading-[1.5] text-ink portrait:w-[3.25rem]">
+                  {row.time}
+                </div>
+                <div class="grow text-base leading-[1.5] text-smoke">{row.place}</div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class={cardClass} data-reveal>
+        <h3 class="w-full font-display text-[clamp(1.375rem,1.188rem+0.624vw,1.75rem)] leading-[1.25] tracking-[-0.0125rem] text-teal">
+          North and South America
+        </h3>
+        <div class="h-1 w-full shrink-0 bg-sky"></div>
+        <div class="flex w-full flex-col items-start gap-2.5">
+          {
+            americas.map((row, index) => (
+              <div
+                class="motion-safe:transition-transform motion-safe:duration-[250ms] hover:motion-safe:-translate-y-[3px] flex w-full items-center gap-4"
+                data-reveal
+                style={`--reveal-delay: ${(africaEuropeAsia.length + index) * 80}ms`}
+              >
+                <div class="w-14 shrink-0 text-base font-semibold leading-[1.5] text-ink portrait:w-[3.25rem]">
+                  {row.time}
+                </div>
+                <div class="grow text-base leading-[1.5] text-smoke">{row.place}</div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </Container>
+</Section>

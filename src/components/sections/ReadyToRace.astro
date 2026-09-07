@@ -1,0 +1,32 @@
+---
+import Section from "../layout/Section.astro";
+import Container from "../layout/Container.astro";
+import readyToRaceImg from "../../assets/images/ready-to-race.avif";
+---
+
+<Section class="overflow-hidden bg-teal-deep py-20 px-8 tablet:py-18 tablet:px-6 landscape:py-14 landscape:px-5 portrait:px-4">
+  <Fragment slot="background">
+    <img src={readyToRaceImg.src} alt="" class="absolute inset-0 h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(21,133,159,0.9),rgba(14,99,119,0)_78%)] landscape:bg-[linear-gradient(90deg,rgba(21,133,159,0.94),rgba(14,99,119,0.55))]">
+    </div>
+  </Fragment>
+  <Container size="lg">
+    <div class="flex flex-col items-start" data-reveal>
+      <h2 class="font-display text-[clamp(2.25rem,1.3rem+2.6vw,4rem)] font-normal uppercase leading-[1.05] tracking-[-0.075rem] text-white">
+        Ready to race?
+      </h2>
+      <p class="mb-8 mt-3 max-w-[37rem] text-[clamp(1.0625rem,0.969rem+0.312vw,1.25rem)] leading-normal text-white/90">
+        Join now and we will get you and your learners ready before 5 November.
+      </p>
+      <a
+        href="https://form.jotform.com/262253513708051"
+        class="group inline-flex items-center justify-center gap-3 rounded-full bg-lime py-2 pl-6 pr-2 text-lg font-semibold leading-normal tracking-[0.0125rem] text-ink no-underline transition-transform duration-200 motion-safe:hover:-translate-y-0.5 portrait:w-full portrait:justify-between"
+      >
+        Join the Coding Cup
+        <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-lg font-semibold text-lime transition-transform duration-200 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5">
+          ↗
+        </span>
+      </a>
+    </div>
+  </Container>
+</Section>

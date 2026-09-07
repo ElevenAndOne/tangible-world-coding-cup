@@ -1,0 +1,42 @@
+---
+import Section from "../layout/Section.astro";
+import Container from "../layout/Container.astro";
+import StatCounter from "../react/StatCounter";
+
+const ctaClass =
+  "group inline-flex items-center gap-3 rounded-full bg-lime py-4 pr-4 pl-8 text-lg font-semibold leading-[1.5] tracking-[0.0125rem] text-ink no-underline motion-safe:transition-transform motion-safe:duration-200 hover:motion-safe:-translate-y-0.5 landscape:py-2.5 landscape:pr-2.5 landscape:pl-6 landscape:text-base portrait:w-full";
+
+const arrowClass =
+  "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-lg font-semibold text-lime motion-safe:transition-transform motion-safe:duration-200 group-hover:motion-safe:translate-x-0.5 group-hover:motion-safe:-translate-y-0.5";
+---
+
+<Section class="relative overflow-hidden bg-white px-8 pb-14 tablet:px-6 landscape:px-5 landscape:pb-10 portrait:px-4">
+  <div slot="background" class="absolute top-[-1px] left-0 right-0 h-[6.1rem] w-full bg-teal" aria-hidden="true">
+  </div>
+
+  <Container size="full">
+    <div
+      class="mx-auto max-w-[75rem] rounded-2xl bg-lilac px-16 py-10 text-center tablet:p-8 portrait:px-6"
+      data-reveal
+    >
+      <h2
+        class="mx-auto mb-8 font-display text-[clamp(2rem,1.3rem+2.3vw,3.5rem)] uppercase leading-[1.1] tracking-[-0.05rem] text-ink"
+      >
+        2025 highlights
+      </h2>
+
+      <div class="mx-auto grid max-w-[75rem] grid-cols-3 items-start gap-12 portrait:grid-cols-1">
+        <StatCounter value={30} label="Countries" client:visible />
+        <StatCounter value={340} label="Teams" client:visible />
+        <StatCounter value={1374} label="Learners" client:visible />
+      </div>
+    </div>
+
+    <div class="relative flex w-full items-center justify-center pt-10 landscape:pt-8" data-reveal>
+      <a href="https://www.youtube.com/watch?v=Ly8jD8bR6gs" class={ctaClass}>
+        See the 2025 highlights
+        <span class={arrowClass} aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </Container>
+</Section>

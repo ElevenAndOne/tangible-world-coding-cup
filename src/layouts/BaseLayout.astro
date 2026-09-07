@@ -1,0 +1,61 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "2026 World Coding Cup | Tangible Africa",
+  description = "On 5 November 2026, learners around the world take on the Speed Stars challenge — building code with Tangible pieces and racing against teams in other countries.",
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@300..700&display=swap"
+    />
+  </head>
+  <body>
+    <slot name="header" />
+    <main>
+      <slot />
+    </main>
+    <slot name="footer" />
+
+    <script>
+      const revealTargets = document.querySelectorAll<HTMLElement>("[data-reveal]");
+
+      if (revealTargets.length > 0) {
+        if (typeof IntersectionObserver === "undefined") {
+          revealTargets.forEach((el) => el.classList.add("is-in"));
+        } else {
+          const observer = new IntersectionObserver(
+            (entries, obs) => {
+              for (const entry of entries) {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("is-in");
+                  obs.unobserve(entry.target);
+                }
+              }
+            },
+            { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+          );
+
+          revealTargets.forEach((el) => observer.observe(el));
+        }
+      }
+    </script>
+  </body>
+</html>

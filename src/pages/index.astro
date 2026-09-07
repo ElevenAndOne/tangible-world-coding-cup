@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import Hero from "../components/sections/Hero.astro";
+import Stats from "../components/sections/Stats.astro";
+import RaceTimes from "../components/sections/RaceTimes.astro";
+import HowItWorks from "../components/sections/HowItWorks.astro";
+import WhatWeNeed from "../components/sections/WhatWeNeed.astro";
+import ReadyToRace from "../components/sections/ReadyToRace.astro";
+import ThingsToKnow from "../components/sections/ThingsToKnow.astro";
+import Gallery from "../components/sections/Gallery.astro";
+import StartWithOneTeam from "../components/sections/StartWithOneTeam.astro";
+---
+
+<BaseLayout>
+  <Header slot="header" />
+  <Hero />
+  <Stats />
+  <RaceTimes />
+  <HowItWorks />
+  <WhatWeNeed />
+  <ReadyToRace />
+  <ThingsToKnow />
+  <Gallery />
+  <StartWithOneTeam />
+  <Footer slot="footer" />
+</BaseLayout>
