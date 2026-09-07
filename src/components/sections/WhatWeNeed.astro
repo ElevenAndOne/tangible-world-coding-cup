@@ -23,6 +23,7 @@ interface InfoCard {
   title: string;
   text: string;
   categories?: InfoCategory[];
+  note?: string;
   links: InfoLink[];
 }
 
@@ -56,12 +57,13 @@ const cards: InfoCard[] = [
     icon: iconTeam,
     bar: "bg-sun",
     title: "A team of learners",
-    text: "Three to five per team, with three competition categories:",
+    text: "3 to 5 per team, with three competition categories:",
     categories: [
-      { label: "Junior", detail: "primary school" },
-      { label: "Senior", detail: "secondary / high school" },
-      { label: "Open", detail: "university / tertiary" },
+      { label: "Junior", detail: "schools, libraries and learning spaces (~7–13 years)" },
+      { label: "Senior", detail: "schools, libraries and learning spaces (~13–18 years)" },
+      { label: "Open", detail: "university / tertiary students (~18+ years)" },
     ],
+    note: "Learners enter according to their current education level, not strictly their age.",
     links: [],
   },
   {
@@ -115,6 +117,9 @@ const cards: InfoCard[] = [
                   </ul>
                 )}
               </div>
+              {card.note && (
+                <p class="text-sm italic leading-normal text-smoke">{card.note}</p>
+              )}
               {card.links.length === 1 && (
                 <a
                   href={card.links[0].href}
