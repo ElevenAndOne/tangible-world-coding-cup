@@ -1,9 +1,6 @@
 ---
 const navLinkClass =
   "navbar-link inline-block px-2 py-2 text-sm font-medium text-ink motion-safe:transition-colors motion-safe:duration-150 hover:text-teal landscape:w-full landscape:px-0 landscape:py-2.5 landscape:text-center";
-
-const dropdownLinkClass =
-  "block whitespace-nowrap rounded-lg px-4 py-2 text-sm text-ink hover:bg-peach hover:text-teal";
 ---
 
 <header class="sticky top-0 z-50 w-full bg-ice">
@@ -42,49 +39,23 @@ const dropdownLinkClass =
     <!-- Desktop navigation -->
     <nav aria-label="Primary" class="tablet:hidden">
       <ul class="flex list-none items-center gap-1">
-        <li><a href="/" class={navLinkClass}>Home</a></li>
-        <li class="group relative">
-          <button
-            type="button"
-            class={`${navLinkClass} inline-flex items-center gap-1`}
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Teacher Training
-            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
-              <path
-                d="M1 1L5 5L9 1"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-            </svg>
-          </button>
-          <div
-            class="invisible absolute left-0 top-full min-w-[16rem] rounded-xl bg-white p-2 opacity-0 shadow-lg motion-safe:transition-opacity motion-safe:duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
-          >
-            <a
-              href="https://elearning.creative-hut.com/course/tangiblecodingalgorithms"
-              class={dropdownLinkClass}>Coding and Algorithms Online</a
-            >
-            <a href="/design-thinking" class={dropdownLinkClass}>Design Thinking</a>
-          </div>
-        </li>
-        <li><a href="/news-feed/ teacher-support-chatbot" class={navLinkClass}>Teacher Support</a></li>
-        <li><a href="/coding-club" class={navLinkClass}>C# Coding Club</a></li>
-        <li><a href="/news-feed" class={navLinkClass}>News Feed</a></li>
-        <li><a href="/our-coding" class={navLinkClass}>Our Coding Games</a></li>
+        <li><a href="#race-times" class={navLinkClass}>When we race</a></li>
+        <li><a href="#how-it-works" class={navLinkClass}>How it works</a></li>
+        <li><a href="#what-you-need" class={navLinkClass}>What you need</a></li>
+        <li><a href="#things-to-know" class={navLinkClass}>Things to know</a></li>
+        <li><a href="#get-started" class={navLinkClass}>Get started</a></li>
         <li aria-hidden="true"><span class="mx-2 inline-block h-[22px] w-px bg-[#E4EBF3]"></span></li>
         <li>
-          <a href="/contact" class="border-b-2 border-teal px-2 py-2 text-sm font-medium text-ink"
-            >Contact</a
+          <a
+            href="mailto:info@levafoundation.org"
+            class="border-b-2 border-teal px-2 py-2 text-sm font-medium text-ink">Contact</a
           >
         </li>
         <li>
           <a
-            href="/shop"
+            href="https://form.jotform.com/262253513708051"
             class="ml-2 inline-block rounded-full bg-cyan px-6 py-2.5 text-sm font-semibold text-ice motion-safe:transition-transform motion-safe:duration-200 hover:motion-safe:-translate-y-0.5"
-            >Shop</a
+            >Join now</a
           >
         </li>
       </ul>
@@ -119,26 +90,18 @@ const dropdownLinkClass =
   <!-- Mobile navigation panel -->
   <div id="mobile-nav" class="hidden border-t border-mist bg-ice">
     <ul class="flex list-none flex-col items-center gap-1 px-6 py-4">
-      <li class="w-full"><a href="/" class={navLinkClass}>Home</a></li>
-      <li class="w-full text-center">
-        <span class="block px-2 py-2.5 text-sm font-semibold text-ink">Teacher Training</span>
-        <a
-          href="https://elearning.creative-hut.com/course/tangiblecodingalgorithms"
-          class={`${navLinkClass} text-smoke`}>Coding and Algorithms Online</a
-        >
-        <a href="/design-thinking" class={`${navLinkClass} text-smoke`}>Design Thinking</a>
-      </li>
-      <li class="w-full"><a href="/news-feed/ teacher-support-chatbot" class={navLinkClass}>Teacher Support</a></li>
-      <li class="w-full"><a href="/coding-club" class={navLinkClass}>C# Coding Club</a></li>
-      <li class="w-full"><a href="/news-feed" class={navLinkClass}>News Feed</a></li>
-      <li class="w-full"><a href="/our-coding" class={navLinkClass}>Our Coding Games</a></li>
+      <li class="w-full"><a href="#race-times" class={navLinkClass}>When we race</a></li>
+      <li class="w-full"><a href="#how-it-works" class={navLinkClass}>How it works</a></li>
+      <li class="w-full"><a href="#what-you-need" class={navLinkClass}>What you need</a></li>
+      <li class="w-full"><a href="#things-to-know" class={navLinkClass}>Things to know</a></li>
+      <li class="w-full"><a href="#get-started" class={navLinkClass}>Get started</a></li>
       <li class="my-1 h-px w-full bg-mist" aria-hidden="true"></li>
-      <li class="w-full"><a href="/contact" class={navLinkClass}>Contact</a></li>
+      <li class="w-full"><a href="mailto:info@levafoundation.org" class={navLinkClass}>Contact</a></li>
       <li class="w-full pt-1 text-center">
         <a
-          href="/shop"
+          href="https://form.jotform.com/262253513708051"
           class="inline-block rounded-full bg-cyan px-8 py-2.5 text-sm font-semibold text-ice"
-          >Shop</a
+          >Join now</a
         >
       </li>
     </ul>

@@ -54,6 +54,21 @@
   }
 }
 
+/* In-page nav: smooth scrolling, with the sticky 4.5rem header cleared. */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
 body {
   font-family: var(--font-sans);
   color: var(--color-ink);
