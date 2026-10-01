@@ -1,0 +1,16 @@
+---
+import Section from "../layout/Section.astro";
+import Container from "../layout/Container.astro";
+import AmazonLogo from "../brand/AmazonLogo.astro";
+---
+
+<Section class="bg-white px-8 pb-16 tablet:px-6 tablet:pb-14 landscape:px-5 landscape:pb-12 portrait:px-4">
+  <Container size="xl">
+    <div class="flex items-center justify-center gap-4 border-t border-mist pt-12 landscape:gap-3 landscape:pt-10" data-reveal>
+      <p class="text-sm leading-[1.2] font-semibold tracking-[0.0875rem] text-smoke uppercase landscape:text-xs">
+        Sponsored by
+      </p>
+      <AmazonLogo width={140} class="text-ink landscape:w-[110px]" />
+    </div>
+  </Container>
+</Section>
