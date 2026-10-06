@@ -6,7 +6,10 @@ Recreation of [tangible.levafoundation.org/world-coding-cup-2026](https://tangib
 
 ```sh
 npm install
-npm run dev       # dev server
+npx astro dev --background # start the background dev server
+npx astro dev status       # inspect the background server
+npx astro dev logs         # read server logs
+npx astro dev stop         # stop the background server
 npm run build     # production build to ./dist
 npm run preview   # serve the production build
 ```
@@ -27,6 +30,11 @@ Every page section follows the same composition:
 - [Section.astro](src/components/layout/Section.astro) — renders the `background` slot before the content so backgrounds span the full viewport width.
 - [Container.astro](src/components/layout/Container.astro) — sizes: `md` (75rem), `lg` (80rem), `xl` (92rem), `full`.
 - Page sections live in [src/components/sections/](src/components/sections/), assembled in [index.astro](src/pages/index.astro).
+- [Button.astro](src/components/ui/Button.astro) — shared links and actions with a circular SVG icon. Use `href` for a link, `variant` for colour treatment, `size="sm"` for cards, `arrow="down"` for in-page jumps, and `icon="copy"` for copying text. Attributes such as `data-template` and `disabled` pass through to the rendered control. Hover changes colour without moving the button or icon.
+- [communications.astro](src/pages/communications.astro) — school toolkit using the shared Header, Footer, and Button. Its photographs use the larger originals of the existing gallery assets and Astro responsive image outputs.
+- [TemplateDialog.astro](src/components/ui/TemplateDialog.astro) — shared template modal with editing, clipboard feedback, keyboard navigation and a full-width Copy action.
+- [communications.ts](src/data/communications.ts) — the seven complete prototype templates and the story submission destination. The destination stays `null` until confirmed by the client.
+- [Communications handover](docs/communications-handover.md) — audit results, missing files and client decisions needed before launch.
 
 ## Breakpoints (desktop-first)
 
@@ -55,4 +63,4 @@ Colors and fonts are defined in the `@theme` block of [global.css](src/styles/gl
 
 ## Reference material
 
-`_reference/` holds the extracted original markup, CSS, and per-breakpoint screenshots used to build this recreation; `_assets/` holds the original downloaded assets. Neither is part of the build — safe to delete once the recreation is signed off.
+`_reference/` holds the extracted original markup, CSS, and per-breakpoint screenshots used to build this recreation; `_assets/` holds the original downloaded assets. Neither is part of the build. Retain `_reference/communications-copy-audit.json` as the independent record of the prototype copy used in the toolkit audit.
