@@ -3,6 +3,7 @@ import Section from "../layout/Section.astro";
 import Container from "../layout/Container.astro";
 import Countdown from "../react/Countdown";
 import AmazonLogo from "../brand/AmazonLogo.astro";
+import Button from "../ui/Button.astro";
 import heroDeco from "../../assets/images/hero-deco.svg";
 import heroPoster from "../../assets/images/hero-teaser-poster.jpg";
 
@@ -13,11 +14,6 @@ const heroPreview =
 const heroFull =
   "https://pub-dfe88f38d7c6471bab5ada01af93c688.r2.dev/Tangible_CodingWorldCup2026_Teaser.mp4";
 
-const ctaClass =
-  "group inline-flex items-center gap-3 rounded-full bg-lime py-4 pr-4 pl-8 text-lg font-semibold leading-[1.5] tracking-[0.0125rem] text-ink no-underline motion-safe:transition-transform motion-safe:duration-200 hover:motion-safe:-translate-y-0.5 landscape:py-2.5 landscape:pr-2.5 landscape:pl-6 landscape:text-base portrait:w-full";
-
-const arrowClass =
-  "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-lg font-semibold text-lime motion-safe:transition-transform motion-safe:duration-200 group-hover:motion-safe:translate-x-0.5 group-hover:motion-safe:-translate-y-0.5";
 ---
 
 <Section
@@ -56,10 +52,9 @@ const arrowClass =
         </p>
 
         <div class="mt-7 flex flex-wrap items-center gap-7 landscape:gap-4" data-reveal style="--reveal-delay: 270ms">
-          <a href="https://form.jotform.com/262253513708051" class={ctaClass}>
+          <Button href="https://form.jotform.com/262253513708051" class="py-4 pr-4 pl-8 leading-[1.5] landscape:py-2.5 landscape:pr-2.5 landscape:pl-6 landscape:text-base">
             Join the Coding Cup
-            <span class={arrowClass} aria-hidden="true">↗</span>
-          </a>
+          </Button>
         </div>
 
         <div class="mt-7" data-reveal style="--reveal-delay: 315ms">

@@ -1,0 +1,31 @@
+---
+import MessageCircle from "../../assets/icons/message-circle.svg";
+import Newspaper from "../../assets/icons/newspaper.svg";
+import Smartphone from "../../assets/icons/smartphone.svg";
+import Monitor from "../../assets/icons/monitor.svg";
+import Trophy from "../../assets/icons/trophy.svg";
+import ShieldCheck from "../../assets/icons/shield-check.svg";
+
+// Lucide SVGs; copyright and permission notices: src/assets/icons/LICENSE.
+const icons = {
+  "message-circle": MessageCircle,
+  newspaper: Newspaper,
+  smartphone: Smartphone,
+  monitor: Monitor,
+  trophy: Trophy,
+  "shield-check": ShieldCheck,
+};
+
+type IconName = keyof typeof icons;
+
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 28, class: className } = Astro.props;
+const Svg = icons[name];
+---
+
+<Svg width={size} height={size} stroke-width={1.75} class={className} aria-hidden="true" focusable="false" />

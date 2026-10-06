@@ -1,6 +1,8 @@
 ---
 const navLinkClass =
   "navbar-link inline-block px-2 py-2 text-sm font-medium text-ink motion-safe:transition-colors motion-safe:duration-150 hover:text-teal landscape:w-full landscape:px-0 landscape:py-2.5 landscape:text-center";
+const homeAnchor = (id: string) =>
+  `${Astro.url.pathname === "/" ? "" : "/"}#${id}`;
 ---
 
 <header class="sticky top-0 z-50 w-full bg-ice">
@@ -39,11 +41,11 @@ const navLinkClass =
     <!-- Desktop navigation -->
     <nav aria-label="Primary" class="tablet:hidden">
       <ul class="flex list-none items-center gap-1">
-        <li><a href="#race-times" class={navLinkClass}>When we race</a></li>
-        <li><a href="#how-it-works" class={navLinkClass}>How it works</a></li>
-        <li><a href="#what-you-need" class={navLinkClass}>What you need</a></li>
-        <li><a href="#things-to-know" class={navLinkClass}>Things to know</a></li>
-        <li><a href="#get-started" class={navLinkClass}>Get started</a></li>
+        <li><a href={homeAnchor("race-times")} class={navLinkClass}>When we race</a></li>
+        <li><a href={homeAnchor("how-it-works")} class={navLinkClass}>How it works</a></li>
+        <li><a href={homeAnchor("what-you-need")} class={navLinkClass}>What you need</a></li>
+        <li><a href={homeAnchor("things-to-know")} class={navLinkClass}>Things to know</a></li>
+        <li><a href={homeAnchor("get-started")} class={navLinkClass}>Get started</a></li>
         <li aria-hidden="true"><span class="mx-2 inline-block h-[22px] w-px bg-[#E4EBF3]"></span></li>
         <li>
           <a
@@ -90,11 +92,11 @@ const navLinkClass =
   <!-- Mobile navigation panel -->
   <div id="mobile-nav" class="hidden border-t border-mist bg-ice">
     <ul class="flex list-none flex-col items-center gap-1 px-6 py-4">
-      <li class="w-full"><a href="#race-times" class={navLinkClass}>When we race</a></li>
-      <li class="w-full"><a href="#how-it-works" class={navLinkClass}>How it works</a></li>
-      <li class="w-full"><a href="#what-you-need" class={navLinkClass}>What you need</a></li>
-      <li class="w-full"><a href="#things-to-know" class={navLinkClass}>Things to know</a></li>
-      <li class="w-full"><a href="#get-started" class={navLinkClass}>Get started</a></li>
+      <li class="w-full"><a href={homeAnchor("race-times")} class={navLinkClass}>When we race</a></li>
+      <li class="w-full"><a href={homeAnchor("how-it-works")} class={navLinkClass}>How it works</a></li>
+      <li class="w-full"><a href={homeAnchor("what-you-need")} class={navLinkClass}>What you need</a></li>
+      <li class="w-full"><a href={homeAnchor("things-to-know")} class={navLinkClass}>Things to know</a></li>
+      <li class="w-full"><a href={homeAnchor("get-started")} class={navLinkClass}>Get started</a></li>
       <li class="my-1 h-px w-full bg-mist" aria-hidden="true"></li>
       <li class="w-full"><a href="mailto:info@levafoundation.org" class={navLinkClass}>Contact</a></li>
       <li class="w-full pt-1 text-center">

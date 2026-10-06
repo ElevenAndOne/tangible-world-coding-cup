@@ -1,0 +1,75 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Variant = "primary" | "secondary" | "teal" | "quiet" | "soft";
+type ArrowDirection = "up-right" | "down";
+type Size = "sm" | "md";
+
+type Props = (HTMLAttributes<"a"> | HTMLAttributes<"button">) & {
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  variant?: Variant;
+  size?: Size;
+  arrow?: ArrowDirection;
+  icon?: "arrow" | "copy";
+  class?: string;
+};
+
+const {
+  href,
+  type = "button",
+  variant = "primary",
+  size = "md",
+  arrow = "up-right",
+  icon = "arrow",
+  class: className,
+  ...rest
+} = Astro.props;
+
+const baseClass =
+  "group inline-flex cursor-pointer items-center justify-center rounded-full font-semibold leading-normal tracking-[0.0125rem] no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal transition-colors duration-150";
+const variantClass = {
+  primary: "bg-lime text-ink hover:bg-[#a3d907]",
+  secondary: "border-[1.5px] border-[#343434] text-ink hover:bg-ice",
+  teal: "bg-teal text-white hover:bg-teal-deep",
+  quiet: "text-ink hover:text-teal-deep",
+  soft: "bg-ice text-ink hover:bg-mist",
+}[variant];
+const iconClass = {
+  primary: "bg-ink text-lime",
+  secondary: "bg-ink text-white",
+  teal: "bg-white text-teal",
+  quiet: "bg-ink text-white",
+  soft: "bg-teal text-white",
+}[variant];
+const sizeClass = size === "sm"
+  ? "gap-2 py-1.5 pr-1.5 pl-4 text-base"
+  : "gap-3 py-2 pr-2 pl-6 text-lg portrait:w-full portrait:justify-between";
+const iconSizeClass = size === "sm" ? "h-8 w-8" : "h-10 w-10";
+const buttonClass = [baseClass, sizeClass, variantClass, className].filter(Boolean).join(" ");
+const Tag = href ? "a" : "button";
+---
+
+  <Tag {...(href ? { href } : { type })} class={buttonClass} {...rest}>
+    <slot />
+    <span class:list={["inline-flex shrink-0 items-center justify-center rounded-full", iconSizeClass, iconClass]} aria-hidden="true">
+      {icon === "copy" ? (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <rect x="8" y="8" width="12" height="12" rx="2" stroke="currentColor" stroke-width="2" />
+          <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      ) : arrow === "down" ? (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 4v15m0 0 6-6m-6 6-6-6" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      ) : (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M7 17 17 7M7 7h10v10" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      )}
+    </span>
+  </Tag>
+
+<style>
+  button:disabled { cursor:not-allowed; opacity:.65; }
+</style>

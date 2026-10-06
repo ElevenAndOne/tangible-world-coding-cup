@@ -1,6 +1,7 @@
 ---
 import Section from "../layout/Section.astro";
 import Container from "../layout/Container.astro";
+import Button from "../ui/Button.astro";
 import startDeco from "../../assets/images/start-deco.svg";
 import startTeam from "../../assets/images/start-team.avif";
 ---
@@ -28,24 +29,17 @@ import startTeam from "../../assets/images/start-team.avif";
           learners willing to try things.
         </p>
         <div class="mt-7 flex flex-wrap items-center gap-7 landscape:gap-4">
-          <a
+          <Button
             href="https://form.jotform.com/262253513708051"
-            class="group inline-flex items-center justify-center gap-3 rounded-full bg-lime py-2 pl-6 pr-2 text-lg font-semibold leading-normal tracking-[0.0125rem] text-ink no-underline transition-transform duration-200 motion-safe:hover:-translate-y-0.5 portrait:w-full portrait:justify-between"
           >
             Join the Coding Cup
-            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-lg font-semibold text-lime transition-transform duration-200 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5">
-              ↗
-            </span>
-          </a>
-          <a
+          </Button>
+          <Button
             href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3BLqC0QE8NU_CnwJjlRbXTd0lSHvnJu1ZJ-rrEff0z2RwsAbF0bdjnE5ZL_ER4BfMY8rvdaLQN"
-            class="group inline-flex items-center justify-center gap-3 rounded-full border-[1.5px] border-[#343434] py-2 pl-6 pr-2 text-lg font-semibold leading-normal tracking-[0.0125rem] text-ink no-underline transition-transform duration-200 motion-safe:hover:-translate-y-0.5 portrait:w-full portrait:justify-between"
+            variant="secondary"
           >
             Book a short call
-            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-lg font-semibold text-white transition-transform duration-200 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5">
-              ↗
-            </span>
-          </a>
+          </Button>
         </div>
       </div>
     </div>
