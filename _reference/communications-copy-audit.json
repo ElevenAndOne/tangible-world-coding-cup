@@ -1,0 +1,59 @@
+{
+  "source": "https://salad-adobe-26973888.figma.site",
+  "originalSource": "https://www.figma.com/make/EJBVh5MuSCEgDpJ3XqsldR/Responsive-Webpage-for-Coding-Cup",
+  "captured": "2026-10-06",
+  "method": "Rendered modal text. Body hashes use NFC normalization, whitespace collapsed, FNV-1a over Unicode code points. Captured independently from both prototype URLs before implementation.",
+  "hashes": {
+    "parents": "c7192429",
+    "newsletter": "683c6b17",
+    "social": "d1e8fba8",
+    "website": "4c3c986b",
+    "pressRelease": "4a61f4ae",
+    "mediaEmail": "51ad3cdf",
+    "mediaTips": "93882835"
+  },
+  "templates": {
+    "parents": {
+      "category": "WHATSAPP MESSAGE + PARENT EMAIL",
+      "title": "Parent Message",
+      "hint": "Replace items in [BRACKETS] with your school's details. Works as a WhatsApp message or the body of a parent email.",
+      "text": "Hi [PARENT NAME] 👋\n\nGreat news from [SCHOOL NAME]!\n\nOur learners have just taken part in the Tangible World Coding Cup 2026 — a global coding competition connecting schools and learning communities from more than 30 countries around the world.\n\n[NUMBER OF LEARNERS] of our learners competed in teams on [DATE], solving coding challenges using physical game pieces and the Tangible app. No prior coding experience was needed — just teamwork and problem-solving.\n\nThe Tangible World Coding Cup 2026 is sponsored by Amazon, helping learners from communities around the world take part in this global coding challenge.\n\nWe're incredibly proud of every learner who took part. They represented [SCHOOL NAME] — and [CITY] — brilliantly.\n\n#WorldCodingCup #TangibleWCC"
+    },
+    "newsletter": {
+      "category": "READY-TO-EDIT NEWSLETTER ARTICLE",
+      "title": "School Newsletter",
+      "hint": "Paste this into your newsletter template. Replace all [BRACKETED] text. Add a learner or teacher quote to personalise it.",
+      "text": "[SCHOOL NAME] TAKES ON THE WORLD CODING CUP\n\nOn [DATE], [NUMBER OF LEARNERS] learners from [SCHOOL NAME] took part in the Tangible World Coding Cup 2026 — a global coding competition connecting schools from more than 30 countries.\n\nThe Tangible World Coding Cup 2026 is sponsored by Amazon and connects learners from schools and communities around the world through coding, problem-solving and teamwork.\n\nWorking in teams, our learners used physical coding tiles and the Tangible Tournament App to solve a series of increasingly complex coding challenges. No prior coding experience was needed — just teamwork, persistence and problem-solving.\n\n[SCHOOL NAME] was one of [NUMBER OF SCHOOLS] schools in [CITY / COUNTRY] to compete this year, joining thousands of learners around the world on the same day.\n\n[ADD A MEMORABLE MOMENT, RESULT OR QUOTE FROM A LEARNER OR TEACHER HERE.]\n\nThe Tangible World Coding Cup is a LEVA Foundation Programme. Find out more at worldcodingcup.com."
+    },
+    "social": {
+      "category": "BEFORE, DURING AND AFTER-EVENT CAPTIONS",
+      "title": "Social Media",
+      "hint": "Choose the caption that matches your timing. Replace [BRACKETED] text and add your own photos. Replace [APPROVED AMAZON HASHTAG] with the confirmed hashtag when available.",
+      "text": "BEFORE THE EVENT 📣\nWe're excited to be part of the Tangible World Coding Cup 2026, sponsored by Amazon! On [DATE], [NUMBER OF LEARNERS] learners from [SCHOOL NAME] will compete alongside thousands of students from more than 30 countries. We can't wait! 🌍 #WorldCodingCup #TangibleWCC [APPROVED AMAZON HASHTAG]\n\n— — —\n\nDURING THE EVENT ⚡\nWe're live at the Tangible World Coding Cup! Our teams are working hard, thinking fast and having a brilliant time. So proud of every learner here today. 🧩 #WorldCodingCup #TangibleWCC #[CITY]\n\n— — —\n\nAFTER THE EVENT 🎉\nOur learners joined young problem-solvers from around the world for the Tangible World Coding Cup 2026, sponsored by Amazon. [ADD YOUR RESULT OR A MEMORABLE MOMENT HERE.] We are so proud of every one of them. 🏆 #WorldCodingCup #TangibleWCC [APPROVED AMAZON HASHTAG]"
+    },
+    "website": {
+      "category": "READY-TO-EDIT NEWS ARTICLE",
+      "title": "School Website",
+      "hint": "Ready to paste into your school website's news section. Replace all [BRACKETED] text with your school's details.",
+      "text": "[SCHOOL NAME] COMPETES IN GLOBAL CODING CHAMPIONSHIP\n\n[DATE] — [NUMBER OF LEARNERS] learners from [SCHOOL NAME] in [CITY] took part in the Tangible World Coding Cup 2026 on [DATE], competing against schools and learning organisations from more than 30 countries around the world.\n\nThe Tangible World Coding Cup challenges teams of learners to solve a series of coding puzzles using physical tiles and an app. The approach is designed to make coding accessible to all learners, regardless of prior experience.\n\n[SCHOOL NAME] entered [NUMBER OF TEAMS] teams. [ADD YOUR RESULT, A QUOTE FROM A LEARNER OR TEACHER, OR A MEMORABLE MOMENT FROM YOUR EVENT.]\n\nThe Tangible World Coding Cup 2026 is sponsored by Amazon.\n\nThe event was organised by Tangible, a LEVA Foundation Programme that helps teachers introduce coding and robotics in the classroom through hands-on, tactile learning.\n\nLearn more at worldcodingcup.com."
+    },
+    "pressRelease": {
+      "category": "A READY-TO-PERSONALISE LOCAL PRESS RELEASE",
+      "title": "Press Release",
+      "hint": "Fill in the [BRACKETED] sections with your details. Add a quote from a teacher or learner. Include your contact details at the bottom. Always confirm photograph permissions before sharing images.",
+      "text": "FOR IMMEDIATE RELEASE\n[DATE]\n\n[SCHOOL NAME] LEARNERS COMPETE IN GLOBAL CODING CHAMPIONSHIP\n\n[NUMBER OF LEARNERS] learners from [SCHOOL NAME] in [CITY] have taken part in the Tangible World Coding Cup 2026, a global coding competition involving schools from more than 30 countries.\n\nThe event took place on [DATE] and challenged teams of learners to solve coding puzzles using physical tiles and the Tangible Tournament App — no prior coding knowledge required.\n\nThe Tangible World Coding Cup 2026 is sponsored by Amazon and connects learners from different countries through coding, problem-solving and teamwork.\n\n[ADD A QUOTE: \"It was incredible to see our learners working so collaboratively,\" said [NAME], [TITLE] at [SCHOOL NAME]. \"They showed real resilience and creativity.\"]\n\n[SCHOOL NAME] was one of [NUMBER OF LOCAL SCHOOLS] schools in [CITY / REGION] to participate in this year's competition.\n\n[ADD ANY LOCAL ANGLE — e.g. first time your school has competed internationally, strong representation from girls, community involvement, how learners overcame a challenge to take part.]\n\nPhotographs are available on request. All photograph subjects have given appropriate consent.\n\nCONTACT:\n[YOUR NAME] | [YOUR ROLE] | [SCHOOL NAME]\n[EMAIL] | [PHONE]\n\n###\n\nSponsor acknowledgement\nThe Tangible World Coding Cup 2026 is sponsored by Amazon.\n\nAbout Tangible World Coding Cup\nThe Tangible World Coding Cup is a global coding challenge that brings learners from different countries, classrooms and time zones together to solve the same challenges through play. It is a LEVA Foundation Programme. worldcodingcup.com"
+    },
+    "mediaEmail": {
+      "category": "A SHORT EMAIL TO SEND WITH YOUR PRESS RELEASE",
+      "title": "Media Email",
+      "hint": "Keep your email short — journalists decide quickly. Lead with your local angle. Attach your press release and approved photographs.",
+      "text": "Subject: Local school competes in global coding championship — [DATE]\n\nHi [JOURNALIST NAME / News Desk],\n\nI'm writing to let you know that [SCHOOL NAME] in [CITY] recently took part in the Tangible World Coding Cup 2026 — a global coding competition involving thousands of learners from more than 30 countries.\n\n[NUMBER OF LEARNERS] of our learners competed on [DATE], working in teams to solve coding challenges alongside students from around the world.\n\n[ADD ONE SPECIFIC LOCAL ANGLE — e.g. \"This was the first time our school has competed in an international competition.\" / \"Girls made up more than half of our competing teams.\" / \"Our learners overcame [CHALLENGE] to take part.\"]\n\nThe Tangible World Coding Cup 2026 is sponsored by Amazon and brings learners from schools and communities around the world together through coding and problem-solving.\n\nI've attached a press release and [NUMBER] photographs. Consent is in place for all photograph subjects.\n\nI'd be happy to arrange a short interview with our [HEAD TEACHER / TEACHER / LEARNER] if helpful.\n\nThank you,\n\n[YOUR NAME] | [YOUR ROLE] | [SCHOOL NAME]\n[EMAIL] | [PHONE]"
+    },
+    "mediaTips": {
+      "category": "FINDING THE RIGHT JOURNALIST OR PUBLICATION",
+      "title": "Media Tips",
+      "hint": "Use these tips to target your story effectively.",
+      "text": "LEADING WITH THE LOCAL STORY\n\nWhen approaching local media, lead with the local story. Mention Amazon as the sponsor of the Tangible World Coding Cup, but do not make the sponsorship the main angle unless it is specifically relevant to the story. The focus should remain on your learners, your school and your community.\n\n— — —\n\nHOW TO FIND THE RIGHT JOURNALIST\n\n1. LOCAL NEWSPAPERS\nSearch for your local paper and look for the Education Editor, Schools Reporter or Community News reporter. If there isn't a specialist, send to the news desk.\n\n2. LOCAL RADIO\nMany local and community radio stations run education or community segments. Search for your station's contact page and look for the news desk or a relevant programme.\n\n3. EDUCATION PUBLICATIONS\nLook for regional or national education publications and websites that cover school news. Teacher-focused outlets often welcome positive classroom stories.\n\n4. COMMUNITY PUBLICATIONS\nParent magazines, community newsletters, faith community publications and local business news often welcome feel-good school stories.\n\nWHAT MAKES A STRONG PITCH\n— A local angle (your school, your town, your community)\n— A real person: a learner or teacher who can be quoted or interviewed\n— Good photographs (with consent in place)\n— Timing: send your release shortly after the event while it is still fresh\n\nTIPS\n— Email is almost always better than a phone call for an initial approach\n— Keep your pitch email short — three paragraphs maximum\n— Follow up once after 2–3 days if you hear nothing\n— Do not exaggerate or claim results that are not confirmed"
+    }
+  }
+}

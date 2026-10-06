@@ -1,0 +1,123 @@
+---
+import Button from "./Button.astro";
+---
+
+<dialog id="copy-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-hint">
+  <div class="dialog-inner">
+    <header class="dialog-header">
+      <p id="dialog-category" class="eyebrow"></p>
+      <h2 id="dialog-title">Message</h2>
+      <button type="button" class="dialog-close" aria-label="Close template">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+      </button>
+    </header>
+    <p id="dialog-hint" class="dialog-hint"></p>
+    <div class="dialog-content">
+      <label for="template-text" class="sr-only">Editable template text</label>
+      <textarea id="template-text" rows="16" spellcheck="true"></textarea>
+    </div>
+    <footer class="dialog-actions">
+      <Button icon="copy" class="modal-copy-button" id="copy-template">Copy text</Button>
+      <p id="copy-status" role="status" aria-live="polite"></p>
+    </footer>
+  </div>
+</dialog>
+
+<style>
+  dialog { width:min(92vw,44rem); max-width:none; max-height:90dvh; margin:auto; overflow:auto; border:0; border-radius:1.25rem; padding:0; color:var(--color-ink); box-shadow:0 1rem 5rem #0004; }
+  dialog::backdrop { background:#10272edb; backdrop-filter:blur(4px); }
+  :global(html:has(#copy-dialog[open])) { overflow:hidden; }
+  .dialog-inner { display:flex; flex-direction:column; max-height:90dvh; }
+  .dialog-header { position:relative; flex-shrink:0; padding:1.5rem 4.5rem 1rem 1.5rem; }
+  .eyebrow { margin:0 0 .4rem; color:var(--color-teal); font-size:.7rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+  h2 { margin:0; font-family:var(--font-display); font-weight:400; font-size:clamp(1.5rem,3vw,2rem); line-height:1.2; }
+  .dialog-close { position:absolute; top:1.2rem; right:1.2rem; display:flex; align-items:center; justify-content:center; width:2.5rem; height:2.5rem; border:0; border-radius:50%; background:var(--color-ice); cursor:pointer; }
+  .dialog-hint { flex-shrink:0; max-height:22dvh; overflow:auto; margin:0; padding:1rem 1.5rem; background:var(--color-ice); color:var(--color-teal-deep); font-size:.9rem; line-height:1.5; }
+  .dialog-content { display:flex; flex-direction:column; flex:1 1 auto; min-height:6rem; height:clamp(6rem,40dvh,25rem); padding:1rem 1.5rem; }
+  textarea { display:block; flex:1 1 auto; width:100%; min-height:0; height:100%; resize:none; border:1px solid #cadadd; border-radius:.75rem; padding:1rem; color:var(--color-ink); font:inherit; font-size:.95rem; line-height:1.55; }
+  textarea:focus-visible,button:focus-visible { outline:3px solid var(--color-tangerine); outline-offset:3px; }
+  .dialog-actions { flex-shrink:0; padding:0 1.5rem 1.5rem; }
+  .dialog-actions :global(.modal-copy-button) { width:100%; justify-content:space-between; }
+  #copy-status { margin:.6rem 0 0; color:var(--color-teal-deep); font-size:.85rem; font-weight:700; line-height:1.4; }
+  #copy-status:empty { display:none; }
+  @media(max-height:650px) { .dialog-header { padding-top:1rem; padding-bottom:.75rem; } .dialog-hint { padding-block:.75rem; } .dialog-content { height:25dvh; } }
+</style>
+
+<script>
+  import { communicationsTemplates, type CommunicationsTemplateKey } from "../../data/communications";
+
+  const dialog = document.querySelector<HTMLDialogElement>("#copy-dialog");
+  const category = document.querySelector<HTMLElement>("#dialog-category");
+  const title = document.querySelector<HTMLElement>("#dialog-title");
+  const hint = document.querySelector<HTMLElement>("#dialog-hint");
+  const textarea = document.querySelector<HTMLTextAreaElement>("#template-text");
+  const status = document.querySelector<HTMLElement>("#copy-status");
+  const copyButton = document.querySelector<HTMLButtonElement>("#copy-template");
+  let lastTrigger: HTMLElement | null = null;
+
+  document.querySelectorAll<HTMLButtonElement>("[data-template]").forEach((button) => {
+    button.setAttribute("aria-haspopup", "dialog");
+    button.setAttribute("aria-controls", "copy-dialog");
+    button.addEventListener("click", () => {
+      const template = communicationsTemplates[button.dataset.template as CommunicationsTemplateKey];
+      if (!dialog || !category || !title || !hint || !textarea || !status || !template) return;
+      lastTrigger = button;
+      category.textContent = template.category;
+      title.textContent = template.title;
+      hint.textContent = template.hint;
+      textarea.value = template.text;
+      textarea.setAttribute("aria-label", `Editable ${template.title} text`);
+      status.textContent = "";
+      dialog.showModal();
+      dialog.scrollTop = 0;
+      textarea.setSelectionRange(0, 0);
+      textarea.scrollTop = 0;
+      textarea.focus({ preventScroll: true });
+    });
+  });
+  dialog?.querySelector(".dialog-close")?.addEventListener("click", () => dialog.close());
+  dialog?.addEventListener("close", () => lastTrigger?.focus({ preventScroll: true }));
+  dialog?.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      dialog.close();
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const controls = Array.from(dialog.querySelectorAll<HTMLElement>("button:not(:disabled), textarea"));
+    const first = controls[0];
+    const last = controls[controls.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last?.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first?.focus();
+    }
+  });
+  dialog?.addEventListener("click", (event) => {
+    if (event.target !== dialog) return;
+    const bounds = dialog.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+  });
+  textarea?.addEventListener("input", () => { if (status) status.textContent = ""; });
+  copyButton?.addEventListener("click", async () => {
+    if (!textarea || !status || !copyButton) return;
+    if (!textarea.value.trim()) {
+      status.textContent = "Add some text before copying.";
+      textarea.focus({ preventScroll: true });
+      return;
+    }
+    copyButton.disabled = true;
+    try {
+      await navigator.clipboard.writeText(textarea.value);
+      status.textContent = "Copied to clipboard.";
+    } catch {
+      textarea.focus({ preventScroll: true });
+      textarea.select();
+      status.textContent = "Automatic copy is unavailable. The text is selected; use your device’s Copy command.";
+    } finally {
+      copyButton.disabled = false;
+    }
+  });
+</script>

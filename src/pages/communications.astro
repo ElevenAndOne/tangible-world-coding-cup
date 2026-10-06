@@ -1,0 +1,189 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/layout/Container.astro";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import Button from "../components/ui/Button.astro";
+import TemplateDialog from "../components/ui/TemplateDialog.astro";
+import { storySubmissionUrl } from "../data/communications";
+import Icon from "../components/ui/Icon.astro";
+import { Image } from "astro:assets";
+import AmazonLogo from "../components/brand/AmazonLogo.astro";
+import learnersImage from "../assets/images/toolkit-learners.avif";
+import codingImage from "../assets/images/toolkit-coding.avif";
+import teamImage from "../assets/images/toolkit-team.avif";
+import heroDeco from "../assets/images/hero-deco.svg";
+
+const resources = [
+  { icon: "trophy", title: "World Coding Cup logos", detail: "Full colour, mono and white versions", format: "ZIP · PNG + SVG" },
+  { icon: "smartphone", title: "Social media graphics", detail: "Square and story formats", format: "ZIP · PNG" },
+  { icon: "newspaper", title: "Newsletter graphic", detail: "Ready-to-use header image", format: "PNG" },
+  { icon: "monitor", title: "Website graphics", detail: "Banner and inline versions", format: "PNG" },
+] as const;
+
+const mediaReasons = [
+  "Your learners are representing their town, region or country",
+  "This is the first time your school has done something like this",
+  "A large number of learners are involved",
+  "Girls are leading the way",
+  "There is a strong learner or teacher story",
+  "Your learners overcame an interesting challenge",
+  "Your community came together to make participation possible",
+];
+
+---
+
+<BaseLayout
+  title="School Communications Toolkit | World Coding Cup"
+  description="Ready-to-use messages, media guidance and resources for schools taking part in the Tangible World Coding Cup."
+>
+  <Header slot="header" />
+
+    <section class="hero">
+      <img src={heroDeco.src} alt="" aria-hidden="true" class="hero-pattern" />
+      <Container size="xl" class="px-6 portrait:px-4">
+        <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">2026 · SCHOOL COMMUNICATIONS TOOLKIT</p>
+          <h1>Taking part<br />is worth sharing.</h1>
+          <p class="hero-intro">Bring your school and community into your Tangible World Coding Cup journey. Use these ready-made resources to let people know you’re taking part and celebrate what your learners achieve.</p>
+          <div class="hero-actions">
+            <Button href="#start-here" arrow="down">Start with the quick guide</Button>
+            <Button href="#submit" variant="teal" arrow="down">Share your story with Tangible</Button>
+            <span class="sponsor"><span>Sponsored by</span><AmazonLogo class="text-white" /></span>
+          </div>
+        </div>
+        <figure class="hero-photo">
+          <Image src={learnersImage} alt="Learners working together with Tangible coding pieces" width={1600} widths={[480, 768, 1024, 1280, 1600]} sizes="(max-width: 850px) calc(100vw - 48px), (max-width: 1472px) 44vw, 650px" format="webp" quality={85} loading="eager" fetchpriority="high" class="toolkit-photo" />
+          <figcaption>One team. One big story.</figcaption>
+        </figure>
+        </div>
+      </Container>
+    </section>
+
+    <section id="start-here" class="section-pad bg-white">
+      <Container size="xl" class="px-6 portrait:px-4">
+        <div class="section-heading">
+          <p class="eyebrow">START HERE</p>
+          <h2>Five things we’d love every school to do</h2>
+          <p>You don’t need to be a communications expert. Start with the channels your school already uses.</p>
+        </div>
+        <div class="steps-grid">
+          <article class="step-card"><span class="step-number">01</span><h3>Tell your parents</h3><p>Use our ready-to-share WhatsApp or email message.</p><Button data-template="parents" variant="quiet" size="sm">Open parent message</Button></article>
+          <article class="step-card"><span class="step-number">02</span><h3>Put it in your newsletter</h3><p>Adapt a short article with your school’s details.</p><Button data-template="newsletter" variant="quiet" size="sm">Open newsletter story</Button></article>
+          <article class="step-card"><span class="step-number">03</span><h3>Share on social media</h3><p>Choose a caption, add approved photographs and celebrate your learners.</p><Button data-template="social" variant="quiet" size="sm">Open social captions</Button></article>
+          <article class="step-card"><span class="step-number">04</span><h3>Add it to your website</h3><p>Use a ready-to-edit school news story.</p><Button data-template="website" variant="quiet" size="sm">Open website story</Button></article>
+          <article class="step-card step-card-featured"><span class="step-number">05</span><h3>Share your story with Tangible</h3><p>Send us your highlights and help learners become part of the global World Coding Cup story.</p><Button href="#submit" variant="quiet" size="sm" arrow="down">See what to send</Button></article>
+        </div>
+      </Container>
+    </section>
+
+    <section class="section-pad bg-ice">
+      <Container size="xl" class="px-6 portrait:px-4">
+        <div class="section-heading"><p class="eyebrow">READY-TO-USE COPY</p><h2>We’ve done most of the writing for you.</h2><p>Choose what you need, add your school’s details and share it through the channels you already use.</p></div>
+        <div class="copy-grid">
+          <article class="copy-card"><span class="card-icon"><Icon name="message-circle" /></span><h3>Parents</h3><p>WhatsApp message and parent email</p><Button data-template="parents" aria-label="Open parent message" variant="soft" size="sm" class="copy-cta">Get the copy</Button></article>
+          <article class="copy-card"><span class="card-icon"><Icon name="newspaper" /></span><h3>School newsletter</h3><p>Ready-to-edit newsletter article</p><Button data-template="newsletter" aria-label="Open newsletter story" variant="soft" size="sm" class="copy-cta">Get the copy</Button></article>
+          <article class="copy-card"><span class="card-icon"><Icon name="smartphone" /></span><h3>Social media</h3><p>Before, during and after-event captions</p><Button data-template="social" aria-label="Open social captions" variant="soft" size="sm" class="copy-cta">Get the copy</Button></article>
+          <article class="copy-card"><span class="card-icon"><Icon name="monitor" /></span><h3>School website</h3><p>Ready-to-edit news article</p><Button data-template="website" aria-label="Open website story" variant="soft" size="sm" class="copy-cta">Get the copy</Button></article>
+        </div>
+      </Container>
+    </section>
+
+    <section class="section-pad bg-white">
+      <Container size="xl" class="px-6 portrait:px-4">
+        <div class="media-layout">
+        <figure class="media-image"><Image src={codingImage} alt="Learners arranging Tangible coding pieces around a phone" width={1600} widths={[480, 768, 1024, 1280, 1600]} sizes="(max-width: 850px) calc(100vw - 48px), (max-width: 1472px) 42vw, 600px" format="webp" quality={85} class="toolkit-photo" /><figcaption>Small pieces. Big ideas.</figcaption></figure>
+        <div class="media-copy"><p class="eyebrow">WANT TO GO FURTHER?</p><h2>Could this be a local news story?</h2><p>Not every event needs to be in the newspaper. Your school may have a story a local newspaper, radio station or education publication would love.</p>
+          <h3 class="small-label">Your story may be especially interesting if:</h3>
+          <ul class="check-list">{mediaReasons.map((reason) => <li>{reason}</li>)}</ul>
+          <p class="muted-note">Media coverage is never guaranteed. A well-crafted local story can help your community hear what learners achieved.</p>
+          <div class="media-actions"><div><strong>Press release</strong><span>Personalise a local announcement</span></div><Button data-template="pressRelease" variant="quiet" size="sm">Open release copy</Button><div><strong>Media email</strong><span>A short note to send with photos</span></div><Button data-template="mediaEmail" variant="quiet" size="sm">Open email copy</Button><div><strong>Who should I send it to?</strong><span>Find the right journalist or publication</span></div><Button data-template="mediaTips" variant="quiet" size="sm">See media tips</Button></div>
+        </div>
+        </div>
+      </Container>
+    </section>
+
+    <section class="section-pad bg-ice">
+      <Container size="xl" class="px-6 portrait:px-4">
+        <div class="photo-safety"><div><p class="eyebrow">PHOTOGRAPHY & SAFEGUARDING</p><h2>Take photographs that tell the story</h2><p>Great photographs help people see what learners achieved. Protect every child’s privacy and dignity at every step.</p></div><div class="safety-columns"><div><h3>Great photos show</h3><ul><li>Learners solving problems</li><li>Teamwork and interaction</li><li>Teachers facilitating</li><li>The activity taking place</li><li>The wider learning environment</li><li>Genuine moments rather than only posed groups</li></ul></div><div><h3>Before you share</h3><ul><li>Confirm appropriate permissions</li><li>Follow your organisation’s safeguarding requirements</li><li>Keep personal information off screens and walls</li><li>Don’t identify children unnecessarily</li><li>Choose images that represent learners respectfully</li></ul></div></div><div class="safety-callout"><span><Icon name="shield-check" /></span><p><strong>Children’s safety comes first.</strong> If you’re unsure whether you have permission to share an image, don’t publish it.</p></div></div>
+      </Container>
+    </section>
+
+    <section id="resources" class="section-pad bg-white">
+      <Container size="xl" class="px-6 portrait:px-4">
+        <div id="downloads" class="section-heading"><p class="eyebrow">RESOURCE LIBRARY</p><h2>World Coding Cup resources</h2><p>Approved graphics and guides will be available here when the final brand pack is supplied.</p></div>
+        <div class="resource-grid">{resources.map((resource) => <article class="resource-card"><span class="card-icon"><Icon name={resource.icon} /></span><h3>{resource.title}</h3><p>{resource.detail}</p><div class="resource-bottom"><span>{resource.format}</span><span class="resource-status">Files to be added</span></div></article>)}</div>
+        <p class="asset-note">The resource library is being prepared. Please check back for the approved brand pack.</p>
+        <article class="sponsor-guide"><div><h3>Amazon sponsor attribution guide</h3><p>Approved wording, logo use and sponsorship guidance for World Coding Cup communications.</p></div><span class="resource-status">Guide to be supplied</span></article>
+      </Container>
+    </section>
+
+    <section id="submit" class="submit-section">
+      <Container size="xl" class="px-6 portrait:px-4">
+        <div class="submit-grid">
+        <div><p class="eyebrow">AFTER THE EVENT</p><h2>Now tell us what happened.</h2><p>Every local story helps us build the global World Coding Cup story. Gather these details before you send your highlights.</p><ul class="submit-list"><li>Your school or organisation</li><li>Your city and country</li><li>Number of learners and teams</li><li>One memorable moment</li><li>Your best 3–5 photographs</li><li>A short video if you have one</li><li>Links to anything you’ve shared</li><li>Links to any media coverage</li><li>Confirmation that permissions are in place</li></ul>
+          {storySubmissionUrl ? (
+            <><Button href={storySubmissionUrl}>Share your World Coding Cup story</Button><p class="submit-hint">Send your school, location and highlights, along with approved photographs and links.</p></>
+          ) : (
+            <><Button disabled aria-describedby="submission-status">Story submissions opening soon</Button><p id="submission-status" class="submit-hint">We’ll add the story submission link here as soon as it is confirmed. Keep your highlights and approved photographs ready.</p></>
+          )}</div>
+        <figure class="submit-art"><Image src={teamImage} alt="A team of learners testing their code together on a tablet" width={1170} widths={[480, 768, 1024, 1170]} sizes="(max-width: 850px) calc(100vw - 48px), (max-width: 1472px) 42vw, 600px" format="webp" quality={90} class="toolkit-photo" /><figcaption class="submit-quote">Thousands of learners.<br />Hundreds of schools.<br /><strong>One global story.</strong></figcaption></figure>
+        </div>
+      </Container>
+    </section>
+  <TemplateDialog />
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  :global(html) { scroll-padding-top: 5rem; }
+  :global(body) { background:#fff; }
+  .hero { position:relative; overflow:hidden; background:var(--color-teal); color:white; padding:5rem 0; }
+  .hero-pattern { position:absolute; top:4%; right:-9%; width:56rem; max-width:75%; height:auto; opacity:.25; mix-blend-mode:lighten; pointer-events:none; }
+  .hero-grid { position:relative; display:grid; grid-template-columns:1.05fr .95fr; align-items:center; gap:4.5rem; }
+  .hero-copy { max-width:43rem; } .eyebrow { margin:0 0 1rem; color:var(--color-teal); font-size:.75rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+  .hero .eyebrow { color:var(--color-lime); }
+  h1,h2,h3,p { margin-top:0; }
+  h1,h2 { font-family:var(--font-display); font-weight:400; letter-spacing:-.035em; }
+  h1 { margin-bottom:1.25rem; font-size:clamp(3.25rem,5.2vw,5.25rem); line-height:1.02; }
+  .hero-intro { max-width:38rem; color:#effbfc; font-size:1.2rem; line-height:1.6; }
+  .hero-actions { display:flex; align-items:center; flex-wrap:wrap; gap:2rem; margin-top:2rem; }
+  .sponsor { display:flex; align-items:center; gap:.55rem; color:white; font-size:.75rem; } .sponsor :global(svg) { width:3.5rem; }
+  figure { margin:0; min-width:0; }
+  .hero-photo { overflow:hidden; border-radius:1.25rem; background:var(--color-teal-deep); }
+  :global(.toolkit-photo) { display:block; width:100%; height:auto; }
+  .hero-photo figcaption,.media-image figcaption { padding:1rem 1.25rem; font-size:.9rem; font-weight:700; }
+  .hero-photo figcaption { color:white; }
+  .section-pad { padding:6rem 0; } .bg-white { background:#fff; } .bg-ice { background:#f0f8fb; }
+  .section-heading { max-width:49rem; margin:0 auto 2.7rem; text-align:center; } .section-heading h2,.media-copy h2,.photo-safety h2,.submit-grid h2 { margin-bottom:.9rem; font-size:clamp(2.3rem,4vw,3.7rem); line-height:1.08; }
+  .section-heading>p:last-child,.media-copy>p:not(.eyebrow),.photo-safety>div:first-child>p:last-child,.submit-grid>div:first-child>p:not(.eyebrow) { color:var(--color-smoke); font-size:1.05rem; line-height:1.6; }
+  .steps-grid { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:1rem; }
+  .step-card { display:flex; flex-direction:column; align-items:flex-start; grid-column:span 2; min-height:15rem; padding:1.5rem; border:1px solid #dce8eb; border-radius:1rem; background:white; }
+  .step-card :global(.group) { margin-top:auto; }
+  .step-card:nth-child(4),.step-card:nth-child(5) { grid-column:span 3; } .step-card-featured { background:var(--color-ice); }
+  .step-number { display:inline-block; margin-bottom:1.25rem; color:var(--color-teal); font-size:.82rem; font-weight:800; letter-spacing:.1em; }
+  .step-card h3,.copy-card h3,.resource-card h3,.sponsor-guide h3 { margin-bottom:.45rem; font-size:1.2rem; font-weight:800; } .step-card p,.copy-card p,.resource-card p,.sponsor-guide p { color:var(--color-smoke); line-height:1.5; }
+  .copy-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; }
+  .copy-card { display:flex; min-height:14rem; flex-direction:column; align-items:flex-start; padding:1.5rem; border-radius:1.1rem; background:white; box-shadow:0 .4rem 1.5rem #173b4b0a; }
+  .copy-card p { margin-bottom:1.5rem; } .copy-card :global(.copy-cta) { margin-top:auto; } .card-icon { display:inline-flex; align-items:center; justify-content:center; width:2.75rem; height:2.75rem; margin-bottom:1rem; border-radius:.75rem; background:var(--color-ice); color:var(--color-teal-deep); }
+  .media-layout { display:grid; grid-template-columns:.9fr 1.1fr; align-items:center; gap:4rem; } .media-image { overflow:hidden; border-radius:1.25rem; background:var(--color-ice); }
+  .media-copy h2 { max-width:38rem; } .small-label { margin:1.5rem 0 .7rem; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; }
+  .check-list,.safety-columns ul,.submit-list { display:grid; gap:.6rem; margin:0; padding:0; list-style:none; }
+  .check-list li,.safety-columns li,.submit-list li { position:relative; padding-left:1.5rem; line-height:1.45; } .check-list li:before,.safety-columns li:before,.submit-list li:before { position:absolute; left:0; color:var(--color-teal); content:"✓"; font-weight:900; }
+  .muted-note { margin-top:1.2rem; color:var(--color-smoke); font-size:.9rem; }
+  .media-actions { display:grid; grid-template-columns:1fr auto; align-items:center; gap:1rem; margin-top:1.6rem; padding-top:1.2rem; border-top:1px solid #dfe9ec; } .media-actions div { display:grid; } .media-actions div span { color:var(--color-smoke); font-size:.85rem; }
+  .photo-safety { display:grid; grid-template-columns:.8fr 1.2fr; gap:2rem 4rem; align-items:start; } .photo-safety>div:first-child p:last-child { max-width:30rem; }
+  .safety-columns { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; } .safety-columns>div { padding:1.4rem; border-radius:1rem; background:white; } .safety-columns h3 { margin-bottom:.9rem; font-size:1rem; } .safety-columns ul { font-size:.92rem; }
+  .safety-callout { grid-column:1/-1; display:flex; align-items:center; gap:1rem; max-width:56rem; margin:0 auto; padding:1.1rem 1.5rem; border-radius:1rem; background:#1c292d; color:white; } .safety-callout>span { display:flex; flex-shrink:0; color:var(--color-lime); } .safety-callout p { margin:0; line-height:1.55; } .safety-callout strong { color:var(--color-lime); }
+  .resource-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; } .resource-card { display:flex; min-height:14.5rem; flex-direction:column; padding:1.4rem; border:1px solid #e1eaed; border-radius:1rem; }
+  .resource-card h3 { font-size:1.05rem; } .resource-card p { margin-bottom:1rem; font-size:.92rem; } .resource-bottom { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.5rem; margin-top:auto; color:#68777c; font-size:.78rem; font-weight:700; }
+  .resource-status { color:#785d23; font-size:.75rem; font-weight:700; } .asset-note { margin:1rem 0 2.5rem; color:#596970; font-size:.86rem; line-height:1.5; }
+  .sponsor-guide { display:flex; align-items:center; gap:1rem; padding:1.4rem; border-radius:1rem; background:#f8f7f2; } .sponsor-guide div { flex:1; } .sponsor-guide h3 { margin-bottom:.25rem; } .sponsor-guide p { margin:0; font-size:.9rem; }
+  .submit-section { overflow:hidden; background:var(--color-teal); color:white; padding:6rem 0; } .submit-grid { display:grid; grid-template-columns:1fr .9fr; align-items:center; gap:4rem; } .submit-grid .eyebrow { color:var(--color-lime); } .submit-grid h2 { max-width:38rem; } .submit-grid>div:first-child>p:not(.eyebrow) { max-width:40rem; color:#ebf6f7; }
+  .submit-list { margin:1.5rem 0 2rem; } .submit-list li:before { color:var(--color-lime); } .submit-hint { margin:.8rem 0 0; font-size:.82rem!important; }
+  .submit-art { overflow:hidden; border-radius:1.25rem; background:var(--color-teal-deep); } .submit-quote { padding:1.25rem 1.5rem; font-family:var(--font-display); font-size:clamp(1.125rem,1.5vw,1.5rem); line-height:1.3; } .submit-quote strong { color:var(--color-lime); }
+  @media(max-width:850px) { .hero-pattern { max-width:none; width:42rem; right:-18rem; top:2%; opacity:.12; } .hero-grid,.media-layout,.submit-grid { grid-template-columns:1fr; gap:2.5rem; } .hero-photo,.media-image,.submit-art { width:100%; max-width:42rem; margin-inline:auto; } .copy-grid,.resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .photo-safety { grid-template-columns:1fr; gap:1.5rem; } .section-pad,.submit-section { padding:4.5rem 0; } }
+  @media(max-width:600px) { .hero { padding:3.6rem 0; } .hero-grid { gap:2rem; } h1 { font-size:clamp(2.7rem,12.5vw,4rem); } .hero-intro { font-size:1.05rem; } .hero-actions { gap:1.3rem; } .section-pad,.submit-section { padding:3.5rem 0; } .section-heading { margin-bottom:2rem; text-align:left; } .steps-grid { grid-template-columns:1fr; } .step-card,.step-card:nth-child(4),.step-card:nth-child(5) { grid-column:auto; min-height:0; } .copy-grid,.resource-grid,.safety-columns { grid-template-columns:1fr; } .copy-card,.resource-card { min-height:0; } .media-actions { grid-template-columns:1fr; } .media-actions :global(button) { justify-self:start; } .sponsor-guide { align-items:flex-start; flex-wrap:wrap; } .sponsor-guide div { flex-basis:100%; } .safety-callout { align-items:flex-start; } }
+</style>
+
