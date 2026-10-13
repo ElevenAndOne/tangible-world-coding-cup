@@ -9,6 +9,7 @@ import { storySubmissionUrl } from "../data/communications";
 import Icon from "../components/ui/Icon.astro";
 import { Image } from "astro:assets";
 import AmazonLogo from "../components/brand/AmazonLogo.astro";
+import WccLogo from "../components/brand/WccLogo.astro";
 import learnersImage from "../assets/images/toolkit-learners.avif";
 import codingImage from "../assets/images/toolkit-coding.avif";
 import teamImage from "../assets/images/toolkit-team.avif";
@@ -44,6 +45,7 @@ const mediaReasons = [
       <Container size="xl" class="px-6 portrait:px-4">
         <div class="hero-grid">
         <div class="hero-copy">
+          <WccLogo title="Tangible World Coding Cup" class="hero-logo" />
           <p class="eyebrow">2026 · SCHOOL COMMUNICATIONS TOOLKIT</p>
           <h1>Taking part<br />is worth sharing.</h1>
           <p class="hero-intro">Bring your school and community into your Tangible World Coding Cup journey. Use these ready-made resources to let people know you’re taking part and celebrate what your learners achieve.</p>
@@ -142,7 +144,7 @@ const mediaReasons = [
   .hero { position:relative; overflow:hidden; background:var(--color-teal); color:white; padding:5rem 0; }
   .hero-pattern { position:absolute; top:4%; right:-9%; width:56rem; max-width:75%; height:auto; opacity:.25; mix-blend-mode:lighten; pointer-events:none; }
   .hero-grid { position:relative; display:grid; grid-template-columns:1.05fr .95fr; align-items:center; gap:4.5rem; }
-  .hero-copy { max-width:43rem; } .eyebrow { margin:0 0 1rem; color:var(--color-teal); font-size:.75rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+  .hero-copy { max-width:43rem; } .hero-copy :global(.hero-logo) { display:block; width:10rem; height:auto; margin-bottom:2rem; } .eyebrow { margin:0 0 1rem; color:var(--color-teal); font-size:.75rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
   .hero .eyebrow { color:var(--color-lime); }
   h1,h2,h3,p { margin-top:0; }
   h1,h2 { font-family:var(--font-display); font-weight:400; letter-spacing:-.035em; }
