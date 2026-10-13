@@ -172,6 +172,24 @@ TIPS
 
 export type CommunicationsTemplateKey = keyof typeof communicationsTemplates;
 
-// Activate only after the client supplies and confirms the destination.
-// stories@worldcodingcup.com occurs in Figma but its mailbox is unverified.
-export const storySubmissionUrl: string | null = null;
+// Requested by Wendy van Eyck on 12 October 2026, forwarding to her inbox.
+// Set to null to show the disabled "opening soon" state instead.
+export const storySubmissionEmail: string | null = "stories@worldcodingcup.com";
+
+// The body mirrors the checklist on the page so stories arrive in a consistent shape.
+const storyEmailSubject = "World Coding Cup story: [SCHOOL NAME]";
+const storyEmailBody = [
+  "School or organisation:",
+  "City and country:",
+  "Number of learners and teams:",
+  "One memorable moment:",
+  "Links to anything we've shared:",
+  "Links to any media coverage:",
+  "Permissions are in place for the photographs and video (yes/no):",
+  "",
+  "[Attach your best 3–5 photographs. Share videos and large files as a link.]",
+].join("\r\n");
+
+export const storySubmissionUrl = storySubmissionEmail
+  ? `mailto:${storySubmissionEmail}?subject=${encodeURIComponent(storyEmailSubject)}&body=${encodeURIComponent(storyEmailBody)}`
+  : null;

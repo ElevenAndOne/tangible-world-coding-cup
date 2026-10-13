@@ -5,7 +5,7 @@ import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
 import Button from "../components/ui/Button.astro";
 import TemplateDialog from "../components/ui/TemplateDialog.astro";
-import { storySubmissionUrl } from "../data/communications";
+import { storySubmissionEmail, storySubmissionUrl } from "../data/communications";
 import Icon from "../components/ui/Icon.astro";
 import { Image } from "astro:assets";
 import { statSync } from "node:fs";
@@ -134,8 +134,8 @@ const mediaReasons = [
       <Container size="xl" class="px-6 portrait:px-4">
         <div class="submit-grid">
         <div><p class="eyebrow">AFTER THE EVENT</p><h2>Now tell us what happened.</h2><p>Every local story helps us build the global World Coding Cup story. Gather these details before you send your highlights.</p><ul class="submit-list"><li>Your school or organisation</li><li>Your city and country</li><li>Number of learners and teams</li><li>One memorable moment</li><li>Your best 3–5 photographs</li><li>A short video if you have one</li><li>Links to anything you’ve shared</li><li>Links to any media coverage</li><li>Confirmation that permissions are in place</li></ul>
-          {storySubmissionUrl ? (
-            <><Button href={storySubmissionUrl}>Share your World Coding Cup story</Button><p class="submit-hint">Send your school, location and highlights, along with approved photographs and links.</p></>
+          {storySubmissionEmail && storySubmissionUrl ? (
+            <><Button href={storySubmissionUrl}>Share your World Coding Cup story</Button><p class="submit-hint">Opens a new email to <strong id="story-email">{storySubmissionEmail}</strong> with these details ready to fill in. If your email app doesn’t open, copy the address instead.</p><div class="copy-email"><Button icon="copy" variant="soft" size="sm" id="copy-story-email" data-email={storySubmissionEmail}>Copy email address</Button><p id="copy-email-status" role="status" aria-live="polite"></p></div></>
           ) : (
             <><Button disabled aria-describedby="submission-status">Story submissions opening soon</Button><p id="submission-status" class="submit-hint">We’ll add the story submission link here as soon as it is confirmed. Keep your highlights and approved photographs ready.</p></>
           )}</div>
@@ -146,6 +146,25 @@ const mediaReasons = [
   <TemplateDialog />
   <Footer slot="footer" />
 </BaseLayout>
+
+<script>
+  const copyEmail = document.querySelector<HTMLButtonElement>("#copy-story-email");
+  const emailStatus = document.querySelector<HTMLElement>("#copy-email-status");
+  copyEmail?.addEventListener("click", async () => {
+    if (!emailStatus) return;
+    let message = "Email address copied.";
+    try {
+      await navigator.clipboard.writeText(copyEmail.dataset.email ?? "");
+    } catch {
+      const address = document.querySelector("#story-email");
+      if (address) window.getSelection()?.selectAllChildren(address);
+      message = "Automatic copy is unavailable. The address is selected; use your device’s Copy command.";
+    }
+    // Clear first so a repeated message is announced again.
+    emailStatus.textContent = "";
+    setTimeout(() => { emailStatus.textContent = message; }, 100);
+  });
+</script>
 
 <style>
   :global(html) { scroll-padding-top: 5rem; }
@@ -192,7 +211,8 @@ const mediaReasons = [
   .resource-status { color:#785d23; font-size:.75rem; font-weight:700; }
   .sponsor-guide { display:flex; align-items:center; gap:1rem; padding:1.4rem; border-radius:1rem; background:#f8f7f2; } .sponsor-guide div { flex:1; } .sponsor-guide h3 { margin-bottom:.25rem; } .sponsor-guide p { margin:0; font-size:.9rem; }
   .submit-section { overflow:hidden; background:var(--color-teal); color:white; padding:6rem 0; } .submit-grid { display:grid; grid-template-columns:1fr .9fr; align-items:center; gap:4rem; } .submit-grid .eyebrow { color:var(--color-lime); } .submit-grid h2 { max-width:38rem; } .submit-grid>div:first-child>p:not(.eyebrow) { max-width:40rem; color:#ebf6f7; }
-  .submit-list { margin:1.5rem 0 2rem; } .submit-list li:before { color:var(--color-lime); } .submit-hint { margin:.8rem 0 0; font-size:.82rem!important; }
+  .submit-list { margin:1.5rem 0 2rem; } .submit-list li:before { color:var(--color-lime); } .submit-hint { margin:.8rem 0 0; font-size:.82rem!important; } .submit-hint strong { color:white; overflow-wrap:anywhere; }
+  .copy-email { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1rem; margin-top:1rem; } #copy-email-status { margin:0; color:var(--color-lime); font-size:.82rem; font-weight:700; }
   .submit-art { overflow:hidden; border-radius:1.25rem; background:var(--color-teal-deep); } .submit-quote { padding:1.25rem 1.5rem; font-family:var(--font-display); font-size:clamp(1.125rem,1.5vw,1.5rem); line-height:1.3; } .submit-quote strong { color:var(--color-lime); }
   @media(max-width:850px) { .hero-pattern { max-width:none; width:42rem; right:-18rem; top:2%; opacity:.12; } .hero-grid,.media-layout,.submit-grid { grid-template-columns:1fr; gap:2.5rem; } .hero-photo,.media-image,.submit-art { width:100%; max-width:42rem; margin-inline:auto; } .copy-grid,.resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .photo-safety { grid-template-columns:1fr; gap:1.5rem; } .section-pad,.submit-section { padding:4.5rem 0; } }
   @media(max-width:600px) { .hero { padding:3.6rem 0; } .hero-grid { gap:2rem; } h1 { font-size:clamp(2.7rem,12.5vw,4rem); } .hero-intro { font-size:1.05rem; } .hero-actions { gap:1.3rem; } .section-pad,.submit-section { padding:3.5rem 0; } .section-heading { margin-bottom:2rem; text-align:left; } .steps-grid { grid-template-columns:1fr; } .step-card,.step-card:nth-child(4),.step-card:nth-child(5) { grid-column:auto; min-height:0; } .copy-grid,.resource-grid,.safety-columns { grid-template-columns:1fr; } .copy-card,.resource-card { min-height:0; } .media-actions { grid-template-columns:1fr; } .media-actions :global(button) { justify-self:start; } .sponsor-guide { align-items:flex-start; flex-wrap:wrap; } .sponsor-guide div { flex-basis:100%; } .safety-callout { align-items:flex-start; } }
