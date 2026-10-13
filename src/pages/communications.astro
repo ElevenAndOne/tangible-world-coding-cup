@@ -8,6 +8,7 @@ import TemplateDialog from "../components/ui/TemplateDialog.astro";
 import { storySubmissionUrl } from "../data/communications";
 import Icon from "../components/ui/Icon.astro";
 import { Image } from "astro:assets";
+import { statSync } from "node:fs";
 import AmazonLogo from "../components/brand/AmazonLogo.astro";
 import WccLogo from "../components/brand/WccLogo.astro";
 import learnersImage from "../assets/images/toolkit-learners.avif";
@@ -15,11 +16,17 @@ import codingImage from "../assets/images/toolkit-coding.avif";
 import teamImage from "../assets/images/toolkit-team.avif";
 import heroDeco from "../assets/images/hero-deco.svg";
 
+// Files are served from public/downloads/. Sizes are read at build time, so a missing file fails the build.
+const fileSize = (file: string) => {
+  const bytes = statSync(`public/downloads/${file}`).size;
+  return bytes < 1_000_000 ? `${Math.round(bytes / 1000)} KB` : `${(bytes / 1_000_000).toFixed(1)} MB`;
+};
+
 const resources = [
-  { icon: "trophy", title: "World Coding Cup logos", detail: "Full colour, mono and white versions", format: "ZIP · PNG + SVG" },
-  { icon: "smartphone", title: "Social media graphics", detail: "Square and story formats", format: "ZIP · PNG" },
-  { icon: "newspaper", title: "Newsletter graphic", detail: "Ready-to-use header image", format: "PNG" },
-  { icon: "monitor", title: "Website graphics", detail: "Banner and inline versions", format: "PNG" },
+  { icon: "trophy", title: "World Coding Cup logos", detail: "Colour and white versions", format: "ZIP · PNG + SVG", file: "world-coding-cup-logos.zip" },
+  { icon: "smartphone", title: "Social media graphics", detail: "Landscape, portrait and story formats", format: "ZIP · JPG + PNG", file: "world-coding-cup-social-graphics.zip" },
+  { icon: "newspaper", title: "Newsletter graphic", detail: "Ready-to-use header image", format: "JPG", file: "world-coding-cup-newsletter-header.jpg" },
+  { icon: "monitor", title: "Website graphics", detail: "Banner and inline versions", format: "ZIP · PNG", file: "world-coding-cup-website-graphics.zip" },
 ] as const;
 
 const mediaReasons = [
@@ -114,9 +121,11 @@ const mediaReasons = [
 
     <section id="resources" class="section-pad bg-white">
       <Container size="xl" class="px-6 portrait:px-4">
-        <div id="downloads" class="section-heading"><p class="eyebrow">RESOURCE LIBRARY</p><h2>World Coding Cup resources</h2><p>Approved graphics and guides will be available here when the final brand pack is supplied.</p></div>
-        <div class="resource-grid">{resources.map((resource) => <article class="resource-card"><span class="card-icon"><Icon name={resource.icon} /></span><h3>{resource.title}</h3><p>{resource.detail}</p><div class="resource-bottom"><span>{resource.format}</span><span class="resource-status">Files to be added</span></div></article>)}</div>
-        <p class="asset-note">The resource library is being prepared. Please check back for the approved brand pack.</p>
+        <div id="downloads" class="section-heading"><p class="eyebrow">RESOURCE LIBRARY</p><h2>World Coding Cup resources</h2><p>Approved World Coding Cup graphics, ready to download and use.</p></div>
+        <div class="resource-grid">{resources.map((resource) => {
+          const size = fileSize(resource.file);
+          return <article class="resource-card"><span class="card-icon"><Icon name={resource.icon} /></span><h3>{resource.title}</h3><p>{resource.detail}</p><div class="resource-bottom"><span>{resource.format} · {size}</span><Button href={`/downloads/${resource.file}`} download={resource.file} icon="download" variant="soft" size="sm" aria-label={`Download ${resource.title} (${resource.format.split(" · ")[0]}, ${size})`}>Download</Button></div></article>;
+        })}</div>
         <article class="sponsor-guide"><div><h3>Amazon sponsor attribution guide</h3><p>Approved wording, logo use and sponsorship guidance for World Coding Cup communications.</p></div><span class="resource-status">Guide to be supplied</span></article>
       </Container>
     </section>
@@ -178,9 +187,9 @@ const mediaReasons = [
   .photo-safety { display:grid; grid-template-columns:.8fr 1.2fr; gap:2rem 4rem; align-items:start; } .photo-safety>div:first-child p:last-child { max-width:30rem; }
   .safety-columns { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; } .safety-columns>div { padding:1.4rem; border-radius:1rem; background:white; } .safety-columns h3 { margin-bottom:.9rem; font-size:1rem; } .safety-columns ul { font-size:.92rem; }
   .safety-callout { grid-column:1/-1; display:flex; align-items:center; gap:1rem; max-width:56rem; margin:0 auto; padding:1.1rem 1.5rem; border-radius:1rem; background:#1c292d; color:white; } .safety-callout>span { display:flex; flex-shrink:0; color:var(--color-lime); } .safety-callout p { margin:0; line-height:1.55; } .safety-callout strong { color:var(--color-lime); }
-  .resource-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; } .resource-card { display:flex; min-height:14.5rem; flex-direction:column; padding:1.4rem; border:1px solid #e1eaed; border-radius:1rem; }
+  .resource-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; margin-bottom:2.5rem; } .resource-card { display:flex; min-height:14.5rem; flex-direction:column; padding:1.4rem; border:1px solid #e1eaed; border-radius:1rem; }
   .resource-card h3 { font-size:1.05rem; } .resource-card p { margin-bottom:1rem; font-size:.92rem; } .resource-bottom { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.5rem; margin-top:auto; color:#68777c; font-size:.78rem; font-weight:700; }
-  .resource-status { color:#785d23; font-size:.75rem; font-weight:700; } .asset-note { margin:1rem 0 2.5rem; color:#596970; font-size:.86rem; line-height:1.5; }
+  .resource-status { color:#785d23; font-size:.75rem; font-weight:700; }
   .sponsor-guide { display:flex; align-items:center; gap:1rem; padding:1.4rem; border-radius:1rem; background:#f8f7f2; } .sponsor-guide div { flex:1; } .sponsor-guide h3 { margin-bottom:.25rem; } .sponsor-guide p { margin:0; font-size:.9rem; }
   .submit-section { overflow:hidden; background:var(--color-teal); color:white; padding:6rem 0; } .submit-grid { display:grid; grid-template-columns:1fr .9fr; align-items:center; gap:4rem; } .submit-grid .eyebrow { color:var(--color-lime); } .submit-grid h2 { max-width:38rem; } .submit-grid>div:first-child>p:not(.eyebrow) { max-width:40rem; color:#ebf6f7; }
   .submit-list { margin:1.5rem 0 2rem; } .submit-list li:before { color:var(--color-lime); } .submit-hint { margin:.8rem 0 0; font-size:.82rem!important; }
