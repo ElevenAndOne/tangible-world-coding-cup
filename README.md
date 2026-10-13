@@ -30,10 +30,12 @@ Every page section follows the same composition:
 - [Section.astro](src/components/layout/Section.astro) — renders the `background` slot before the content so backgrounds span the full viewport width.
 - [Container.astro](src/components/layout/Container.astro) — sizes: `md` (75rem), `lg` (80rem), `xl` (92rem), `full`.
 - Page sections live in [src/components/sections/](src/components/sections/), assembled in [index.astro](src/pages/index.astro).
-- [Button.astro](src/components/ui/Button.astro) — shared links and actions with a circular SVG icon. Use `href` for a link, `variant` for colour treatment, `size="sm"` for cards, `arrow="down"` for in-page jumps, and `icon="copy"` for copying text. Attributes such as `data-template` and `disabled` pass through to the rendered control. Hover changes colour without moving the button or icon.
+- [Button.astro](src/components/ui/Button.astro) — shared links and actions with a circular SVG icon. Use `href` for a link, `variant` for colour treatment, `size="sm"` for cards, `arrow="down"` for in-page jumps, `icon="copy"` for copying text, and `icon="download"` for file downloads. Attributes such as `data-template` and `disabled` pass through to the rendered control. Hover changes colour without moving the button or icon.
 - [communications.astro](src/pages/communications.astro) — school toolkit using the shared Header, Footer, and Button. Its photographs use the larger originals of the existing gallery assets and Astro responsive image outputs.
 - [TemplateDialog.astro](src/components/ui/TemplateDialog.astro) — shared template modal with editing, clipboard feedback, keyboard navigation and a full-width Copy action.
-- [communications.ts](src/data/communications.ts) — the seven complete prototype templates and the story submission destination. The destination stays `null` until confirmed by the client.
+- [communications.ts](src/data/communications.ts) — the seven complete prototype templates and the story submission email (`stories@worldcodingcup.com`). Set `storySubmissionEmail` to `null` to show the disabled “opening soon” state.
+- [public/downloads/](public/downloads/) — the resource library files supplied by the client. Card sizes are read at build time; see the handover for how to update the packs.
+- [WccLogo.astro](src/components/brand/WccLogo.astro) and [AmazonLogo.astro](src/components/brand/AmazonLogo.astro) — shared brand lockups. Pass `title` to `WccLogo` when it should be announced; it is decorative otherwise.
 - [Communications handover](docs/communications-handover.md) — audit results, missing files and client decisions needed before launch.
 
 ## Breakpoints (desktop-first)
