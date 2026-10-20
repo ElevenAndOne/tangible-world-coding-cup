@@ -44,7 +44,7 @@ Wendy van Eyck shared the logo pack, newsletter graphic, social graphics and web
 | Social media graphics | Supplied. Wendy expects to add more files this week | Download · ZIP · JPG + PNG |
 | Newsletter graphic | Supplied | Download · JPG |
 | Website graphics | Supplied | Download · ZIP · PNG |
-| Story submission destination | `stories@worldcodingcup.com`, forwarding to Wendy. Mailbox not yet created | Active `mailto:` button. The visible address and Copy email address action were removed on 20 October at the user's request |
+| Story submission destination | `stories@worldcodingcup.com`, forwarding to Wendy. Mailbox not yet created | Since 20 October the Share button opens the interim Google Form (see Story submissions). The form tells schools they can email photographs to this address |
 | Amazon sponsorship guidelines | Supplied 15 October 2026 (Google Doc “Sponsored by Amazon guidelines”) | Published in full as the `#sponsor-guidelines` section. See the 20 October update |
 | Photography brief (5 November) | Supplied in the same Google Doc | Replaces the prototype photography lists in the `#photography` section |
 | Approved Amazon hashtag | Not supplied. The guidelines require the words “sponsored by Amazon” but name no hashtag | `[APPROVED AMAZON HASHTAG]` retained in social captions |
@@ -100,7 +100,39 @@ Keep every file under 25 MB, the per-file limit on some static hosts such as Clo
 
 ### Story submissions
 
-`storySubmissionEmail` in `src/data/communications.ts` is `stories@worldcodingcup.com`. The Share button opens an email with the subject “World Coding Cup story: [SCHOOL NAME]”. Its body lists fields that mirror the on-page checklist and asks for photographs as attachments, with videos and large files shared as links. On 20 October, at the user's request, the hint showing the address and the Copy email address button were removed. The button is now the only route to the address. A `mailto:` link does nothing on a computer without a default mail app, so those visitors cannot see where to send their story.
+**Interim Google Form (20 October 2026).** Wendy chose a Google Form until the Zoho CRM is ready (ClickUp task `869fcf82m`). The “Share your World Coding Cup story” button opens it in a new tab.
+
+| | |
+| --- | --- |
+| Public link | https://docs.google.com/forms/d/e/1FAIpQLSeEtzf4J_kSlRqQkJMl3_IffBBeJ1V5f97WolrpVRE1l3UOmg/viewform |
+| Editor | https://docs.google.com/forms/d/1XvJ4mCwNv6fXujUAoE5Nuptk7AA5CvyULXoTFJoJZtc/edit |
+| Owner | 11and1design@gmail.com. Not yet shared with anyone |
+| Responses | “World Coding Cup 2026 story submissions (Responses)” sheet: https://docs.google.com/spreadsheets/d/1uyxSoAgTiTlKxaFtCnoY6l8NKhEE7wHazaR2x5nR1-0/edit |
+| Specification | `scripts/create-story-form.gs`: 6 sections and 23 questions. The 2026 form was built in the editor to the same spec |
+
+**Settings**
+
+- **Sign-in:** none required. There is no file-upload question, because one would force respondents to sign in to Google. Schools share photo and video links instead, or email photographs to `stories@worldcodingcup.com`.
+- **Email and copies:** respondents type their email address and always receive a copy of their answers.
+- **Progress:** a progress bar is shown.
+- **After submitting:** the “submit another response” link is hidden, and the confirmation message is custom.
+- **Validation:** learner, team and girls counts must be whole numbers.
+
+**Content**
+
+The form does not ask for learners' names or personal details, as the photography brief requires. The permission confirmation and “How may Tangible use your story and images?” questions are both required.
+
+**Still to confirm with Wendy:**
+
+- who else can see responses (her as an editor or a sheet viewer, and anyone else)
+- the image-use option wording
+- the privacy note “How we use your answers”
+- a closing date
+- whether the form should move to a LEVA-owned account later
+
+Setting `storySubmissionFormUrl` to `null` makes the button fall back to the email described below.
+
+**Email fallback.** `storySubmissionEmail` in `src/data/communications.ts` is `stories@worldcodingcup.com`. Without a form URL, the Share button opens an email with the subject “World Coding Cup story: [SCHOOL NAME]”. Its body lists fields that mirror the on-page checklist and asks for photographs as attachments, with videos and large files shared as links. On 20 October, at the user's request, the hint showing the address and the Copy email address button were removed. The button is now the only route to the address. A `mailto:` link does nothing on a computer without a default mail app, so those visitors cannot see where to send their story.
 
 Before deploying:
 
