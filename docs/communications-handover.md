@@ -1,6 +1,6 @@
 # Communications toolkit audit and client handover
 
-Audit date: 6 October 2026. Updated 13 October 2026 with the resources the client supplied. Route: `/communications`.
+Audit date: 6 October 2026. Updated 13 October 2026 with the resources the client supplied, and 20 October 2026 with the Amazon sponsorship guidelines and photography brief. Route: `/communications`.
 
 ## Reference and copy corrections
 
@@ -44,9 +44,10 @@ Wendy van Eyck shared the logo pack, newsletter graphic, social graphics and web
 | Social media graphics | Supplied. Wendy expects to add more files this week | Download · ZIP · JPG + PNG |
 | Newsletter graphic | Supplied | Download · JPG |
 | Website graphics | Supplied | Download · ZIP · PNG |
-| Story submission destination | `stories@worldcodingcup.com`, forwarding to Wendy. Mailbox not yet created | Active `mailto:` button, visible address and Copy email address action |
-| Amazon sponsor attribution guide | Not supplied | “Guide to be supplied” |
-| Approved Amazon hashtag | Not supplied | `[APPROVED AMAZON HASHTAG]` retained in social captions |
+| Story submission destination | `stories@worldcodingcup.com`, forwarding to Wendy. Mailbox not yet created | Active `mailto:` button. The visible address and Copy email address action were removed on 20 October at the user's request |
+| Amazon sponsorship guidelines | Supplied 15 October 2026 (Google Doc “Sponsored by Amazon guidelines”) | Published in full as the `#sponsor-guidelines` section. See the 20 October update |
+| Photography brief (5 November) | Supplied in the same Google Doc | Replaces the prototype photography lists in the `#photography` section |
+| Approved Amazon hashtag | Not supplied. The guidelines require the words “sponsored by Amazon” but name no hashtag | `[APPROVED AMAZON HASHTAG]` retained in social captions |
 | Final copy approval | Pending | Complete prototype wording retained |
 
 The resource cards read each file's size at build time, so a missing download fails `npm run build`.
@@ -95,11 +96,11 @@ Keep every file under 25 MB, the per-file limit on some static hosts such as Clo
 - **Social graphics:** there is no square (1:1) format, so the card says “Landscape, portrait and story formats” rather than the prototype's “square and story formats”. Please export the additional files due this week at screen size.
 - **Newsletter graphic:** this is a 5000×1832, 3.2 MB print-resolution JPG. It suits printed newsletters. A 1200 px-wide export would be lighter for email newsletters.
 - **Website graphics:** these do not include the World Coding Cup logo or sponsor attribution. The Speed Stars mockups show Formula 1 and Pirelli marks inside the game. Please confirm that schools may republish these images on their own websites.
-- **Still outstanding:** the Amazon sponsor attribution guide, the approved Amazon hashtag and final copy approval.
+- **Still outstanding:** the approved Amazon hashtag (or confirmation that there is none), standalone Sponsored by Amazon artwork, and final copy approval. The sponsor guide was supplied on 15 October.
 
 ### Story submissions
 
-`storySubmissionEmail` in `src/data/communications.ts` is `stories@worldcodingcup.com`. The Share button opens an email with the subject “World Coding Cup story: [SCHOOL NAME]”. Its body lists fields that mirror the on-page checklist and asks for photographs as attachments, with videos and large files shared as links. The address is also shown on the page with a Copy email address button, because `mailto:` links do nothing on computers without a default mail app. If the clipboard is unavailable, the button selects the address and explains how to copy it.
+`storySubmissionEmail` in `src/data/communications.ts` is `stories@worldcodingcup.com`. The Share button opens an email with the subject “World Coding Cup story: [SCHOOL NAME]”. Its body lists fields that mirror the on-page checklist and asks for photographs as attachments, with videos and large files shared as links. On 20 October, at the user's request, the hint showing the address and the Copy email address button were removed. The button is now the only route to the address. A `mailto:` link does nothing on a computer without a default mail app, so those visitors cannot see where to send their story.
 
 Before deploying:
 
@@ -165,3 +166,62 @@ The client-resources update was checked in headless Chromium against both the de
 | Build | `npm run build` passes |
 
 No email was sent to `stories@worldcodingcup.com`, because the mailbox does not exist yet. Delivery must be tested once it is set up.
+
+## 20 October 2026 update: sponsorship guidelines and photography brief
+
+Source: the Google Doc [Sponsored by Amazon guidelines](https://docs.google.com/document/d/155JOfi4UGo9wtvavt_WsQTI1q2gYFg2CdAHxMSsr3fk/edit) (`155JOfi4UGo9wtvavt_WsQTI1q2gYFg2CdAHxMSsr3fk`), last modified 15 October 2026. It contains the partner sponsorship guidelines, a photography brief for 5 November 2026 and a support contact.
+
+### Page changes
+
+| Area | Change |
+| --- | --- |
+| Sponsor guide | The “Guide to be supplied” strip is gone. A new `#sponsor-guidelines` section follows the resource library. It has three cards (Using the logo, Acknowledging Amazon in writing, Keep the sponsorship connected to the tournament) with the doc's wording, including both example sentences. The resource library intro links to it |
+| Support contact | Below the guidelines: “Have a question or need support?” with a `mailto:` link to Wendy van Eyck (`wendy@levafoundation.org`) |
+| Hero and submission trims | At the user's request, the hero eyebrow “2026 · School communications toolkit”, the hero's “Share your story with Tangible” button, the story-email hint and the Copy email address action (with its script) were removed. The example sentences have no left border |
+| Photography | The section is now “Photography brief · 5 November 2026”. The prototype's “Great photos show” and “Before you share” lists are replaced by the brief's three groups: The look and feel, The shots we need and Protecting children. The “Children's safety comes first” callout stays |
+| Social template | The during-event caption now opens “We're live at the Tangible World Coding Cup 2026, sponsored by Amazon!”. The guidelines require the words in original social posts, and this was the only template without them |
+| Media Tips template | Adds the guidelines' “Direct requests for Amazon quotes or statements to the Tangible team.” to the local-story guidance |
+| Icons | Lucide `image`, `pen-line` and `link` added to `Icon.astro` for the guideline cards |
+
+The other five templates already say “sponsored by Amazon” and are unchanged. The two amended templates no longer match their fingerprints in `_reference/communications-copy-audit.json`. That file remains the record of the prototype copy.
+
+Wording that differs from the doc:
+
+- The brief is addressed to the photographer, so the intro adds: “Share this brief with whoever is taking photographs on the day.”
+- The doc's contact line also invites stories (“or have a story you'd like us to share”). The page drops that clause so that stories still go to `stories@worldcodingcup.com`, which forwards to Wendy anyway.
+- The doc's “Exa[mples]” heading and “Some examples of the kind of pictures we're looking for” are unfinished. The doc contains no example images (its only image is the Tangible wordmark), so nothing was published for them.
+
+### ClickUp task check
+
+Task: [WCC Participation Page](https://app.clickup.com/t/869fcf801) (`869fcf801`, in progress, Client Review 1). The task has no checklist, attachments or subtasks. Its details are the description and Wendy's comments of 12–13 October. Checked 20 October 2026:
+
+| Task detail | On the website | Result |
+| --- | --- | --- |
+| Logo pack folder | Logos ZIP | Drive folder unchanged: the same three files (12 Oct, 12 Oct, 24 Aug). All three are in the ZIP |
+| Newsletter graphic | Newsletter JPG | Drive file last modified 25 August, 3,164,497 bytes, the same size as the published file |
+| Social graphics: “It will have some more added this week” | Social ZIP | The folder still has the same six files (1 and 7 September). **No additional files were added** |
+| Website graphics folder | Website ZIP | Unchanged: the same five files (21 August to 21 September) |
+| `stories@worldcodingcup.com` forwarding to Wendy | Active `mailto:` button | Domain MX points to `mail.worldcodingcup.com`. The mailbox and forwarding were **not verified**: no email was sent |
+| Wendy: how to comment on the page (Figma or screenshots?) | Not a page change | No reply in the thread |
+| Description: list the UX gaps, and what is needed to make the page templatisable across tournaments | UX gaps are recorded in this handover | Written up on 20 October in the ClickUp doc [WCC communications toolkit: reusing it for future tournaments](https://app.clickup.com/2597132/docs/2f88c-128592) |
+
+### Questions for Wendy
+
+- **Sponsored by Amazon artwork:** the guidelines say to use “only the supplied Sponsored by Amazon artwork or official tournament templates”. The lockup appears inside the social graphics, but the downloads have no standalone version. Please supply one for the logo pack (colour and white, PNG and SVG), or confirm that schools should use only the templates. The Amazon files in the guidelines doc's Drive folder (`Amazon Logo`, `amazon_logo_aac049a5.zip`, `Amazon Programs Branding (2).pdf`) are Amazon's own brand assets, not the sponsorship lockup. They have not been published.
+- **Hashtag:** the guidelines name no Amazon hashtag. Should the social captions drop `[APPROVED AMAZON HASHTAG]`?
+- **Public email:** please confirm that `wendy@levafoundation.org` may be shown on the public toolkit page.
+- **Example photographs:** supply the images for the brief's unfinished examples section if they should appear on the page.
+- **Template wording:** please approve the two template amendments above.
+
+### Verification
+
+Checked in headless Chromium against the development server and the production preview (`output/playwright/toolkit/sponsor-guidelines-2026-10-20/qa.mjs`). All 39 checks passed on both:
+
+- **Content:** the guideline and brief text is present. The `mailto:` link works. “Guide to be supplied” is gone.
+- **Templates:** the Social and Media Tips modals open with the amended text. All 11 template buttons remain.
+- **Layout:** no horizontal overflow or clipped text in either new section at 1440, 1024, 768, 390 and 320 px.
+- **Errors:** no console or page errors.
+
+The resource-library link lands 168 px below the top of the viewport, the same offset as the page's existing anchors.
+
+The 13 October runner, adapted for the removed placeholder (`toolkit-qa-regression.mjs`), passed 60 of 63 checks. The three failures are the three buttons that open the deliberately amended Social (two buttons) and Media Tips templates. `npm run build` passes.
