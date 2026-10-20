@@ -40,6 +40,32 @@ const mediaReasons = [
 ];
 
 // From the client's "Sponsored by Amazon guidelines" Google Doc (modified 15 October 2026).
+const photographyBrief = [
+  {
+    title: "The look and feel",
+    points: [
+      ["Natural, bright and real.", "Look for real interactions at learners’ eye level. Show curiosity, effort and enjoyment, with teachers supporting learners. Avoid interrupting games or staging reactions."],
+      ["Show how Tangible works.", "Include physical coding pieces, learners discussing a solution and testing it on a device. Avoid a gallery dominated by screens, posed groups or prize handovers."],
+    ],
+  },
+  {
+    title: "The shots we need",
+    points: [
+      ["Prioritise reusable images.", "Hands arranging pieces, close-ups of the game, overhead views and teams photographed from behind or over a shoulder. Aim for most of the gallery to work without recognisable faces."],
+      ["Include faces where permission allows.", "Capture concentration, shared decisions, encouragement and celebration. Include different teams, ages and genders, with teachers and facilitators in action too."],
+      ["Tell the event story.", "Get a wide view of the room, teams taking part, the international connection on screen where visible, and key celebrations or awards. Include clear Tangible and Amazon branding where present, plus clean game shots without event signage for future use."],
+    ],
+  },
+  {
+    title: "Protecting children",
+    points: [
+      ["Check before shooting.", "Ask the organiser how photography permission is recorded and how to identify anyone who must not be photographed. If permission is unclear, check first. Keep a teacher or organiser present and respect a child’s refusal, even when a form has been signed. Flag any image with uncertain permission separately for review."],
+      ["Check the whole frame.", "Rear views and hands are not automatically anonymous. Watch for names on badges, uniforms, worksheets and screens, as well as children in the background. Do not photograph permission forms, contact details or login information."],
+      ["Put dignity first.", "Do not isolate children for portraits or photograph distress, embarrassment or vulnerable moments. Do not ask children to share personal details. Send images privately to the organiser for review; do not post or use them in a portfolio without approval."],
+    ],
+  },
+] as const;
+
 const logoRules = [
   "Use only the supplied Sponsored by Amazon artwork or official tournament templates.",
   "The Sponsored by Amazon logo must appear on the same material as the Tangible World Coding Cup logo, with a clear connection between them.",
@@ -121,9 +147,15 @@ const logoRules = [
       </Container>
     </section>
 
-    <section class="section-pad bg-ice">
+    <section id="photography" class="section-pad bg-ice">
       <Container size="xl" class="px-6 portrait:px-4">
-        <div class="photo-safety"><div><p class="eyebrow">PHOTOGRAPHY & SAFEGUARDING</p><h2>Take photographs that tell the story</h2><p>Great photographs help people see what learners achieved. Protect every child’s privacy and dignity at every step.</p></div><div class="safety-columns"><div><h3>Great photos show</h3><ul><li>Learners solving problems</li><li>Teamwork and interaction</li><li>Teachers facilitating</li><li>The activity taking place</li><li>The wider learning environment</li><li>Genuine moments rather than only posed groups</li></ul></div><div><h3>Before you share</h3><ul><li>Confirm appropriate permissions</li><li>Follow your organisation’s safeguarding requirements</li><li>Keep personal information off screens and walls</li><li>Don’t identify children unnecessarily</li><li>Choose images that represent learners respectfully</li></ul></div></div><div class="safety-callout"><span><Icon name="shield-check" /></span><p><strong>Children’s safety comes first.</strong> If you’re unsure whether you have permission to share an image, don’t publish it.</p></div></div>
+        <div class="photo-safety">
+          <div class="photo-intro"><div><p class="eyebrow">PHOTOGRAPHY BRIEF · 5 NOVEMBER 2026</p><h2>Take photographs that tell the story</h2></div><p>Capture learners working things out together: hands-on coding, concentration, collaboration and the excitement of competing with teams around the world. We need images for event coverage and for future Tangible communications. Share this brief with whoever is taking photographs on the day.</p></div>
+          <div class="brief-grid">{photographyBrief.map((group) => (
+            <article class="brief-card"><h3>{group.title}</h3><ul>{group.points.map(([lead, text]) => <li><strong>{lead}</strong> {text}</li>)}</ul></article>
+          ))}</div>
+          <div class="safety-callout"><span><Icon name="shield-check" /></span><p><strong>Children’s safety comes first.</strong> If you’re unsure whether you have permission to share an image, don’t publish it.</p></div>
+        </div>
       </Container>
     </section>
 
@@ -206,7 +238,7 @@ const logoRules = [
   .hero-photo figcaption { color:white; }
   .section-pad { padding:6rem 0; } .bg-white { background:#fff; } .bg-ice { background:#f0f8fb; }
   .section-heading { max-width:49rem; margin:0 auto 2.7rem; text-align:center; } .section-heading h2,.media-copy h2,.photo-safety h2,.submit-grid h2 { margin-bottom:.9rem; font-size:clamp(2.3rem,4vw,3.7rem); line-height:1.08; }
-  .section-heading>p:last-child,.media-copy>p:not(.eyebrow),.photo-safety>div:first-child>p:last-child,.submit-grid>div:first-child>p:not(.eyebrow) { color:var(--color-smoke); font-size:1.05rem; line-height:1.6; }
+  .section-heading>p:last-child,.media-copy>p:not(.eyebrow),.photo-intro>p,.submit-grid>div:first-child>p:not(.eyebrow) { color:var(--color-smoke); font-size:1.05rem; line-height:1.6; }
   .steps-grid { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:1rem; }
   .step-card { display:flex; flex-direction:column; align-items:flex-start; grid-column:span 2; min-height:15rem; padding:1.5rem; border:1px solid #dce8eb; border-radius:1rem; background:white; }
   .step-card :global(.group) { margin-top:auto; }
@@ -219,12 +251,13 @@ const logoRules = [
   .copy-card p { margin-bottom:1.5rem; } .copy-card :global(.copy-cta) { margin-top:auto; } .card-icon { display:inline-flex; align-items:center; justify-content:center; width:2.75rem; height:2.75rem; margin-bottom:1rem; border-radius:.75rem; background:var(--color-ice); color:var(--color-teal-deep); }
   .media-layout { display:grid; grid-template-columns:.9fr 1.1fr; align-items:center; gap:4rem; } .media-image { overflow:hidden; border-radius:1.25rem; background:var(--color-ice); }
   .media-copy h2 { max-width:38rem; } .small-label { margin:1.5rem 0 .7rem; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; }
-  .check-list,.safety-columns ul,.submit-list { display:grid; gap:.6rem; margin:0; padding:0; list-style:none; }
-  .check-list li,.safety-columns li,.submit-list li { position:relative; padding-left:1.5rem; line-height:1.45; } .check-list li:before,.safety-columns li:before,.submit-list li:before { position:absolute; left:0; color:var(--color-teal); content:"✓"; font-weight:900; }
+  .check-list,.submit-list { display:grid; gap:.6rem; margin:0; padding:0; list-style:none; }
+  .check-list li,.submit-list li { position:relative; padding-left:1.5rem; line-height:1.45; } .check-list li:before,.submit-list li:before { position:absolute; left:0; color:var(--color-teal); content:"✓"; font-weight:900; }
   .muted-note { margin-top:1.2rem; color:var(--color-smoke); font-size:.9rem; }
   .media-actions { display:grid; grid-template-columns:1fr auto; align-items:center; gap:1rem; margin-top:1.6rem; padding-top:1.2rem; border-top:1px solid #dfe9ec; } .media-actions div { display:grid; } .media-actions div span { color:var(--color-smoke); font-size:.85rem; }
-  .photo-safety { display:grid; grid-template-columns:.8fr 1.2fr; gap:2rem 4rem; align-items:start; } .photo-safety>div:first-child p:last-child { max-width:30rem; }
-  .safety-columns { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; } .safety-columns>div { padding:1.4rem; border-radius:1rem; background:white; } .safety-columns h3 { margin-bottom:.9rem; font-size:1rem; } .safety-columns ul { font-size:.92rem; }
+  .photo-safety { display:grid; gap:2.5rem; } .photo-intro { display:grid; grid-template-columns:1.15fr .85fr; align-items:end; gap:1rem 4rem; } .photo-intro h2 { margin-bottom:0; } .photo-intro>p { margin:0; }
+  .brief-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; } .brief-card { padding:1.5rem; border-radius:1rem; background:white; } .brief-card h3 { margin-bottom:1rem; font-size:1.2rem; font-weight:800; }
+  .brief-card ul { display:grid; gap:1rem; margin:0; padding:0; list-style:none; } .brief-card li { color:var(--color-smoke); font-size:.95rem; line-height:1.55; } .brief-card strong { display:block; margin-bottom:.15rem; color:var(--color-ink); }
   .safety-callout { grid-column:1/-1; display:flex; align-items:center; gap:1rem; max-width:56rem; margin:0 auto; padding:1.1rem 1.5rem; border-radius:1rem; background:#1c292d; color:white; } .safety-callout>span { display:flex; flex-shrink:0; color:var(--color-lime); } .safety-callout p { margin:0; line-height:1.55; } .safety-callout strong { color:var(--color-lime); }
   .resource-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; margin-bottom:2.5rem; } .resource-card { display:flex; min-height:14.5rem; flex-direction:column; padding:1.4rem; border:1px solid #e1eaed; border-radius:1rem; }
   .resource-card h3 { font-size:1.05rem; } .resource-card p { margin-bottom:1rem; font-size:.92rem; } .resource-bottom { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.5rem; margin-top:auto; color:#68777c; font-size:.78rem; font-weight:700; }
@@ -236,7 +269,7 @@ const logoRules = [
   .submit-list { margin:1.5rem 0 2rem; } .submit-list li:before { color:var(--color-lime); } .submit-hint { margin:.8rem 0 0; font-size:.82rem!important; } .submit-hint strong { color:white; overflow-wrap:anywhere; }
   .copy-email { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1rem; margin-top:1rem; } #copy-email-status { margin:0; color:var(--color-lime); font-size:.82rem; font-weight:700; }
   .submit-art { overflow:hidden; border-radius:1.25rem; background:var(--color-teal-deep); } .submit-quote { padding:1.25rem 1.5rem; font-family:var(--font-display); font-size:clamp(1.125rem,1.5vw,1.5rem); line-height:1.3; } .submit-quote strong { color:var(--color-lime); }
-  @media(max-width:850px) { .hero-pattern { max-width:none; width:42rem; right:-18rem; top:2%; opacity:.12; } .hero-grid,.media-layout,.submit-grid { grid-template-columns:1fr; gap:2.5rem; } .guideline-grid { grid-template-columns:1fr; } .hero-photo,.media-image,.submit-art { width:100%; max-width:42rem; margin-inline:auto; } .copy-grid,.resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .photo-safety { grid-template-columns:1fr; gap:1.5rem; } .section-pad,.submit-section { padding:4.5rem 0; } }
-  @media(max-width:600px) { .hero { padding:3.6rem 0; } .hero-grid { gap:2rem; } h1 { font-size:clamp(2.7rem,12.5vw,4rem); } .hero-intro { font-size:1.05rem; } .hero-actions { gap:1.3rem; } .section-pad,.submit-section { padding:3.5rem 0; } .section-heading { margin-bottom:2rem; text-align:left; } .steps-grid { grid-template-columns:1fr; } .step-card,.step-card:nth-child(4),.step-card:nth-child(5) { grid-column:auto; min-height:0; } .copy-grid,.resource-grid,.safety-columns { grid-template-columns:1fr; } .copy-card,.resource-card { min-height:0; } .media-actions { grid-template-columns:1fr; } .media-actions :global(button) { justify-self:start; } .safety-callout { align-items:flex-start; } }
+  @media(max-width:850px) { .hero-pattern { max-width:none; width:42rem; right:-18rem; top:2%; opacity:.12; } .hero-grid,.media-layout,.submit-grid { grid-template-columns:1fr; gap:2.5rem; } .brief-grid,.guideline-grid { grid-template-columns:1fr; } .photo-intro { grid-template-columns:1fr; } .hero-photo,.media-image,.submit-art { width:100%; max-width:42rem; margin-inline:auto; } .copy-grid,.resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .photo-safety { gap:1.5rem; } .section-pad,.submit-section { padding:4.5rem 0; } }
+  @media(max-width:600px) { .hero { padding:3.6rem 0; } .hero-grid { gap:2rem; } h1 { font-size:clamp(2.7rem,12.5vw,4rem); } .hero-intro { font-size:1.05rem; } .hero-actions { gap:1.3rem; } .section-pad,.submit-section { padding:3.5rem 0; } .section-heading { margin-bottom:2rem; text-align:left; } .steps-grid { grid-template-columns:1fr; } .step-card,.step-card:nth-child(4),.step-card:nth-child(5) { grid-column:auto; min-height:0; } .copy-grid,.resource-grid { grid-template-columns:1fr; } .copy-card,.resource-card { min-height:0; } .media-actions { grid-template-columns:1fr; } .media-actions :global(button) { justify-self:start; } .safety-callout { align-items:flex-start; } }
 </style>
 
