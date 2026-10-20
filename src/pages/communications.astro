@@ -5,7 +5,7 @@ import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
 import Button from "../components/ui/Button.astro";
 import TemplateDialog from "../components/ui/TemplateDialog.astro";
-import { storySubmissionEmail, storySubmissionUrl } from "../data/communications";
+import { storySubmissionFormUrl, storySubmissionUrl } from "../data/communications";
 import Icon from "../components/ui/Icon.astro";
 import { Image } from "astro:assets";
 import { statSync } from "node:fs";
@@ -183,8 +183,8 @@ const logoRules = [
       <Container size="xl" class="px-6 portrait:px-4">
         <div class="submit-grid">
         <div><p class="eyebrow">AFTER THE EVENT</p><h2>Now tell us what happened.</h2><p>Every local story helps us build the global World Coding Cup story. Gather these details before you send your highlights.</p><ul class="submit-list"><li>Your school or organisation</li><li>Your city and country</li><li>Number of learners and teams</li><li>One memorable moment</li><li>Your best 3–5 photographs</li><li>A short video if you have one</li><li>Links to anything you’ve shared</li><li>Links to any media coverage</li><li>Confirmation that permissions are in place</li></ul>
-          {storySubmissionEmail && storySubmissionUrl ? (
-            <Button href={storySubmissionUrl}>Share your World Coding Cup story</Button>
+          {storySubmissionUrl ? (
+            <Button href={storySubmissionUrl} target={storySubmissionFormUrl ? "_blank" : undefined} rel={storySubmissionFormUrl ? "noopener" : undefined}>Share your World Coding Cup story{storySubmissionFormUrl && <span class="sr-only"> (opens in a new tab)</span>}</Button>
           ) : (
             <><Button disabled aria-describedby="submission-status">Story submissions opening soon</Button><p id="submission-status" class="submit-hint">We’ll add the story submission link here as soon as it is confirmed. Keep your highlights and approved photographs ready.</p></>
           )}</div>

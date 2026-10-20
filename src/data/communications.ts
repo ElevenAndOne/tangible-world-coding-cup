@@ -192,6 +192,14 @@ const storyEmailBody = [
   "[Attach your best 3–5 photographs. Share videos and large files as a link.]",
 ].join("\r\n");
 
-export const storySubmissionUrl = storySubmissionEmail
+const storySubmissionMailto = storySubmissionEmail
   ? `mailto:${storySubmissionEmail}?subject=${encodeURIComponent(storyEmailSubject)}&body=${encodeURIComponent(storyEmailBody)}`
   : null;
+
+// Interim Google Form, owned by 11and1design@gmail.com, until the client's Zoho CRM is ready.
+// Responses go to the linked "World Coding Cup 2026 story submissions (Responses)" sheet.
+// Its questions are specified in scripts/create-story-form.gs. Set to null to fall back to the story email.
+export const storySubmissionFormUrl: string | null =
+  "https://docs.google.com/forms/d/e/1FAIpQLSeEtzf4J_kSlRqQkJMl3_IffBBeJ1V5f97WolrpVRE1l3UOmg/viewform";
+
+export const storySubmissionUrl = storySubmissionFormUrl ?? storySubmissionMailto;
