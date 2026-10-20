@@ -1,5 +1,7 @@
 // Transcribed from the rendered Figma Make prototype on 6 October 2026.
 // Reference copy fingerprints are stored in _reference/communications-copy-audit.json.
+// Social (during-event caption) and Media Tips were amended on 20 October 2026 to follow the
+// client's "Sponsored by Amazon guidelines", so they no longer match those fingerprints.
 export const communicationsTemplates = {
   parents: {
     category: "WhatsApp message + parent email",
@@ -47,7 +49,7 @@ We're excited to be part of the Tangible World Coding Cup 2026, sponsored by Ama
 — — —
 
 DURING THE EVENT ⚡
-We're live at the Tangible World Coding Cup! Our teams are working hard, thinking fast and having a brilliant time. So proud of every learner here today. 🧩 #WorldCodingCup #TangibleWCC #[CITY]
+We're live at the Tangible World Coding Cup 2026, sponsored by Amazon! Our teams are working hard, thinking fast and having a brilliant time. So proud of every learner here today. 🧩 #WorldCodingCup #TangibleWCC #[CITY]
 
 — — —
 
@@ -138,7 +140,7 @@ Thank you,
     hint: "Use these tips to target your story effectively.",
     text: `LEADING WITH THE LOCAL STORY
 
-When approaching local media, lead with the local story. Mention Amazon as the sponsor of the Tangible World Coding Cup, but do not make the sponsorship the main angle unless it is specifically relevant to the story. The focus should remain on your learners, your school and your community.
+When approaching local media, lead with the local story. Mention Amazon as the sponsor of the Tangible World Coding Cup, but do not make the sponsorship the main angle unless it is specifically relevant to the story. The focus should remain on your learners, your school and your community. Direct requests for Amazon quotes or statements to the Tangible team.
 
 — — —
 
