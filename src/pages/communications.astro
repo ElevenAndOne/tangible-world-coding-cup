@@ -87,12 +87,10 @@ const logoRules = [
         <div class="hero-grid">
         <div class="hero-copy">
           <WccLogo title="Tangible World Coding Cup" class="hero-logo" />
-          <p class="eyebrow">2026 · SCHOOL COMMUNICATIONS TOOLKIT</p>
           <h1>Taking part<br />is worth sharing.</h1>
           <p class="hero-intro">Bring your school and community into your Tangible World Coding Cup journey. Use these ready-made resources to let people know you’re taking part and celebrate what your learners achieve.</p>
           <div class="hero-actions">
             <Button href="#start-here" arrow="down">Start with the quick guide</Button>
-            <Button href="#submit" variant="teal" arrow="down">Share your story with Tangible</Button>
             <span class="sponsor"><span>Sponsored by</span><AmazonLogo class="text-white" /></span>
           </div>
         </div>
@@ -186,7 +184,7 @@ const logoRules = [
         <div class="submit-grid">
         <div><p class="eyebrow">AFTER THE EVENT</p><h2>Now tell us what happened.</h2><p>Every local story helps us build the global World Coding Cup story. Gather these details before you send your highlights.</p><ul class="submit-list"><li>Your school or organisation</li><li>Your city and country</li><li>Number of learners and teams</li><li>One memorable moment</li><li>Your best 3–5 photographs</li><li>A short video if you have one</li><li>Links to anything you’ve shared</li><li>Links to any media coverage</li><li>Confirmation that permissions are in place</li></ul>
           {storySubmissionEmail && storySubmissionUrl ? (
-            <><Button href={storySubmissionUrl}>Share your World Coding Cup story</Button><p class="submit-hint">Opens a new email to <strong id="story-email">{storySubmissionEmail}</strong> with these details ready to fill in. If your email app doesn’t open, copy the address instead.</p><div class="copy-email"><Button icon="copy" variant="soft" size="sm" id="copy-story-email" data-email={storySubmissionEmail}>Copy email address</Button><p id="copy-email-status" role="status" aria-live="polite"></p></div></>
+            <Button href={storySubmissionUrl}>Share your World Coding Cup story</Button>
           ) : (
             <><Button disabled aria-describedby="submission-status">Story submissions opening soon</Button><p id="submission-status" class="submit-hint">We’ll add the story submission link here as soon as it is confirmed. Keep your highlights and approved photographs ready.</p></>
           )}</div>
@@ -198,25 +196,6 @@ const logoRules = [
   <Footer slot="footer" />
 </BaseLayout>
 
-<script>
-  const copyEmail = document.querySelector<HTMLButtonElement>("#copy-story-email");
-  const emailStatus = document.querySelector<HTMLElement>("#copy-email-status");
-  copyEmail?.addEventListener("click", async () => {
-    if (!emailStatus) return;
-    let message = "Email address copied.";
-    try {
-      await navigator.clipboard.writeText(copyEmail.dataset.email ?? "");
-    } catch {
-      const address = document.querySelector("#story-email");
-      if (address) window.getSelection()?.selectAllChildren(address);
-      message = "Automatic copy is unavailable. The address is selected; use your device’s Copy command.";
-    }
-    // Clear first so a repeated message is announced again.
-    emailStatus.textContent = "";
-    setTimeout(() => { emailStatus.textContent = message; }, 100);
-  });
-</script>
-
 <style>
   :global(html) { scroll-padding-top: 5rem; }
   :global(body) { background:#fff; }
@@ -224,7 +203,6 @@ const logoRules = [
   .hero-pattern { position:absolute; top:4%; right:-9%; width:56rem; max-width:75%; height:auto; opacity:.25; mix-blend-mode:lighten; pointer-events:none; }
   .hero-grid { position:relative; display:grid; grid-template-columns:1.05fr .95fr; align-items:center; gap:4.5rem; }
   .hero-copy { max-width:43rem; } .hero-copy :global(.hero-logo) { display:block; width:10rem; height:auto; margin-bottom:2rem; } .eyebrow { margin:0 0 1rem; color:var(--color-teal); font-size:.75rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
-  .hero .eyebrow { color:var(--color-lime); }
   h1,h2,h3,p { margin-top:0; }
   h1,h2 { font-family:var(--font-display); font-weight:400; letter-spacing:-.035em; }
   h1 { margin-bottom:1.25rem; font-size:clamp(3.25rem,5.2vw,5.25rem); line-height:1.02; }
@@ -266,8 +244,7 @@ const logoRules = [
   .guideline-card .example-label { margin:.3rem 0 .4rem; color:var(--color-ink); font-size:.75rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; } .guideline-card .example { width:100%; padding:.75rem 1rem; border-radius:.5rem; background:var(--color-ice); color:var(--color-ink); font-weight:600; }
   .guideline-contact { max-width:56rem; margin:1.5rem auto 0; padding:1.1rem 1.5rem; border-radius:1rem; background:white; } .guideline-contact p { margin:0; color:var(--color-smoke); line-height:1.55; } .guideline-contact strong { color:var(--color-ink); } .guideline-contact a { overflow-wrap:anywhere; }
   .submit-section { overflow:hidden; background:var(--color-teal); color:white; padding:6rem 0; } .submit-grid { display:grid; grid-template-columns:1fr .9fr; align-items:center; gap:4rem; } .submit-grid .eyebrow { color:var(--color-lime); } .submit-grid h2 { max-width:38rem; } .submit-grid>div:first-child>p:not(.eyebrow) { max-width:40rem; color:#ebf6f7; }
-  .submit-list { margin:1.5rem 0 2rem; } .submit-list li:before { color:var(--color-lime); } .submit-hint { margin:.8rem 0 0; font-size:.82rem!important; } .submit-hint strong { color:white; overflow-wrap:anywhere; }
-  .copy-email { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1rem; margin-top:1rem; } #copy-email-status { margin:0; color:var(--color-lime); font-size:.82rem; font-weight:700; }
+  .submit-list { margin:1.5rem 0 2rem; } .submit-list li:before { color:var(--color-lime); } .submit-hint { margin:.8rem 0 0; font-size:.82rem!important; }
   .submit-art { overflow:hidden; border-radius:1.25rem; background:var(--color-teal-deep); } .submit-quote { padding:1.25rem 1.5rem; font-family:var(--font-display); font-size:clamp(1.125rem,1.5vw,1.5rem); line-height:1.3; } .submit-quote strong { color:var(--color-lime); }
   @media(max-width:850px) { .hero-pattern { max-width:none; width:42rem; right:-18rem; top:2%; opacity:.12; } .hero-grid,.media-layout,.submit-grid { grid-template-columns:1fr; gap:2.5rem; } .brief-grid,.guideline-grid { grid-template-columns:1fr; } .photo-intro { grid-template-columns:1fr; } .hero-photo,.media-image,.submit-art { width:100%; max-width:42rem; margin-inline:auto; } .copy-grid,.resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .photo-safety { gap:1.5rem; } .section-pad,.submit-section { padding:4.5rem 0; } }
   @media(max-width:600px) { .hero { padding:3.6rem 0; } .hero-grid { gap:2rem; } h1 { font-size:clamp(2.7rem,12.5vw,4rem); } .hero-intro { font-size:1.05rem; } .hero-actions { gap:1.3rem; } .section-pad,.submit-section { padding:3.5rem 0; } .section-heading { margin-bottom:2rem; text-align:left; } .steps-grid { grid-template-columns:1fr; } .step-card,.step-card:nth-child(4),.step-card:nth-child(5) { grid-column:auto; min-height:0; } .copy-grid,.resource-grid { grid-template-columns:1fr; } .copy-card,.resource-card { min-height:0; } .media-actions { grid-template-columns:1fr; } .media-actions :global(button) { justify-self:start; } .safety-callout { align-items:flex-start; } }
