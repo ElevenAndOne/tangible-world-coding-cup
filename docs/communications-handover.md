@@ -297,3 +297,11 @@ The first pass above was shortened from her written instructions alone. Her anno
 - **Form access:** Michaela and Ryan to get the same access to the responses sheet as Wendy.
 - **Form permissions wording and privacy note:** Wendy will review once she has access.
 - **Closing date:** none. Submissions stay open after the tournament.
+
+### Story submission moved to the top (29 October 2026)
+
+At the user's request, the “Now tell us what happened” section was reworked and moved directly below the hero (`#submit`), so the main action is the first thing schools see after the introduction.
+
+- It is now a compact deep-teal band: heading, one-sentence intro and the large “Share your World Coding Cup story” button on the left, and the nine “Gather these details before you send” items in a two-column panel on the right (one column on phones).
+- The section's photograph and its “Thousands of learners…” caption were dropped, because the hero directly above already has a photograph. `toolkit-team.avif` is no longer used on the page.
+- Step 05's “See what to send” still jumps to `#submit`. Its arrow now points up-right instead of down, because the section is above it.

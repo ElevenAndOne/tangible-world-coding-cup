@@ -13,7 +13,6 @@ import AmazonLogo from "../components/brand/AmazonLogo.astro";
 import WccLogo from "../components/brand/WccLogo.astro";
 import learnersImage from "../assets/images/toolkit-learners.avif";
 import codingImage from "../assets/images/toolkit-coding.avif";
-import teamImage from "../assets/images/toolkit-team.avif";
 import heroDeco from "../assets/images/hero-deco.svg";
 
 // Files are served from public/downloads/. Sizes are read at build time, so a missing file fails the build.
@@ -107,6 +106,27 @@ const sponsorshipDonts = [
       </Container>
     </section>
 
+    <section id="submit" class="submit-section" aria-labelledby="submit-heading">
+      <Container size="xl" class="px-6 portrait:px-4">
+        <div class="submit-grid">
+          <div class="submit-copy">
+            <p class="eyebrow">AFTER THE EVENT</p>
+            <h2 id="submit-heading">Now tell us what happened.</h2>
+            <p>Every local story helps us build the global World Coding Cup story. Share your highlights with Tangible.</p>
+            {storySubmissionUrl ? (
+              <Button href={storySubmissionUrl} class="submit-cta" target={storySubmissionFormUrl ? "_blank" : undefined} rel={storySubmissionFormUrl ? "noopener" : undefined}>Share your World Coding Cup story{storySubmissionFormUrl && <span class="sr-only"> (opens in a new tab)</span>}</Button>
+            ) : (
+              <><Button disabled aria-describedby="submission-status">Story submissions opening soon</Button><p id="submission-status" class="submit-hint">We’ll add the story submission link here as soon as it is confirmed. Keep your highlights and approved photographs ready.</p></>
+            )}
+          </div>
+          <div class="submit-checklist">
+            <h3>Gather these details before you send</h3>
+            <ul class="submit-list"><li>Your school or organisation</li><li>Your city and country</li><li>Number of learners and teams</li><li>One memorable moment</li><li>Your best 3–5 photographs</li><li>A short video if you have one</li><li>Links to anything you’ve shared</li><li>Links to any media coverage</li><li>Confirmation that permissions are in place</li></ul>
+          </div>
+        </div>
+      </Container>
+    </section>
+
     <section id="start-here" class="section-pad bg-white">
       <Container size="xl" class="px-6 portrait:px-4">
         <div class="section-heading">
@@ -119,7 +139,7 @@ const sponsorshipDonts = [
           <article class="step-card"><span class="step-number">02</span><h3>Put it in your newsletter</h3><p>Adapt a short article with your school’s details.</p><Button data-template="newsletter" size="sm">Open newsletter story</Button></article>
           <article class="step-card"><span class="step-number">03</span><h3>Share on social media</h3><p>Choose a caption, add approved photographs and celebrate your learners.</p><Button data-template="social" size="sm">Open social captions</Button></article>
           <article class="step-card"><span class="step-number">04</span><h3>Add it to your website</h3><p>Use a ready-to-edit school news story.</p><Button data-template="website" size="sm">Open website story</Button></article>
-          <article class="step-card step-card-featured"><span class="step-number">05</span><h3>Share your story with Tangible</h3><p>Send us your highlights and help learners become part of the global World Coding Cup story.</p><div class="step-actions">{storySubmissionUrl && <Button href={storySubmissionUrl} target={storySubmissionFormUrl ? "_blank" : undefined} rel={storySubmissionFormUrl ? "noopener" : undefined} size="sm">Share your story{storySubmissionFormUrl && <span class="sr-only"> (opens in a new tab)</span>}</Button>}<Button href="#submit" variant="secondary" size="sm" arrow="down">See what to send</Button></div></article>
+          <article class="step-card step-card-featured"><span class="step-number">05</span><h3>Share your story with Tangible</h3><p>Send us your highlights and help learners become part of the global World Coding Cup story.</p><div class="step-actions">{storySubmissionUrl && <Button href={storySubmissionUrl} target={storySubmissionFormUrl ? "_blank" : undefined} rel={storySubmissionFormUrl ? "noopener" : undefined} size="sm">Share your story{storySubmissionFormUrl && <span class="sr-only"> (opens in a new tab)</span>}</Button>}<Button href="#submit" variant="secondary" size="sm">See what to send</Button></div></article>
         </div>
       </Container>
     </section>
@@ -174,20 +194,6 @@ const sponsorshipDonts = [
         <aside class="guideline-contact" aria-label="Sponsorship and branding support"><p><strong>Have a question or need support?</strong> If you’re planning a joint announcement or need help with branding, contact the Tangible team at <a href="mailto:support@levafoundation.org">support@levafoundation.org</a>.</p></aside>
       </Container>
     </section>
-
-    <section id="submit" class="submit-section">
-      <Container size="xl" class="px-6 portrait:px-4">
-        <div class="submit-grid">
-        <div><p class="eyebrow">AFTER THE EVENT</p><h2>Now tell us what happened.</h2><p>Every local story helps us build the global World Coding Cup story. Gather these details before you send your highlights.</p><ul class="submit-list"><li>Your school or organisation</li><li>Your city and country</li><li>Number of learners and teams</li><li>One memorable moment</li><li>Your best 3–5 photographs</li><li>A short video if you have one</li><li>Links to anything you’ve shared</li><li>Links to any media coverage</li><li>Confirmation that permissions are in place</li></ul>
-          {storySubmissionUrl ? (
-            <Button href={storySubmissionUrl} class="submit-cta" target={storySubmissionFormUrl ? "_blank" : undefined} rel={storySubmissionFormUrl ? "noopener" : undefined}>Share your World Coding Cup story{storySubmissionFormUrl && <span class="sr-only"> (opens in a new tab)</span>}</Button>
-          ) : (
-            <><Button disabled aria-describedby="submission-status">Story submissions opening soon</Button><p id="submission-status" class="submit-hint">We’ll add the story submission link here as soon as it is confirmed. Keep your highlights and approved photographs ready.</p></>
-          )}</div>
-        <figure class="submit-art"><Image src={teamImage} alt="A team of learners testing their code together on a tablet" width={1170} widths={[480, 768, 1024, 1170]} sizes="(max-width: 850px) calc(100vw - 48px), (max-width: 1472px) 42vw, 600px" format="webp" quality={90} class="toolkit-photo" /><figcaption class="submit-quote">Thousands of learners.<br />Hundreds of schools.<br /><strong>One global story.</strong></figcaption></figure>
-        </div>
-      </Container>
-    </section>
   <TemplateDialog />
   <Footer slot="footer" whatsappCta={false} />
 </BaseLayout>
@@ -211,8 +217,8 @@ const sponsorshipDonts = [
   .hero-photo figcaption,.media-image figcaption { padding:1rem 1.25rem; font-size:.9rem; font-weight:700; }
   .hero-photo figcaption { color:white; }
   .section-pad { padding:6rem 0; } .bg-white { background:#fff; } .bg-ice { background:#f0f8fb; }
-  .section-heading { max-width:49rem; margin:0 auto 2.7rem; text-align:center; } .section-heading h2,.media-copy h2,.photo-safety h2,.submit-grid h2 { margin-bottom:.9rem; font-size:clamp(2.3rem,4vw,3.7rem); line-height:1.08; }
-  .section-heading>p:last-child,.media-copy>p:not(.eyebrow),.photo-intro>p,.submit-grid>div:first-child>p:not(.eyebrow) { color:var(--color-smoke); font-size:1.05rem; line-height:1.6; }
+  .section-heading { max-width:49rem; margin:0 auto 2.7rem; text-align:center; } .section-heading h2,.media-copy h2,.photo-safety h2 { margin-bottom:.9rem; font-size:clamp(2.3rem,4vw,3.7rem); line-height:1.08; }
+  .section-heading>p:last-child,.media-copy>p:not(.eyebrow),.photo-intro>p { color:var(--color-smoke); font-size:1.05rem; line-height:1.6; }
   .steps-grid { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:1rem; }
   .step-card { display:flex; flex-direction:column; align-items:flex-start; grid-column:span 2; min-height:15rem; padding:1.5rem; border:1px solid #dce8eb; border-radius:1rem; background:white; }
   .step-card > :global(.group),.step-actions { margin-top:auto; } .step-actions { display:flex; flex-wrap:wrap; gap:.75rem; }
@@ -238,10 +244,12 @@ const sponsorshipDonts = [
   .guideline-card h3 { margin-bottom:1rem; } .guideline-card p { margin-bottom:.9rem; font-size:.95rem; } .guideline-card p:last-child { margin-bottom:0; } .guideline-card p strong { color:var(--color-ink); } .guideline-card .check-list { font-size:.95rem; }
   .guideline-card .example-label { margin:.3rem 0 .4rem; color:var(--color-ink); font-size:.75rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; } .guideline-card .example { width:100%; padding:.75rem 1rem; border-radius:.5rem; background:var(--color-ice); color:var(--color-ink); font-weight:600; }
   .guideline-contact { max-width:56rem; margin:1.5rem auto 0; padding:1.1rem 1.5rem; border-radius:1rem; background:white; } .guideline-contact p { margin:0; color:var(--color-smoke); line-height:1.55; } .guideline-contact strong { color:var(--color-ink); } .guideline-contact a { overflow-wrap:anywhere; }
-  .submit-section { overflow:hidden; background:var(--color-teal); color:white; padding:6rem 0; } .submit-grid { display:grid; grid-template-columns:1fr .9fr; align-items:center; gap:4rem; } .submit-grid .eyebrow { color:var(--color-lime); } .submit-grid h2 { max-width:38rem; } .submit-grid>div:first-child>p:not(.eyebrow) { max-width:40rem; color:#ebf6f7; }
-  .submit-list { margin:1.5rem 0 2rem; } .submit-grid :global(.submit-cta) { padding:.75rem .75rem .75rem 2rem; font-size:1.3rem; box-shadow:0 .75rem 2rem #0422294d; } .submit-list li:before { color:var(--color-lime); } .submit-hint { margin:.8rem 0 0; font-size:.82rem!important; }
-  .submit-art { overflow:hidden; border-radius:1.25rem; background:var(--color-teal-deep); } .submit-quote { padding:1.25rem 1.5rem; font-family:var(--font-display); font-size:clamp(1.125rem,1.5vw,1.5rem); line-height:1.3; } .submit-quote strong { color:var(--color-lime); }
-  @media(max-width:850px) { .hero-pattern { max-width:none; width:42rem; right:-18rem; top:2%; opacity:.12; } .hero-grid,.media-layout,.submit-grid { grid-template-columns:1fr; gap:2.5rem; } .brief-grid,.guideline-grid { grid-template-columns:1fr; } .photo-intro { grid-template-columns:1fr; } .hero-photo,.media-image,.submit-art { width:100%; max-width:42rem; margin-inline:auto; } .resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .photo-safety { gap:1.5rem; } .section-pad,.submit-section { padding:4.5rem 0; } }
-  @media(max-width:600px) { .hero { padding:3.6rem 0; } .hero-grid { gap:2rem; } h1 { font-size:clamp(2.7rem,12.5vw,4rem); } .hero-intro { font-size:1.05rem; } .hero-actions { gap:1.3rem; } .section-pad,.submit-section { padding:3.5rem 0; } .section-heading { margin-bottom:2rem; text-align:left; } .steps-grid { grid-template-columns:1fr; } .step-card,.step-card:nth-child(4),.step-card:nth-child(5) { grid-column:auto; min-height:0; } .resource-grid { grid-template-columns:1fr; } .resource-card { min-height:0; } .media-actions { grid-template-columns:1fr; } .media-actions :global(button) { justify-self:start; } .safety-callout { align-items:flex-start; } }
+  .submit-section { background:var(--color-teal-deep); color:white; padding:3.5rem 0; } .submit-grid { display:grid; grid-template-columns:.95fr 1.05fr; align-items:center; gap:3rem 4rem; }
+  .submit-copy .eyebrow { color:var(--color-lime); } .submit-copy h2 { margin-bottom:.8rem; font-size:clamp(2rem,3.2vw,3rem); line-height:1.05; } .submit-copy>p:not(.eyebrow) { max-width:34rem; margin-bottom:1.75rem; color:#ebf6f7; font-size:1.05rem; line-height:1.6; }
+  .submit-copy :global(.submit-cta) { padding:.75rem .75rem .75rem 2rem; font-size:1.25rem; box-shadow:0 .75rem 2rem #04222966; } .submit-hint { margin:.8rem 0 0; font-size:.82rem!important; }
+  .submit-checklist { padding:1.75rem 2rem; border:1px solid #ffffff26; border-radius:1.25rem; background:#ffffff0f; } .submit-checklist h3 { margin-bottom:1.1rem; font-size:1.05rem; font-weight:800; }
+  .submit-list { grid-template-columns:repeat(2,minmax(0,1fr)); gap:.65rem 1.5rem; color:#ebf6f7; font-size:.95rem; } .submit-list li:before { color:var(--color-lime); }
+  @media(max-width:850px) { .hero-pattern { max-width:none; width:42rem; right:-18rem; top:2%; opacity:.12; } .hero-grid,.media-layout,.submit-grid { grid-template-columns:1fr; gap:2.5rem; } .submit-section { padding:3rem 0; } .brief-grid,.guideline-grid { grid-template-columns:1fr; } .photo-intro { grid-template-columns:1fr; } .hero-photo,.media-image { width:100%; max-width:42rem; margin-inline:auto; } .resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .photo-safety { gap:1.5rem; } .section-pad { padding:4.5rem 0; } }
+  @media(max-width:600px) { .hero { padding:3.6rem 0; } .hero-grid { gap:2rem; } h1 { font-size:clamp(2.7rem,12.5vw,4rem); } .hero-intro { font-size:1.05rem; } .hero-actions { gap:1.3rem; } .section-pad { padding:3.5rem 0; } .submit-list { grid-template-columns:1fr; } .submit-checklist { padding:1.25rem 1.25rem; } .submit-copy :global(.submit-cta) { padding-left:1.25rem; font-size:.95rem; } .section-heading { margin-bottom:2rem; text-align:left; } .steps-grid { grid-template-columns:1fr; } .step-card,.step-card:nth-child(4),.step-card:nth-child(5) { grid-column:auto; min-height:0; } .resource-grid { grid-template-columns:1fr; } .resource-card { min-height:0; } .media-actions { grid-template-columns:1fr; } .media-actions :global(button) { justify-self:start; } .safety-callout { align-items:flex-start; } }
 </style>
 
