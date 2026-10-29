@@ -57,6 +57,20 @@
   }
 }
 
+/* Leaderboard list edge fades. Registered so the mask can transition in and
+   out as the list scrolls (unregistered custom properties can't animate). */
+@property --fade-top {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --fade-bottom {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
 /* In-page nav: smooth scrolling, with the sticky 4.5rem header cleared. */
 html {
   scroll-behavior: smooth;

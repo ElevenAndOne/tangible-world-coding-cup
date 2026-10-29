@@ -162,6 +162,39 @@ function useRankAnimation(teams: LeaderboardTeam[]) {
   }, []);
 }
 
+/** Tracks whether a scroll box has hidden content above or below, to drive its edge fades. */
+function useScrollFades(deps: unknown) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [fades, setFades] = useState({ top: false, bottom: false });
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const update = () => {
+      const scrollable = el.scrollHeight - el.clientHeight > 1;
+      const top = scrollable && el.scrollTop > 1;
+      const bottom = scrollable && el.scrollTop + el.clientHeight < el.scrollHeight - 1;
+      setFades((current) =>
+        current.top === top && current.bottom === bottom ? current : { top, bottom },
+      );
+    };
+
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    if (el.firstElementChild) observer.observe(el.firstElementChild);
+
+    return () => {
+      el.removeEventListener("scroll", update);
+      observer.disconnect();
+    };
+  }, [deps]);
+
+  return [ref, fades] as const;
+}
+
 export default function Leaderboard({ endpoint, pollMs, initial }: Props) {
   const [data, setData] = useState<LeaderboardData | null>(initial);
   const [status, setStatus] = useState<Status>(initial ? "live" : "loading");
@@ -227,6 +260,7 @@ export default function Leaderboard({ endpoint, pollMs, initial }: Props) {
   }, [endpoint, pollMs]);
 
   const teams = data?.teams ?? [];
+  const [listRef, fades] = useScrollFades(teams.length);
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
@@ -266,13 +300,19 @@ export default function Leaderboard({ endpoint, pollMs, initial }: Props) {
       </div>
 
       {/* Scrolls inside the panel on desktop; flows with the page below that */}
-      <div className="mt-(--list-gap) min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-color:rgba(123,230,255,0.5)_transparent] [scrollbar-width:thin] [mask-image:linear-gradient(to_bottom,#000_calc(100%-4.5rem),transparent)] tablet:overflow-visible tablet:[mask-image:none]">
+      {/* Each edge fades only while rows are hidden past it */}
+      <div
+        ref={listRef}
+        data-fade-top={fades.top || undefined}
+        data-fade-bottom={fades.bottom || undefined}
+        className="mt-(--list-gap) min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-color:rgba(123,230,255,0.5)_transparent] [scrollbar-width:thin] [mask-image:linear-gradient(to_bottom,transparent,#000_var(--fade-top),#000_calc(100%-var(--fade-bottom)),transparent)] [transition:--fade-top_250ms_ease,--fade-bottom_250ms_ease] data-fade-top:[--fade-top:3rem] data-fade-bottom:[--fade-bottom:4.5rem] motion-reduce:transition-none tablet:overflow-visible tablet:[mask-image:none]"
+      >
         {teams.length === 0 ? (
           <p className="py-12 text-center font-board text-lg font-bold text-white/80">
             {status === "loading" ? "Loading the leaderboard…" : "No results yet — check back once racing starts."}
           </p>
         ) : (
-          <ol className="flex flex-col gap-(--row-gap) py-2 pb-16 tablet:pb-2" aria-label="Team standings">
+          <ol className="flex flex-col gap-(--row-gap) py-2" aria-label="Team standings">
             {teams.map((team) => (
               <li key={team.id} ref={rowRef(team.id)} className="relative">
                 <Row team={team} />
