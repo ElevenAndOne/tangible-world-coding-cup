@@ -1,0 +1,100 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import WccLogo from "../components/brand/WccLogo.astro";
+import Leaderboard from "../components/react/Leaderboard.tsx";
+import { getDemoLeaderboard } from "../data/leaderboard";
+import tangibleMark from "../assets/images/hero-deco.svg";
+import armTop from "../assets/leaderboard/arm-top.png";
+import armBottom from "../assets/leaderboard/arm-bottom.png";
+
+// Results feed. Leave PUBLIC_LEADERBOARD_API_URL unset to use the dummy
+// endpoint at /api/leaderboard.json; set it to the live feed's URL on race day.
+const liveEndpoint = import.meta.env.PUBLIC_LEADERBOARD_API_URL as string | undefined;
+const endpoint = liveEndpoint || "/api/leaderboard.json";
+
+// Refresh interval in seconds (default one minute, never faster than 10s).
+const pollSeconds = Math.max(10, Number(import.meta.env.PUBLIC_LEADERBOARD_POLL_SECONDS) || 60);
+
+// Server-render the dummy standings so the page isn't empty before the first
+// poll; with a live feed configured the board loads straight from that feed.
+const initial = liveEndpoint ? null : getDemoLeaderboard();
+---
+
+<BaseLayout
+  title="2026 Leaderboard | World Coding Cup | Tangible Africa"
+  description="Live standings from the 2026 Tangible World Coding Cup, updated throughout race day."
+>
+  <link
+    slot="head"
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap"
+  />
+
+  <div
+    class="relative isolate flex h-dvh min-h-[40rem] flex-col overflow-hidden bg-board tablet:h-auto tablet:min-h-dvh"
+  >
+    <!-- Background: Tangible mark and the two thumbs-up arms from the Figma frame -->
+    <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+      <Image
+        src={tangibleMark}
+        alt=""
+        class="absolute top-[2.5%] -left-[17.5%] w-[78%] max-w-[70rem] opacity-25 landscape:top-[6rem] landscape:-left-[40%] landscape:w-[150%]"
+      />
+      <Image
+        src={armTop}
+        alt=""
+        class="absolute top-0 left-[42.4%] w-[57.8%] tablet:left-[46%] landscape:left-[38%] landscape:w-[80%] portrait:hidden"
+      />
+      <Image
+        src={armBottom}
+        alt=""
+        class="absolute right-0 bottom-0 w-[62.3%] tablet:w-[90%]"
+      />
+    </div>
+
+    <div
+      class="mx-auto flex min-h-0 w-full max-w-[90rem] flex-1 flex-col px-[3.25rem] pt-[2rem] pb-[1.875rem] tablet:px-6 landscape:px-4 portrait:px-3"
+    >
+      <header class="flex items-start justify-between gap-6 pr-[6rem] pl-[3rem] tablet:px-2 landscape:px-1">
+        <h1
+          class="font-display leading-[0.82] text-white uppercase [text-shadow:0_6px_14px_rgba(0,37,62,0.28)]"
+        >
+          <span class="block text-[7.4rem] tracking-[0.01em] tablet:text-[5.6rem] landscape:text-[4rem] portrait:text-[3.2rem]">
+            2026
+          </span>
+          <span class="mt-[0.18em] block text-[2.9rem] tracking-[0.005em] tablet:text-[2.2rem] landscape:text-[1.57rem] portrait:text-[1.26rem]">
+            Leaderboard
+          </span>
+        </h1>
+        <a href="/" class="mt-[-0.4rem] w-[14.375rem] shrink-0 tablet:w-[11rem] landscape:w-[8.5rem] portrait:w-[6.5rem]">
+          <WccLogo title="Tangible World Coding Cup — back to the event page" class="h-auto w-full" />
+        </a>
+      </header>
+
+      <section
+        aria-labelledby="standings-heading"
+        class="relative mt-[1.1rem] flex min-h-0 flex-1 flex-col rounded-[2rem] border border-[#60d0ea] bg-[rgba(123,230,255,0.06)] p-(--panel-p) backdrop-blur-[6px] tablet:mt-8 tablet:rounded-[1.5rem] landscape:mt-7 portrait:mt-9 portrait:rounded-[1.125rem]
+          [--panel-p:3rem] [--rank-w:122px] [--podium-h:56px] [--row-h:32px] [--row-gap:12px] [--list-gap:29px]
+          [--podium-text:32px] [--row-text:18px] [--medal-text:38px] [--head-text:32px] [--subhead-text:23px]
+          [--podium-flag-w:60px] [--podium-flag-h:40px] [--row-flag-w:40px] [--row-flag-h:26.67px]
+          [--shield-w:55.5px] [--shield-h:62px] [--cell-gap:16px] [--stats-px:20px] [--category-w:140px] [--levels-w:100px]
+          tablet:[--panel-p:2rem] tablet:[--rank-w:88px] tablet:[--podium-h:50px] tablet:[--row-h:34px] tablet:[--row-gap:10px]
+          tablet:[--podium-text:26px] tablet:[--row-text:16px] tablet:[--medal-text:32px] tablet:[--head-text:28px] tablet:[--subhead-text:18px]
+          tablet:[--podium-flag-w:51px] tablet:[--podium-flag-h:34px] tablet:[--shield-w:48px] tablet:[--shield-h:54px]
+          tablet:[--category-w:112px] tablet:[--levels-w:64px] tablet:[--stats-px:16px] tablet:[--cell-gap:12px]
+          landscape:[--panel-p:1.25rem] landscape:[--rank-w:60px] landscape:[--podium-h:52px] landscape:[--row-h:44px] landscape:[--row-gap:8px] landscape:[--list-gap:18px]
+          landscape:[--podium-text:20px] landscape:[--row-text:15px] landscape:[--medal-text:26px] landscape:[--head-text:22px] landscape:[--subhead-text:16px]
+          landscape:[--podium-flag-w:42px] landscape:[--podium-flag-h:28px] landscape:[--row-flag-w:33px] landscape:[--row-flag-h:22px]
+          landscape:[--shield-w:40px] landscape:[--shield-h:45px] landscape:[--levels-w:48px] landscape:[--stats-px:12px] landscape:[--cell-gap:10px]
+          portrait:[--panel-p:0.75rem] portrait:[--rank-w:46px] portrait:[--podium-h:48px] portrait:[--row-h:42px] portrait:[--row-gap:6px]
+          portrait:[--podium-text:17px] portrait:[--row-text:14px] portrait:[--medal-text:22px] portrait:[--head-text:19px] portrait:[--subhead-text:14px]
+          portrait:[--podium-flag-w:36px] portrait:[--podium-flag-h:24px] portrait:[--row-flag-w:30px] portrait:[--row-flag-h:20px]
+          portrait:[--shield-w:34px] portrait:[--shield-h:38px] portrait:[--levels-w:40px] portrait:[--stats-px:10px] portrait:[--cell-gap:8px]"
+      >
+        <h2 id="standings-heading" class="sr-only">Team standings</h2>
+        <Leaderboard client:load endpoint={endpoint} pollMs={pollSeconds * 1000} initial={initial} />
+      </section>
+    </div>
+  </div>
+</BaseLayout>

@@ -17,10 +17,13 @@
   --color-ice: #e8fafe;
   --color-cyan: #10acc7;
   --color-lagoon: #137488;
+  --color-board: #167a94;
+  --color-board-ink: #00253e;
 
   /* Fonts */
   --font-display: "Super Deluxe Sans", Arial, sans-serif;
   --font-sans: "Figtree", sans-serif;
+  --font-board: "Montserrat", "Figtree", sans-serif;
 }
 
 @font-face {

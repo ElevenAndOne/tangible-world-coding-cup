@@ -38,6 +38,22 @@ Every page section follows the same composition:
 - [WccLogo.astro](src/components/brand/WccLogo.astro) and [AmazonLogo.astro](src/components/brand/AmazonLogo.astro) — shared brand lockups. Pass `title` to `WccLogo` when it should be announced; it is decorative otherwise.
 - [Communications handover](docs/communications-handover.md) — audit results, missing files and client decisions needed before launch.
 
+## Leaderboard
+
+[leaderboard.astro](src/pages/leaderboard.astro) is the race-day board from the Figma frame *CodeCup Football Champions → Desktop (183:2078)*.
+
+- [Leaderboard.tsx](src/components/react/Leaderboard.tsx) (`client:load`) polls the results feed, pauses while the tab is hidden, refreshes as soon as it is visible again, keeps the last good standings if a request fails, and slides rows to their new positions when ranks change (skipped under reduced motion).
+- [leaderboard.ts](src/data/leaderboard.ts) defines the feed contract (`LeaderboardData`), validates payloads, ranks teams (levels, then who reached that level first) and generates the dummy standings.
+- [api/leaderboard.json.ts](src/pages/api/leaderboard.json.ts) serves the dummy feed. In `astro dev` it changes every minute on a two-hour loop; a static build writes a single snapshot.
+- Flags come from [`flag-icons`](https://github.com/lipis/flag-icons) using each team's ISO country code.
+
+| Env var | Default | Purpose |
+| --- | --- | --- |
+| `PUBLIC_LEADERBOARD_API_URL` | `/api/leaderboard.json` | Live results feed. When set, the page skips the dummy data and loads straight from the feed (which must allow CORS from the site). |
+| `PUBLIC_LEADERBOARD_POLL_SECONDS` | `60` | Refresh interval (minimum 10). |
+
+Both are read at build time, so rebuild after changing them.
+
 ## Breakpoints (desktop-first)
 
 Custom Tailwind variants defined in [global.css](src/styles/global.css). Unprefixed utilities are the desktop styles; narrower breakpoints override downward:
