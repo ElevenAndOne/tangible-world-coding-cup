@@ -274,7 +274,22 @@ Source: Wendy van Eyck's reply on ClickUp task `869fcf82m` (WCC Participation Pa
 | Hashtag | `#AmazonInCommunities` replaces `[APPROVED AMAZON HASHTAG]` in the before and after captions and is added to the during-event caption. The modal hint no longer mentions the placeholder |
 | Canva templates | A separate “Personalise your own” strip below the downloads links to `https://canva.link/e0ils4wreth5tmo` (“Customise in Canva”, new tab). It is kept apart from the ready-made downloads |
 
-Wording was shortened from Wendy's written instructions. Her annotated PDF was attached to the ClickUp comment and could not be retrieved, so any specific cuts it marks still need checking against the page.
+### Wendy's annotated PDF
+
+The first pass above was shortened from her written instructions alone. Her annotated PDF, “School Communications Toolkit _ World Coding Cup.pdf” (8 pages, 20 annotations), is attached to ClickUp task `869fcf801`. The page now follows it:
+
+| Annotation | Change |
+| --- | --- |
+| p2: make “Open parent message” and the other quick-guide buttons stand out, like the green “Start with the quick guide” button | The four quick-guide template buttons use the lime primary style |
+| p2: links should share one visual treatment so teachers recognise what's clickable | The media actions (“Open release copy”, “Open email copy”, “See media tips”) are filled pills like the downloads, instead of text links |
+| p2: add a button in step 05 that links to the form | Step 05 has “Share your story” (opens the form in a new tab) beside “See what to send” |
+| p2–3: remove the ready-to-use copy section | Done in the first pass |
+| p3: delete “Not every event needs to be in the newspaper…” and “Media coverage is never guaranteed…” | Both removed |
+| p4: replacement wording for the photography intro and all three cards | Used verbatim. Each card now has one bold lead and one paragraph |
+| p6: replacement wording for the logo rules and the writing guidance; delete the second example and the resharing line; three “Don't” bullets for the tournament card | Used verbatim. The section intro reverts to the original, which she did not mark |
+| p6: support email | Done in the first pass |
+| p7: remove the WhatsApp band | Done in the first pass |
+| p7: the story button “is the main thing we want people to do so it should be prominent” | The button is larger and has a drop shadow. Step 05 also links straight to the form |
 
 ### Still open
 

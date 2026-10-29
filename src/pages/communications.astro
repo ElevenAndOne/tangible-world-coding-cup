@@ -42,37 +42,40 @@ const mediaReasons = [
   "Your community came together to make participation possible",
 ];
 
-// From the client's "Sponsored by Amazon guidelines" Google Doc (modified 15 October 2026).
+// From the client's "Sponsored by Amazon guidelines" Google Doc (modified 15 October 2026),
+// condensed to Wendy's replacement wording in her annotated PDF of 29 October 2026.
 const photographyBrief = [
   {
     title: "The look and feel",
     points: [
-      ["Natural, bright and real.", "Capture real moments at learners’ eye level: curiosity, effort, enjoyment and teachers supporting learners. Don’t interrupt games or stage reactions."],
-      ["Show how Tangible works.", "Include the coding pieces, learners discussing a solution and testing it on a device, not just screens or posed groups."],
+      ["Natural, bright and real.", "Photograph learners at work, with teachers supporting them. Show Tangible pieces in use, not just screens. Avoid staged reactions and posed photographs."],
     ],
   },
   {
     title: "The shots we need",
     points: [
-      ["Prioritise reusable images.", "Hands arranging pieces, close-ups, overhead views and teams photographed from behind. Most of the gallery should work without recognisable faces."],
-      ["Include faces where permission allows.", "Concentration, shared decisions and celebration, across different teams, ages and genders."],
-      ["Tell the event story.", "A wide view of the room, the international connection on screen, celebrations, and Tangible and Amazon branding where present."],
+      ["Prioritise photographs we can use again.", "Capture hands arranging pieces, over-the-shoulder views, teamwork and wide shots of the event. Include recognisable faces where permission allows, plus Tangible and Amazon branding where present."],
     ],
   },
   {
     title: "Protecting children",
     points: [
-      ["Check permission first.", "Ask the organiser how permission is recorded and who must not be photographed. Respect a child’s refusal, even with a signed form, and flag any image with uncertain permission."],
-      ["Check the whole frame.", "Watch for names on badges, uniforms, worksheets and screens, and for children in the background."],
-      ["Put dignity first.", "No isolated portraits or upsetting moments. Send images privately to the organiser for review before anything is posted."],
+      ["Check permissions before taking or sharing photographs.", "Respect children’s privacy and their right not to be photographed. Watch for names, badges and personal information in the background. If permission is unclear, don’t publish the image."],
     ],
   },
 ] as const;
 
 const logoRules = [
-  "Use only the supplied Sponsored by Amazon artwork or official tournament templates.",
-  "Show it alongside the Tangible World Coding Cup logo, and keep it intact: don’t stretch, crop, recolour or separate it from the sponsorship wording.",
-  "Keep both logos readable, with clear space around them.",
+  "Use only the supplied Sponsored by Amazon artwork.",
+  "Always display it alongside the Tangible World Coding Cup logo.",
+  "Keep both logos intact, clear and readable.",
+  "Only use the sponsorship artwork for World Coding Cup communications, not general school activities.",
+];
+
+const sponsorshipDonts = [
+  "Don’t suggest Amazon sponsors your school or other activities.",
+  "Don’t use the artwork on merchandise without approval.",
+  "Refer requests for Amazon quotes or statements to the Tangible team.",
 ];
 
 ---
@@ -112,11 +115,11 @@ const logoRules = [
           <p>You don’t need to be a communications expert. Start with the channels your school already uses.</p>
         </div>
         <div class="steps-grid">
-          <article class="step-card"><span class="step-number">01</span><h3>Tell your parents</h3><p>Use our ready-to-share WhatsApp or email message.</p><Button data-template="parents" variant="quiet" size="sm">Open parent message</Button></article>
-          <article class="step-card"><span class="step-number">02</span><h3>Put it in your newsletter</h3><p>Adapt a short article with your school’s details.</p><Button data-template="newsletter" variant="quiet" size="sm">Open newsletter story</Button></article>
-          <article class="step-card"><span class="step-number">03</span><h3>Share on social media</h3><p>Choose a caption, add approved photographs and celebrate your learners.</p><Button data-template="social" variant="quiet" size="sm">Open social captions</Button></article>
-          <article class="step-card"><span class="step-number">04</span><h3>Add it to your website</h3><p>Use a ready-to-edit school news story.</p><Button data-template="website" variant="quiet" size="sm">Open website story</Button></article>
-          <article class="step-card step-card-featured"><span class="step-number">05</span><h3>Share your story with Tangible</h3><p>Send us your highlights and help learners become part of the global World Coding Cup story.</p><Button href="#submit" variant="quiet" size="sm" arrow="down">See what to send</Button></article>
+          <article class="step-card"><span class="step-number">01</span><h3>Tell your parents</h3><p>Use our ready-to-share WhatsApp or email message.</p><Button data-template="parents" size="sm">Open parent message</Button></article>
+          <article class="step-card"><span class="step-number">02</span><h3>Put it in your newsletter</h3><p>Adapt a short article with your school’s details.</p><Button data-template="newsletter" size="sm">Open newsletter story</Button></article>
+          <article class="step-card"><span class="step-number">03</span><h3>Share on social media</h3><p>Choose a caption, add approved photographs and celebrate your learners.</p><Button data-template="social" size="sm">Open social captions</Button></article>
+          <article class="step-card"><span class="step-number">04</span><h3>Add it to your website</h3><p>Use a ready-to-edit school news story.</p><Button data-template="website" size="sm">Open website story</Button></article>
+          <article class="step-card step-card-featured"><span class="step-number">05</span><h3>Share your story with Tangible</h3><p>Send us your highlights and help learners become part of the global World Coding Cup story.</p><div class="step-actions">{storySubmissionUrl && <Button href={storySubmissionUrl} target={storySubmissionFormUrl ? "_blank" : undefined} rel={storySubmissionFormUrl ? "noopener" : undefined} size="sm">Share your story{storySubmissionFormUrl && <span class="sr-only"> (opens in a new tab)</span>}</Button>}<Button href="#submit" variant="secondary" size="sm" arrow="down">See what to send</Button></div></article>
         </div>
       </Container>
     </section>
@@ -125,11 +128,10 @@ const logoRules = [
       <Container size="xl" class="px-6 portrait:px-4">
         <div class="media-layout">
         <figure class="media-image"><Image src={codingImage} alt="Learners arranging Tangible coding pieces around a phone" width={1600} widths={[480, 768, 1024, 1280, 1600]} sizes="(max-width: 850px) calc(100vw - 48px), (max-width: 1472px) 42vw, 600px" format="webp" quality={85} class="toolkit-photo" /><figcaption>Small pieces. Big ideas.</figcaption></figure>
-        <div class="media-copy"><p class="eyebrow">WANT TO GO FURTHER?</p><h2>Could this be a local news story?</h2><p>Not every event needs to be in the newspaper. Your school may have a story a local newspaper, radio station or education publication would love.</p>
+        <div class="media-copy"><p class="eyebrow">WANT TO GO FURTHER?</p><h2>Could this be a local news story?</h2>
           <h3 class="small-label">Your story may be especially interesting if:</h3>
           <ul class="check-list">{mediaReasons.map((reason) => <li>{reason}</li>)}</ul>
-          <p class="muted-note">Media coverage is never guaranteed. A well-crafted local story can help your community hear what learners achieved.</p>
-          <div class="media-actions"><div><strong>Press release</strong><span>Personalise a local announcement</span></div><Button data-template="pressRelease" variant="quiet" size="sm">Open release copy</Button><div><strong>Media email</strong><span>A short note to send with photos</span></div><Button data-template="mediaEmail" variant="quiet" size="sm">Open email copy</Button><div><strong>Who should I send it to?</strong><span>Find the right journalist or publication</span></div><Button data-template="mediaTips" variant="quiet" size="sm">See media tips</Button></div>
+          <div class="media-actions"><div><strong>Press release</strong><span>Personalise a local announcement</span></div><Button data-template="pressRelease" variant="soft" size="sm">Open release copy</Button><div><strong>Media email</strong><span>A short note to send with photos</span></div><Button data-template="mediaEmail" variant="soft" size="sm">Open email copy</Button><div><strong>Who should I send it to?</strong><span>Find the right journalist or publication</span></div><Button data-template="mediaTips" variant="soft" size="sm">See media tips</Button></div>
         </div>
         </div>
       </Container>
@@ -138,7 +140,7 @@ const logoRules = [
     <section id="photography" class="section-pad bg-ice">
       <Container size="xl" class="px-6 portrait:px-4">
         <div class="photo-safety">
-          <div class="photo-intro"><div><p class="eyebrow">PHOTOGRAPHY BRIEF · 5 NOVEMBER 2026</p><h2>Take photographs that tell the story</h2></div><p>Capture learners working things out together, for event coverage and future Tangible communications. Share this brief with whoever is taking photographs on the day.</p></div>
+          <div class="photo-intro"><div><p class="eyebrow">PHOTOGRAPHY BRIEF · 5 NOVEMBER 2026</p><h2>Take photographs that tell the story</h2></div><p>Capture learners coding, solving problems and working together. Share these tips with whoever is taking photographs on the day.</p></div>
           <div class="brief-grid">{photographyBrief.map((group) => (
             <article class="brief-card"><h3>{group.title}</h3><ul>{group.points.map(([lead, text]) => <li><strong>{lead}</strong> {text}</li>)}</ul></article>
           ))}</div>
@@ -163,11 +165,11 @@ const logoRules = [
 
     <section id="sponsor-guidelines" class="section-pad bg-ice">
       <Container size="xl" class="px-6 portrait:px-4">
-        <div class="section-heading"><p class="eyebrow">SPONSORED BY AMAZON</p><h2>Amazon sponsorship guidelines</h2><p>Amazon sponsors the Tangible World Coding Cup 2026. Follow these guidelines whenever you share news about the tournament.</p></div>
+        <div class="section-heading"><p class="eyebrow">SPONSORED BY AMAZON</p><h2>Amazon sponsorship guidelines</h2><p>Amazon sponsors the Tangible World Coding Cup 2026. Please use these guidelines when promoting your participation or sharing stories and results from the tournament.</p></div>
         <div class="guideline-grid">
           <article class="guideline-card"><span class="card-icon"><Icon name="image" /></span><h3>Using the logo</h3><ul class="check-list">{logoRules.map((rule) => <li>{rule}</li>)}</ul></article>
-          <article class="guideline-card"><span class="card-icon"><Icon name="pen-line" /></span><h3>Acknowledging Amazon in writing</h3><p>Include <strong>“sponsored by Amazon”</strong> when you introduce the tournament in press releases, articles, newsletters and social posts, even when the logo is in the image.</p><p class="example-label">For example</p><p class="example">“Our learners are taking part in the Tangible World Coding Cup 2026, sponsored by Amazon.”</p></article>
-          <article class="guideline-card"><span class="card-icon"><Icon name="link" /></span><h3>Keep the sponsorship connected to the tournament</h3><p>Use the artwork only for Tangible World Coding Cup 2026 communications, not for general school materials, other events or fundraising.</p><p>Check with the Tangible team before using it on merchandise, and direct requests for Amazon quotes or statements to them.</p></article>
+          <article class="guideline-card"><span class="card-icon"><Icon name="pen-line" /></span><h3>Acknowledging Amazon in writing</h3><p>Include <strong>“sponsored by Amazon”</strong> in press releases, newsletters, website articles and original social posts, even when the logo appears in the image.</p><p class="example-label">For example</p><p class="example">“Our learners are taking part in the Tangible World Coding Cup 2026, sponsored by Amazon.”</p></article>
+          <article class="guideline-card"><span class="card-icon"><Icon name="link" /></span><h3>Keep the sponsorship connected to the tournament</h3><ul class="dot-list">{sponsorshipDonts.map((rule) => <li>{rule}</li>)}</ul></article>
         </div>
         <aside class="guideline-contact" aria-label="Sponsorship and branding support"><p><strong>Have a question or need support?</strong> If you’re planning a joint announcement or need help with branding, contact the Tangible team at <a href="mailto:support@levafoundation.org">support@levafoundation.org</a>.</p></aside>
       </Container>
@@ -178,7 +180,7 @@ const logoRules = [
         <div class="submit-grid">
         <div><p class="eyebrow">AFTER THE EVENT</p><h2>Now tell us what happened.</h2><p>Every local story helps us build the global World Coding Cup story. Gather these details before you send your highlights.</p><ul class="submit-list"><li>Your school or organisation</li><li>Your city and country</li><li>Number of learners and teams</li><li>One memorable moment</li><li>Your best 3–5 photographs</li><li>A short video if you have one</li><li>Links to anything you’ve shared</li><li>Links to any media coverage</li><li>Confirmation that permissions are in place</li></ul>
           {storySubmissionUrl ? (
-            <Button href={storySubmissionUrl} target={storySubmissionFormUrl ? "_blank" : undefined} rel={storySubmissionFormUrl ? "noopener" : undefined}>Share your World Coding Cup story{storySubmissionFormUrl && <span class="sr-only"> (opens in a new tab)</span>}</Button>
+            <Button href={storySubmissionUrl} class="submit-cta" target={storySubmissionFormUrl ? "_blank" : undefined} rel={storySubmissionFormUrl ? "noopener" : undefined}>Share your World Coding Cup story{storySubmissionFormUrl && <span class="sr-only"> (opens in a new tab)</span>}</Button>
           ) : (
             <><Button disabled aria-describedby="submission-status">Story submissions opening soon</Button><p id="submission-status" class="submit-hint">We’ll add the story submission link here as soon as it is confirmed. Keep your highlights and approved photographs ready.</p></>
           )}</div>
@@ -213,7 +215,7 @@ const logoRules = [
   .section-heading>p:last-child,.media-copy>p:not(.eyebrow),.photo-intro>p,.submit-grid>div:first-child>p:not(.eyebrow) { color:var(--color-smoke); font-size:1.05rem; line-height:1.6; }
   .steps-grid { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:1rem; }
   .step-card { display:flex; flex-direction:column; align-items:flex-start; grid-column:span 2; min-height:15rem; padding:1.5rem; border:1px solid #dce8eb; border-radius:1rem; background:white; }
-  .step-card :global(.group) { margin-top:auto; }
+  .step-card > :global(.group),.step-actions { margin-top:auto; } .step-actions { display:flex; flex-wrap:wrap; gap:.75rem; }
   .step-card:nth-child(4),.step-card:nth-child(5) { grid-column:span 3; } .step-card-featured { background:var(--color-ice); }
   .step-number { display:inline-block; margin-bottom:1.25rem; color:var(--color-teal); font-size:.82rem; font-weight:800; letter-spacing:.1em; }
   .step-card h3,.resource-card h3,.guideline-card h3 { margin-bottom:.45rem; font-size:1.2rem; font-weight:800; } .step-card p,.resource-card p,.guideline-card p { color:var(--color-smoke); line-height:1.5; }
@@ -223,7 +225,6 @@ const logoRules = [
   .media-copy h2 { max-width:38rem; } .small-label { margin:1.5rem 0 .7rem; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; }
   .check-list,.submit-list { display:grid; gap:.6rem; margin:0; padding:0; list-style:none; }
   .check-list li,.submit-list li { position:relative; padding-left:1.5rem; line-height:1.45; } .check-list li:before,.submit-list li:before { position:absolute; left:0; color:var(--color-teal); content:"✓"; font-weight:900; }
-  .muted-note { margin-top:1.2rem; color:var(--color-smoke); font-size:.9rem; }
   .media-actions { display:grid; grid-template-columns:1fr auto; align-items:center; gap:1rem; margin-top:1.6rem; padding-top:1.2rem; border-top:1px solid #dfe9ec; } .media-actions div { display:grid; } .media-actions div span { color:var(--color-smoke); font-size:.85rem; }
   .photo-safety { display:grid; gap:2.5rem; } .photo-intro { display:grid; grid-template-columns:1.15fr .85fr; align-items:end; gap:1rem 4rem; } .photo-intro h2 { margin-bottom:0; } .photo-intro>p { margin:0; }
   .brief-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; } .brief-card { padding:1.5rem; border-radius:1rem; background:white; } .brief-card h3 { margin-bottom:1rem; font-size:1.2rem; font-weight:800; }
@@ -232,12 +233,13 @@ const logoRules = [
   .resource-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; margin-bottom:2.5rem; } .resource-card { display:flex; min-height:14.5rem; flex-direction:column; padding:1.4rem; border:1px solid #e1eaed; border-radius:1rem; }
   .resource-card h3 { font-size:1.05rem; } .resource-card p { margin-bottom:1rem; font-size:.92rem; } .resource-bottom { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.5rem; margin-top:auto; color:#68777c; font-size:.78rem; font-weight:700; }
   .customise { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1.25rem 2rem; padding:1.5rem; border-radius:1rem; background:var(--color-ice); } .customise-copy { flex:1 1 28rem; min-width:0; } .customise .eyebrow { margin-bottom:.5rem; } .customise h3 { margin-bottom:.45rem; font-size:1.2rem; font-weight:800; } .customise p:last-child { margin:0; color:var(--color-smoke); line-height:1.5; }
+  .dot-list { display:grid; gap:.6rem; margin:0; padding-left:1.1rem; list-style:disc; color:var(--color-smoke); font-size:.95rem; line-height:1.5; } .dot-list li::marker { color:var(--color-teal); }
   .guideline-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; } .guideline-card { display:flex; flex-direction:column; align-items:flex-start; padding:1.5rem; border-radius:1.1rem; background:white; box-shadow:0 .4rem 1.5rem #173b4b0a; }
   .guideline-card h3 { margin-bottom:1rem; } .guideline-card p { margin-bottom:.9rem; font-size:.95rem; } .guideline-card p:last-child { margin-bottom:0; } .guideline-card p strong { color:var(--color-ink); } .guideline-card .check-list { font-size:.95rem; }
   .guideline-card .example-label { margin:.3rem 0 .4rem; color:var(--color-ink); font-size:.75rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; } .guideline-card .example { width:100%; padding:.75rem 1rem; border-radius:.5rem; background:var(--color-ice); color:var(--color-ink); font-weight:600; }
   .guideline-contact { max-width:56rem; margin:1.5rem auto 0; padding:1.1rem 1.5rem; border-radius:1rem; background:white; } .guideline-contact p { margin:0; color:var(--color-smoke); line-height:1.55; } .guideline-contact strong { color:var(--color-ink); } .guideline-contact a { overflow-wrap:anywhere; }
   .submit-section { overflow:hidden; background:var(--color-teal); color:white; padding:6rem 0; } .submit-grid { display:grid; grid-template-columns:1fr .9fr; align-items:center; gap:4rem; } .submit-grid .eyebrow { color:var(--color-lime); } .submit-grid h2 { max-width:38rem; } .submit-grid>div:first-child>p:not(.eyebrow) { max-width:40rem; color:#ebf6f7; }
-  .submit-list { margin:1.5rem 0 2rem; } .submit-list li:before { color:var(--color-lime); } .submit-hint { margin:.8rem 0 0; font-size:.82rem!important; }
+  .submit-list { margin:1.5rem 0 2rem; } .submit-grid :global(.submit-cta) { padding:.75rem .75rem .75rem 2rem; font-size:1.3rem; box-shadow:0 .75rem 2rem #0422294d; } .submit-list li:before { color:var(--color-lime); } .submit-hint { margin:.8rem 0 0; font-size:.82rem!important; }
   .submit-art { overflow:hidden; border-radius:1.25rem; background:var(--color-teal-deep); } .submit-quote { padding:1.25rem 1.5rem; font-family:var(--font-display); font-size:clamp(1.125rem,1.5vw,1.5rem); line-height:1.3; } .submit-quote strong { color:var(--color-lime); }
   @media(max-width:850px) { .hero-pattern { max-width:none; width:42rem; right:-18rem; top:2%; opacity:.12; } .hero-grid,.media-layout,.submit-grid { grid-template-columns:1fr; gap:2.5rem; } .brief-grid,.guideline-grid { grid-template-columns:1fr; } .photo-intro { grid-template-columns:1fr; } .hero-photo,.media-image,.submit-art { width:100%; max-width:42rem; margin-inline:auto; } .resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .photo-safety { gap:1.5rem; } .section-pad,.submit-section { padding:4.5rem 0; } }
   @media(max-width:600px) { .hero { padding:3.6rem 0; } .hero-grid { gap:2rem; } h1 { font-size:clamp(2.7rem,12.5vw,4rem); } .hero-intro { font-size:1.05rem; } .hero-actions { gap:1.3rem; } .section-pad,.submit-section { padding:3.5rem 0; } .section-heading { margin-bottom:2rem; text-align:left; } .steps-grid { grid-template-columns:1fr; } .step-card,.step-card:nth-child(4),.step-card:nth-child(5) { grid-column:auto; min-height:0; } .resource-grid { grid-template-columns:1fr; } .resource-card { min-height:0; } .media-actions { grid-template-columns:1fr; } .media-actions :global(button) { justify-self:start; } .safety-callout { align-items:flex-start; } }
