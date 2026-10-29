@@ -106,27 +106,6 @@ const sponsorshipDonts = [
       </Container>
     </section>
 
-    <section id="submit" class="submit-section" aria-labelledby="submit-heading">
-      <Container size="xl" class="px-6 portrait:px-4">
-        <div class="submit-grid">
-          <div class="submit-copy">
-            <p class="eyebrow">AFTER THE EVENT</p>
-            <h2 id="submit-heading">Now tell us what happened.</h2>
-            <p>Every local story helps us build the global World Coding Cup story. Share your highlights with Tangible.</p>
-            {storySubmissionUrl ? (
-              <Button href={storySubmissionUrl} class="submit-cta" target={storySubmissionFormUrl ? "_blank" : undefined} rel={storySubmissionFormUrl ? "noopener" : undefined}>Share your World Coding Cup story{storySubmissionFormUrl && <span class="sr-only"> (opens in a new tab)</span>}</Button>
-            ) : (
-              <><Button disabled aria-describedby="submission-status">Story submissions opening soon</Button><p id="submission-status" class="submit-hint">We’ll add the story submission link here as soon as it is confirmed. Keep your highlights and approved photographs ready.</p></>
-            )}
-          </div>
-          <div class="submit-checklist">
-            <h3>Gather these details before you send</h3>
-            <ul class="submit-list"><li>Your school or organisation</li><li>Your city and country</li><li>Number of learners and teams</li><li>One memorable moment</li><li>Your best 3–5 photographs</li><li>A short video if you have one</li><li>Links to anything you’ve shared</li><li>Links to any media coverage</li><li>Confirmation that permissions are in place</li></ul>
-          </div>
-        </div>
-      </Container>
-    </section>
-
     <section id="start-here" class="section-pad bg-white">
       <Container size="xl" class="px-6 portrait:px-4">
         <div class="section-heading">
@@ -139,7 +118,7 @@ const sponsorshipDonts = [
           <article class="step-card"><span class="step-number">02</span><h3>Put it in your newsletter</h3><p>Adapt a short article with your school’s details.</p><Button data-template="newsletter" size="sm">Open newsletter story</Button></article>
           <article class="step-card"><span class="step-number">03</span><h3>Share on social media</h3><p>Choose a caption, add approved photographs and celebrate your learners.</p><Button data-template="social" size="sm">Open social captions</Button></article>
           <article class="step-card"><span class="step-number">04</span><h3>Add it to your website</h3><p>Use a ready-to-edit school news story.</p><Button data-template="website" size="sm">Open website story</Button></article>
-          <article class="step-card step-card-featured"><span class="step-number">05</span><h3>Share your story with Tangible</h3><p>Send us your highlights and help learners become part of the global World Coding Cup story.</p><div class="step-actions">{storySubmissionUrl && <Button href={storySubmissionUrl} target={storySubmissionFormUrl ? "_blank" : undefined} rel={storySubmissionFormUrl ? "noopener" : undefined} size="sm">Share your story{storySubmissionFormUrl && <span class="sr-only"> (opens in a new tab)</span>}</Button>}<Button href="#submit" variant="secondary" size="sm">See what to send</Button></div></article>
+          <article class="step-card step-card-featured"><span class="step-number">05</span><h3>Share your story with Tangible</h3><p>Send us your highlights and help learners become part of the global World Coding Cup story.</p><div class="step-actions">{storySubmissionUrl && <Button href={storySubmissionUrl} target={storySubmissionFormUrl ? "_blank" : undefined} rel={storySubmissionFormUrl ? "noopener" : undefined} size="sm">Share your story{storySubmissionFormUrl && <span class="sr-only"> (opens in a new tab)</span>}</Button>}<Button href="#submit" variant="secondary" size="sm" arrow="down">See what to send</Button></div></article>
         </div>
       </Container>
     </section>
@@ -192,6 +171,26 @@ const sponsorshipDonts = [
           <article class="guideline-card"><span class="card-icon"><Icon name="link" /></span><h3>Keep the sponsorship connected to the tournament</h3><ul class="dot-list">{sponsorshipDonts.map((rule) => <li>{rule}</li>)}</ul></article>
         </div>
         <aside class="guideline-contact" aria-label="Sponsorship and branding support"><p><strong>Have a question or need support?</strong> If you’re planning a joint announcement or need help with branding, contact the Tangible team at <a href="mailto:support@levafoundation.org">support@levafoundation.org</a>.</p></aside>
+      </Container>
+    </section>
+    <section id="submit" class="submit-section" aria-labelledby="submit-heading">
+      <Container size="xl" class="px-6 portrait:px-4">
+        <div class="submit-grid">
+          <div class="submit-copy">
+            <p class="eyebrow">AFTER THE EVENT</p>
+            <h2 id="submit-heading">Now tell us what happened.</h2>
+            <p>Every local story helps us build the global World Coding Cup story. Share your highlights with Tangible.</p>
+            {storySubmissionUrl ? (
+              <Button href={storySubmissionUrl} class="submit-cta" target={storySubmissionFormUrl ? "_blank" : undefined} rel={storySubmissionFormUrl ? "noopener" : undefined}>Share your World Coding Cup story{storySubmissionFormUrl && <span class="sr-only"> (opens in a new tab)</span>}</Button>
+            ) : (
+              <><Button disabled aria-describedby="submission-status">Story submissions opening soon</Button><p id="submission-status" class="submit-hint">We’ll add the story submission link here as soon as it is confirmed. Keep your highlights and approved photographs ready.</p></>
+            )}
+          </div>
+          <div class="submit-checklist">
+            <h3>Gather these details before you send</h3>
+            <ul class="submit-list"><li>Your school or organisation</li><li>Your city and country</li><li>Number of learners and teams</li><li>One memorable moment</li><li>Your best 3–5 photographs</li><li>A short video if you have one</li><li>Links to anything you’ve shared</li><li>Links to any media coverage</li><li>Confirmation that permissions are in place</li></ul>
+          </div>
+        </div>
       </Container>
     </section>
   <TemplateDialog />
