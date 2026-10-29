@@ -42,19 +42,19 @@ The Tangible World Coding Cup is a LEVA Foundation Programme. Find out more at w
   social: {
     category: "Before, during and after-event captions",
     title: "Social Media",
-    hint: "Choose the caption that matches your timing. Replace [BRACKETED] text and add your own photos. Replace [APPROVED AMAZON HASHTAG] with the confirmed hashtag when available.",
+    hint: "Choose the caption that matches your timing. Replace [BRACKETED] text and add your own photos.",
     text: `BEFORE THE EVENT 📣
-We're excited to be part of the Tangible World Coding Cup 2026, sponsored by Amazon! On [DATE], [NUMBER OF LEARNERS] learners from [SCHOOL NAME] will compete alongside thousands of students from more than 30 countries. We can't wait! 🌍 #WorldCodingCup #TangibleWCC [APPROVED AMAZON HASHTAG]
+We're excited to be part of the Tangible World Coding Cup 2026, sponsored by Amazon! On [DATE], [NUMBER OF LEARNERS] learners from [SCHOOL NAME] will compete alongside thousands of students from more than 30 countries. We can't wait! 🌍 #WorldCodingCup #TangibleWCC #AmazonInCommunities
 
 — — —
 
 DURING THE EVENT ⚡
-We're live at the Tangible World Coding Cup 2026, sponsored by Amazon! Our teams are working hard, thinking fast and having a brilliant time. So proud of every learner here today. 🧩 #WorldCodingCup #TangibleWCC #[CITY]
+We're live at the Tangible World Coding Cup 2026, sponsored by Amazon! Our teams are working hard, thinking fast and having a brilliant time. So proud of every learner here today. 🧩 #WorldCodingCup #TangibleWCC #AmazonInCommunities #[CITY]
 
 — — —
 
 AFTER THE EVENT 🎉
-Our learners joined young problem-solvers from around the world for the Tangible World Coding Cup 2026, sponsored by Amazon. [ADD YOUR RESULT OR A MEMORABLE MOMENT HERE.] We are so proud of every one of them. 🏆 #WorldCodingCup #TangibleWCC [APPROVED AMAZON HASHTAG]`,
+Our learners joined young problem-solvers from around the world for the Tangible World Coding Cup 2026, sponsored by Amazon. [ADD YOUR RESULT OR A MEMORABLE MOMENT HERE.] We are so proud of every one of them. 🏆 #WorldCodingCup #TangibleWCC #AmazonInCommunities`,
   },
   website: {
     category: "Ready-to-edit news article",

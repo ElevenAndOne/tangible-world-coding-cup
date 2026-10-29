@@ -1,11 +1,19 @@
 ---
 import Section from "./Section.astro";
 import Container from "./Container.astro";
+
+interface Props {
+  /** Shows the "Stay updated on our WhatsApp Channel" band. */
+  whatsappCta?: boolean;
+}
+
+const { whatsappCta = true } = Astro.props;
 ---
 
 <footer>
   <Section class="bg-lagoon py-16 tablet:py-12 landscape:py-10">
     <Container size="xl" class="px-8 tablet:px-6 landscape:px-4">
+      {whatsappCta && (<>
       <div
         class="flex flex-wrap items-center justify-between gap-10 tablet:flex-col tablet:text-center landscape:gap-6"
       >
@@ -56,6 +64,7 @@ import Container from "./Container.astro";
       </div>
 
       <div class="mb-14 mt-16 h-px w-full bg-white/30 tablet:mb-10 tablet:mt-12" aria-hidden="true"></div>
+      </>)}
 
       <div class="w-30 text-white">
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 151 20" fill="none">

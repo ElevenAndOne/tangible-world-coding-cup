@@ -29,6 +29,9 @@ const resources = [
   { icon: "monitor", title: "Website graphics", detail: "Banner and inline versions", format: "ZIP · PNG", file: "world-coding-cup-website-graphics.zip" },
 ] as const;
 
+// Editable Canva template shared by Wendy on 21 October 2026. Canva opens a copy, so the original stays unchanged.
+const canvaTemplateUrl = "https://canva.link/e0ils4wreth5tmo";
+
 const mediaReasons = [
   "Your learners are representing their town, region or country",
   "This is the first time your school has done something like this",
@@ -44,33 +47,32 @@ const photographyBrief = [
   {
     title: "The look and feel",
     points: [
-      ["Natural, bright and real.", "Look for real interactions at learners’ eye level. Show curiosity, effort and enjoyment, with teachers supporting learners. Avoid interrupting games or staging reactions."],
-      ["Show how Tangible works.", "Include physical coding pieces, learners discussing a solution and testing it on a device. Avoid a gallery dominated by screens, posed groups or prize handovers."],
+      ["Natural, bright and real.", "Capture real moments at learners’ eye level: curiosity, effort, enjoyment and teachers supporting learners. Don’t interrupt games or stage reactions."],
+      ["Show how Tangible works.", "Include the coding pieces, learners discussing a solution and testing it on a device, not just screens or posed groups."],
     ],
   },
   {
     title: "The shots we need",
     points: [
-      ["Prioritise reusable images.", "Hands arranging pieces, close-ups of the game, overhead views and teams photographed from behind or over a shoulder. Aim for most of the gallery to work without recognisable faces."],
-      ["Include faces where permission allows.", "Capture concentration, shared decisions, encouragement and celebration. Include different teams, ages and genders, with teachers and facilitators in action too."],
-      ["Tell the event story.", "Get a wide view of the room, teams taking part, the international connection on screen where visible, and key celebrations or awards. Include clear Tangible and Amazon branding where present, plus clean game shots without event signage for future use."],
+      ["Prioritise reusable images.", "Hands arranging pieces, close-ups, overhead views and teams photographed from behind. Most of the gallery should work without recognisable faces."],
+      ["Include faces where permission allows.", "Concentration, shared decisions and celebration, across different teams, ages and genders."],
+      ["Tell the event story.", "A wide view of the room, the international connection on screen, celebrations, and Tangible and Amazon branding where present."],
     ],
   },
   {
     title: "Protecting children",
     points: [
-      ["Check before shooting.", "Ask the organiser how photography permission is recorded and how to identify anyone who must not be photographed. If permission is unclear, check first. Keep a teacher or organiser present and respect a child’s refusal, even when a form has been signed. Flag any image with uncertain permission separately for review."],
-      ["Check the whole frame.", "Rear views and hands are not automatically anonymous. Watch for names on badges, uniforms, worksheets and screens, as well as children in the background. Do not photograph permission forms, contact details or login information."],
-      ["Put dignity first.", "Do not isolate children for portraits or photograph distress, embarrassment or vulnerable moments. Do not ask children to share personal details. Send images privately to the organiser for review; do not post or use them in a portfolio without approval."],
+      ["Check permission first.", "Ask the organiser how permission is recorded and who must not be photographed. Respect a child’s refusal, even with a signed form, and flag any image with uncertain permission."],
+      ["Check the whole frame.", "Watch for names on badges, uniforms, worksheets and screens, and for children in the background."],
+      ["Put dignity first.", "No isolated portraits or upsetting moments. Send images privately to the organiser for review before anything is posted."],
     ],
   },
 ] as const;
 
 const logoRules = [
   "Use only the supplied Sponsored by Amazon artwork or official tournament templates.",
-  "The Sponsored by Amazon logo must appear on the same material as the Tangible World Coding Cup logo, with a clear connection between them.",
-  "Keep the artwork intact. Do not stretch, crop, recolour or recreate it, or separate the Amazon logo from the sponsorship wording.",
-  "Keep both logos readable, with clear space around them and a background that makes them easy to see.",
+  "Show it alongside the Tangible World Coding Cup logo, and keep it intact: don’t stretch, crop, recolour or separate it from the sponsorship wording.",
+  "Keep both logos readable, with clear space around them.",
 ];
 
 ---
@@ -119,18 +121,6 @@ const logoRules = [
       </Container>
     </section>
 
-    <section class="section-pad bg-ice">
-      <Container size="xl" class="px-6 portrait:px-4">
-        <div class="section-heading"><p class="eyebrow">READY-TO-USE COPY</p><h2>We’ve done most of the writing for you.</h2><p>Choose what you need, add your school’s details and share it through the channels you already use.</p></div>
-        <div class="copy-grid">
-          <article class="copy-card"><span class="card-icon"><Icon name="message-circle" /></span><h3>Parents</h3><p>WhatsApp message and parent email</p><Button data-template="parents" aria-label="Open parent message" variant="soft" size="sm" class="copy-cta">Get the copy</Button></article>
-          <article class="copy-card"><span class="card-icon"><Icon name="newspaper" /></span><h3>School newsletter</h3><p>Ready-to-edit newsletter article</p><Button data-template="newsletter" aria-label="Open newsletter story" variant="soft" size="sm" class="copy-cta">Get the copy</Button></article>
-          <article class="copy-card"><span class="card-icon"><Icon name="smartphone" /></span><h3>Social media</h3><p>Before, during and after-event captions</p><Button data-template="social" aria-label="Open social captions" variant="soft" size="sm" class="copy-cta">Get the copy</Button></article>
-          <article class="copy-card"><span class="card-icon"><Icon name="monitor" /></span><h3>School website</h3><p>Ready-to-edit news article</p><Button data-template="website" aria-label="Open website story" variant="soft" size="sm" class="copy-cta">Get the copy</Button></article>
-        </div>
-      </Container>
-    </section>
-
     <section class="section-pad bg-white">
       <Container size="xl" class="px-6 portrait:px-4">
         <div class="media-layout">
@@ -148,7 +138,7 @@ const logoRules = [
     <section id="photography" class="section-pad bg-ice">
       <Container size="xl" class="px-6 portrait:px-4">
         <div class="photo-safety">
-          <div class="photo-intro"><div><p class="eyebrow">PHOTOGRAPHY BRIEF · 5 NOVEMBER 2026</p><h2>Take photographs that tell the story</h2></div><p>Capture learners working things out together: hands-on coding, concentration, collaboration and the excitement of competing with teams around the world. We need images for event coverage and for future Tangible communications. Share this brief with whoever is taking photographs on the day.</p></div>
+          <div class="photo-intro"><div><p class="eyebrow">PHOTOGRAPHY BRIEF · 5 NOVEMBER 2026</p><h2>Take photographs that tell the story</h2></div><p>Capture learners working things out together, for event coverage and future Tangible communications. Share this brief with whoever is taking photographs on the day.</p></div>
           <div class="brief-grid">{photographyBrief.map((group) => (
             <article class="brief-card"><h3>{group.title}</h3><ul>{group.points.map(([lead, text]) => <li><strong>{lead}</strong> {text}</li>)}</ul></article>
           ))}</div>
@@ -164,18 +154,22 @@ const logoRules = [
           const size = fileSize(resource.file);
           return <article class="resource-card"><span class="card-icon"><Icon name={resource.icon} /></span><h3>{resource.title}</h3><p>{resource.detail}</p><div class="resource-bottom"><span>{resource.format} · {size}</span><Button href={`/downloads/${resource.file}`} download={resource.file} icon="download" variant="soft" size="sm" aria-label={`Download ${resource.title} (${resource.format.split(" · ")[0]}, ${size})`}>Download</Button></div></article>;
         })}</div>
+        <div class="customise">
+          <div class="customise-copy"><p class="eyebrow">PERSONALISE YOUR OWN</p><h3>Social media templates</h3><p>Add your school’s name, photographs and details to an editable Canva template, then download it for your own posts. Canva opens your own copy, so the original stays unchanged.</p></div>
+          <Button href={canvaTemplateUrl} target="_blank" rel="noopener" variant="soft" size="sm">Customise in Canva<span class="sr-only"> (opens in a new tab)</span></Button>
+        </div>
       </Container>
     </section>
 
     <section id="sponsor-guidelines" class="section-pad bg-ice">
       <Container size="xl" class="px-6 portrait:px-4">
-        <div class="section-heading"><p class="eyebrow">SPONSORED BY AMAZON</p><h2>Amazon sponsorship guidelines</h2><p>Amazon sponsors the Tangible World Coding Cup 2026. Please use these guidelines when promoting your participation or sharing stories and results from the tournament.</p></div>
+        <div class="section-heading"><p class="eyebrow">SPONSORED BY AMAZON</p><h2>Amazon sponsorship guidelines</h2><p>Amazon sponsors the Tangible World Coding Cup 2026. Follow these guidelines whenever you share news about the tournament.</p></div>
         <div class="guideline-grid">
           <article class="guideline-card"><span class="card-icon"><Icon name="image" /></span><h3>Using the logo</h3><ul class="check-list">{logoRules.map((rule) => <li>{rule}</li>)}</ul></article>
-          <article class="guideline-card"><span class="card-icon"><Icon name="pen-line" /></span><h3>Acknowledging Amazon in writing</h3><p>Include <strong>“sponsored by Amazon”</strong> when introducing the tournament in press releases, website articles, newsletters and original social posts. Include this in the text even when the logo appears in the accompanying image.</p><p class="example-label">For example</p><p class="example">“Our learners are taking part in the Tangible World Coding Cup 2026, sponsored by Amazon.”</p><p class="example-label">For results and stories afterwards</p><p class="example">“Our learners joined teams from around the world for the Tangible World Coding Cup 2026, sponsored by Amazon.”</p><p>When resharing an official tournament post, keep its sponsor acknowledgement visible.</p></article>
-          <article class="guideline-card"><span class="card-icon"><Icon name="link" /></span><h3>Keep the sponsorship connected to the tournament</h3><p>Use the sponsorship artwork only for communications about the Tangible World Coding Cup 2026, including promotion, participation and coverage afterwards.</p><p>Do not use it on general school or organisation materials, other events or fundraising appeals. Avoid wording or layouts that suggest Amazon sponsors your school, organisation or other activities.</p><p>Please check with the Tangible team before using the artwork on merchandise or adapting it for another purpose. Direct requests for Amazon quotes or statements to the Tangible team.</p></article>
+          <article class="guideline-card"><span class="card-icon"><Icon name="pen-line" /></span><h3>Acknowledging Amazon in writing</h3><p>Include <strong>“sponsored by Amazon”</strong> when you introduce the tournament in press releases, articles, newsletters and social posts, even when the logo is in the image.</p><p class="example-label">For example</p><p class="example">“Our learners are taking part in the Tangible World Coding Cup 2026, sponsored by Amazon.”</p></article>
+          <article class="guideline-card"><span class="card-icon"><Icon name="link" /></span><h3>Keep the sponsorship connected to the tournament</h3><p>Use the artwork only for Tangible World Coding Cup 2026 communications, not for general school materials, other events or fundraising.</p><p>Check with the Tangible team before using it on merchandise, and direct requests for Amazon quotes or statements to them.</p></article>
         </div>
-        <aside class="guideline-contact" aria-label="Sponsorship and branding support"><p><strong>Have a question or need support?</strong> If you’re planning a joint announcement or need help with branding, contact Wendy van Eyck at <a href="mailto:wendy@levafoundation.org">wendy@levafoundation.org</a>.</p></aside>
+        <aside class="guideline-contact" aria-label="Sponsorship and branding support"><p><strong>Have a question or need support?</strong> If you’re planning a joint announcement or need help with branding, contact the Tangible team at <a href="mailto:support@levafoundation.org">support@levafoundation.org</a>.</p></aside>
       </Container>
     </section>
 
@@ -193,7 +187,7 @@ const logoRules = [
       </Container>
     </section>
   <TemplateDialog />
-  <Footer slot="footer" />
+  <Footer slot="footer" whatsappCta={false} />
 </BaseLayout>
 
 <style>
@@ -222,11 +216,9 @@ const logoRules = [
   .step-card :global(.group) { margin-top:auto; }
   .step-card:nth-child(4),.step-card:nth-child(5) { grid-column:span 3; } .step-card-featured { background:var(--color-ice); }
   .step-number { display:inline-block; margin-bottom:1.25rem; color:var(--color-teal); font-size:.82rem; font-weight:800; letter-spacing:.1em; }
-  .step-card h3,.copy-card h3,.resource-card h3,.guideline-card h3 { margin-bottom:.45rem; font-size:1.2rem; font-weight:800; } .step-card p,.copy-card p,.resource-card p,.guideline-card p { color:var(--color-smoke); line-height:1.5; }
+  .step-card h3,.resource-card h3,.guideline-card h3 { margin-bottom:.45rem; font-size:1.2rem; font-weight:800; } .step-card p,.resource-card p,.guideline-card p { color:var(--color-smoke); line-height:1.5; }
   .section-heading a,.guideline-contact a { color:var(--color-teal-deep); font-weight:700; text-decoration:underline; text-underline-offset:.15em; } .section-heading a:hover,.guideline-contact a:hover { color:var(--color-ink); }
-  .copy-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; }
-  .copy-card { display:flex; min-height:14rem; flex-direction:column; align-items:flex-start; padding:1.5rem; border-radius:1.1rem; background:white; box-shadow:0 .4rem 1.5rem #173b4b0a; }
-  .copy-card p { margin-bottom:1.5rem; } .copy-card :global(.copy-cta) { margin-top:auto; } .card-icon { display:inline-flex; align-items:center; justify-content:center; width:2.75rem; height:2.75rem; margin-bottom:1rem; border-radius:.75rem; background:var(--color-ice); color:var(--color-teal-deep); }
+  .card-icon { display:inline-flex; align-items:center; justify-content:center; width:2.75rem; height:2.75rem; margin-bottom:1rem; border-radius:.75rem; background:var(--color-ice); color:var(--color-teal-deep); }
   .media-layout { display:grid; grid-template-columns:.9fr 1.1fr; align-items:center; gap:4rem; } .media-image { overflow:hidden; border-radius:1.25rem; background:var(--color-ice); }
   .media-copy h2 { max-width:38rem; } .small-label { margin:1.5rem 0 .7rem; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; }
   .check-list,.submit-list { display:grid; gap:.6rem; margin:0; padding:0; list-style:none; }
@@ -239,6 +231,7 @@ const logoRules = [
   .safety-callout { grid-column:1/-1; display:flex; align-items:center; gap:1rem; max-width:56rem; margin:0 auto; padding:1.1rem 1.5rem; border-radius:1rem; background:#1c292d; color:white; } .safety-callout>span { display:flex; flex-shrink:0; color:var(--color-lime); } .safety-callout p { margin:0; line-height:1.55; } .safety-callout strong { color:var(--color-lime); }
   .resource-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; margin-bottom:2.5rem; } .resource-card { display:flex; min-height:14.5rem; flex-direction:column; padding:1.4rem; border:1px solid #e1eaed; border-radius:1rem; }
   .resource-card h3 { font-size:1.05rem; } .resource-card p { margin-bottom:1rem; font-size:.92rem; } .resource-bottom { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.5rem; margin-top:auto; color:#68777c; font-size:.78rem; font-weight:700; }
+  .customise { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1.25rem 2rem; padding:1.5rem; border-radius:1rem; background:var(--color-ice); } .customise-copy { flex:1 1 28rem; min-width:0; } .customise .eyebrow { margin-bottom:.5rem; } .customise h3 { margin-bottom:.45rem; font-size:1.2rem; font-weight:800; } .customise p:last-child { margin:0; color:var(--color-smoke); line-height:1.5; }
   .guideline-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; } .guideline-card { display:flex; flex-direction:column; align-items:flex-start; padding:1.5rem; border-radius:1.1rem; background:white; box-shadow:0 .4rem 1.5rem #173b4b0a; }
   .guideline-card h3 { margin-bottom:1rem; } .guideline-card p { margin-bottom:.9rem; font-size:.95rem; } .guideline-card p:last-child { margin-bottom:0; } .guideline-card p strong { color:var(--color-ink); } .guideline-card .check-list { font-size:.95rem; }
   .guideline-card .example-label { margin:.3rem 0 .4rem; color:var(--color-ink); font-size:.75rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; } .guideline-card .example { width:100%; padding:.75rem 1rem; border-radius:.5rem; background:var(--color-ice); color:var(--color-ink); font-weight:600; }
@@ -246,7 +239,7 @@ const logoRules = [
   .submit-section { overflow:hidden; background:var(--color-teal); color:white; padding:6rem 0; } .submit-grid { display:grid; grid-template-columns:1fr .9fr; align-items:center; gap:4rem; } .submit-grid .eyebrow { color:var(--color-lime); } .submit-grid h2 { max-width:38rem; } .submit-grid>div:first-child>p:not(.eyebrow) { max-width:40rem; color:#ebf6f7; }
   .submit-list { margin:1.5rem 0 2rem; } .submit-list li:before { color:var(--color-lime); } .submit-hint { margin:.8rem 0 0; font-size:.82rem!important; }
   .submit-art { overflow:hidden; border-radius:1.25rem; background:var(--color-teal-deep); } .submit-quote { padding:1.25rem 1.5rem; font-family:var(--font-display); font-size:clamp(1.125rem,1.5vw,1.5rem); line-height:1.3; } .submit-quote strong { color:var(--color-lime); }
-  @media(max-width:850px) { .hero-pattern { max-width:none; width:42rem; right:-18rem; top:2%; opacity:.12; } .hero-grid,.media-layout,.submit-grid { grid-template-columns:1fr; gap:2.5rem; } .brief-grid,.guideline-grid { grid-template-columns:1fr; } .photo-intro { grid-template-columns:1fr; } .hero-photo,.media-image,.submit-art { width:100%; max-width:42rem; margin-inline:auto; } .copy-grid,.resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .photo-safety { gap:1.5rem; } .section-pad,.submit-section { padding:4.5rem 0; } }
-  @media(max-width:600px) { .hero { padding:3.6rem 0; } .hero-grid { gap:2rem; } h1 { font-size:clamp(2.7rem,12.5vw,4rem); } .hero-intro { font-size:1.05rem; } .hero-actions { gap:1.3rem; } .section-pad,.submit-section { padding:3.5rem 0; } .section-heading { margin-bottom:2rem; text-align:left; } .steps-grid { grid-template-columns:1fr; } .step-card,.step-card:nth-child(4),.step-card:nth-child(5) { grid-column:auto; min-height:0; } .copy-grid,.resource-grid { grid-template-columns:1fr; } .copy-card,.resource-card { min-height:0; } .media-actions { grid-template-columns:1fr; } .media-actions :global(button) { justify-self:start; } .safety-callout { align-items:flex-start; } }
+  @media(max-width:850px) { .hero-pattern { max-width:none; width:42rem; right:-18rem; top:2%; opacity:.12; } .hero-grid,.media-layout,.submit-grid { grid-template-columns:1fr; gap:2.5rem; } .brief-grid,.guideline-grid { grid-template-columns:1fr; } .photo-intro { grid-template-columns:1fr; } .hero-photo,.media-image,.submit-art { width:100%; max-width:42rem; margin-inline:auto; } .resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .photo-safety { gap:1.5rem; } .section-pad,.submit-section { padding:4.5rem 0; } }
+  @media(max-width:600px) { .hero { padding:3.6rem 0; } .hero-grid { gap:2rem; } h1 { font-size:clamp(2.7rem,12.5vw,4rem); } .hero-intro { font-size:1.05rem; } .hero-actions { gap:1.3rem; } .section-pad,.submit-section { padding:3.5rem 0; } .section-heading { margin-bottom:2rem; text-align:left; } .steps-grid { grid-template-columns:1fr; } .step-card,.step-card:nth-child(4),.step-card:nth-child(5) { grid-column:auto; min-height:0; } .resource-grid { grid-template-columns:1fr; } .resource-card { min-height:0; } .media-actions { grid-template-columns:1fr; } .media-actions :global(button) { justify-self:start; } .safety-callout { align-items:flex-start; } }
 </style>
 

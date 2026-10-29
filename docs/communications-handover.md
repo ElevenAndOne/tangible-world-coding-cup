@@ -257,3 +257,28 @@ Checked in headless Chromium against the development server and the production p
 The resource-library link lands 168 px below the top of the viewport, the same offset as the page's existing anchors.
 
 The 13 October runner, adapted for the removed placeholder (`toolkit-qa-regression.mjs`), passed 60 of 63 checks. The three failures are the three buttons that open the deliberately amended Social (two buttons) and Media Tips templates. `npm run build` passes.
+
+## 29 October 2026 update: Wendy's review of 21 October
+
+Source: Wendy van Eyck's reply on ClickUp task `869fcf82m` (WCC Participation Page, interim submission form). She asked for no redesign: keep the visual style and layouts.
+
+### Page changes
+
+| Request | Change |
+| --- | --- |
+| Remove the duplicate ready-to-use copy section | The “Ready-to-use copy” card grid is gone. Its four cards opened the same templates as the Start here guide, which keeps all seven template buttons |
+| Shorten the photography guidance | Same three groups and eight points, each cut to one or two sentences. The intro is one sentence plus the line asking schools to share the brief |
+| Shorten the sponsorship guidance | Logo rules go from four to three. The writing card keeps one example sentence. The tournament card is two short paragraphs |
+| Remove the WhatsApp CTA | `Footer` takes `whatsappCta={false}` on the toolkit, which hides the “Stay updated on our WhatsApp Channel” band there. The homepage keeps it. The small WhatsApp icon among the footer social links stays |
+| Contact | The support line now points to `support@levafoundation.org` (“the Tangible team”) instead of Wendy |
+| Hashtag | `#AmazonInCommunities` replaces `[APPROVED AMAZON HASHTAG]` in the before and after captions and is added to the during-event caption. The modal hint no longer mentions the placeholder |
+| Canva templates | A separate “Personalise your own” strip below the downloads links to `https://canva.link/e0ils4wreth5tmo` (“Customise in Canva”, new tab). It is kept apart from the ready-made downloads |
+
+Wording was shortened from Wendy's written instructions. Her annotated PDF was attached to the ClickUp comment and could not be retrieved, so any specific cuts it marks still need checking against the page.
+
+### Still open
+
+- **Sponsored by Amazon artwork:** Wendy will share approved versions for the logo pack.
+- **Form access:** Michaela and Ryan to get the same access to the responses sheet as Wendy.
+- **Form permissions wording and privacy note:** Wendy will review once she has access.
+- **Closing date:** none. Submissions stay open after the tournament.
