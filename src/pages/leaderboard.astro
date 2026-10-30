@@ -3,22 +3,28 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import WccLogo from "../components/brand/WccLogo.astro";
 import Leaderboard from "../components/react/Leaderboard.tsx";
-import { getDemoLeaderboard } from "../data/leaderboard";
+import { getDemoLeaderboard, LEADERBOARD_GROUPS } from "../data/leaderboard";
 import tangibleMark from "../assets/images/hero-deco.svg";
 import armTop from "../assets/leaderboard/arm-top.png";
 import armBottom from "../assets/leaderboard/arm-bottom.png";
 
-// Results feed. Leave PUBLIC_LEADERBOARD_API_URL unset to use the dummy
-// endpoint at /api/leaderboard.json; set it to the live feed's URL on race day.
-const liveEndpoint = import.meta.env.PUBLIC_LEADERBOARD_API_URL as string | undefined;
-const endpoint = liveEndpoint || "/api/leaderboard.json";
+// Results feed. By default each tab reads the dummy feed at /api/demo/[group].json.
+// Set PUBLIC_LEADERBOARD_SOURCE=live to read the tournament results through the
+// server route /api/standings/[group].json, which adds the secret API key.
+const live = import.meta.env.PUBLIC_LEADERBOARD_SOURCE === "live";
 
 // Refresh interval in seconds (default one minute, never faster than 10s).
 const pollSeconds = Math.max(10, Number(import.meta.env.PUBLIC_LEADERBOARD_POLL_SECONDS) || 60);
 
 // Server-render the dummy standings so the page isn't empty before the first
-// poll; with a live feed configured the board loads straight from that feed.
-const initial = liveEndpoint ? null : getDemoLeaderboard();
+// poll; with the live feed the board loads straight from the results API.
+const groups = LEADERBOARD_GROUPS.map(({ id, name, region }) => ({
+  id,
+  name,
+  region,
+  endpoint: live ? `/api/standings/${id}.json` : `/api/demo/${id}.json`,
+  initial: live ? null : getDemoLeaderboard(new Date(), id),
+}));
 ---
 
 <BaseLayout
@@ -75,15 +81,15 @@ const initial = liveEndpoint ? null : getDemoLeaderboard();
       <section
         aria-labelledby="standings-heading"
         class="relative mt-[1.1rem] flex min-h-0 flex-1 flex-col rounded-[2rem] border border-[#60d0ea] bg-[rgba(123,230,255,0.06)] p-(--panel-p) backdrop-blur-[6px] tablet:mt-8 tablet:rounded-[1.5rem] landscape:mt-7 portrait:mt-9 portrait:rounded-[1.125rem]
-          [--panel-p:3rem] [--rank-w:122px] [--podium-h:56px] [--row-h:32px] [--row-gap:12px] [--list-gap:29px]
+          [--panel-p:3rem] [--tabs-gap:2rem] [--rank-w:122px] [--podium-h:56px] [--row-h:32px] [--row-gap:12px] [--list-gap:29px]
           [--podium-text:32px] [--row-text:18px] [--medal-text:38px] [--head-text:32px] [--subhead-text:23px]
           [--podium-flag-w:60px] [--podium-flag-h:40px] [--row-flag-w:40px] [--row-flag-h:26.67px]
           [--shield-w:55.5px] [--shield-h:62px] [--cell-gap:16px] [--stats-px:20px] [--category-w:140px] [--levels-w:100px]
-          tablet:[--panel-p:2rem] tablet:[--rank-w:88px] tablet:[--podium-h:50px] tablet:[--row-h:34px] tablet:[--row-gap:10px]
+          tablet:[--panel-p:2rem] tablet:[--tabs-gap:1.5rem] tablet:[--rank-w:88px] tablet:[--podium-h:50px] tablet:[--row-h:34px] tablet:[--row-gap:10px]
           tablet:[--podium-text:26px] tablet:[--row-text:16px] tablet:[--medal-text:32px] tablet:[--head-text:28px] tablet:[--subhead-text:18px]
           tablet:[--podium-flag-w:51px] tablet:[--podium-flag-h:34px] tablet:[--shield-w:48px] tablet:[--shield-h:54px]
           tablet:[--category-w:112px] tablet:[--levels-w:64px] tablet:[--stats-px:16px] tablet:[--cell-gap:12px]
-          landscape:[--panel-p:1.25rem] landscape:[--rank-w:60px] landscape:[--podium-h:52px] landscape:[--row-h:44px] landscape:[--row-gap:8px] landscape:[--list-gap:18px]
+          landscape:[--panel-p:1.25rem] landscape:[--tabs-gap:1.25rem] landscape:[--rank-w:60px] landscape:[--podium-h:52px] landscape:[--row-h:44px] landscape:[--row-gap:8px] landscape:[--list-gap:18px]
           landscape:[--podium-text:20px] landscape:[--row-text:15px] landscape:[--medal-text:26px] landscape:[--head-text:22px] landscape:[--subhead-text:16px]
           landscape:[--podium-flag-w:42px] landscape:[--podium-flag-h:28px] landscape:[--row-flag-w:33px] landscape:[--row-flag-h:22px]
           landscape:[--shield-w:40px] landscape:[--shield-h:45px] landscape:[--levels-w:48px] landscape:[--stats-px:12px] landscape:[--cell-gap:10px]
@@ -93,7 +99,7 @@ const initial = liveEndpoint ? null : getDemoLeaderboard();
           portrait:[--shield-w:34px] portrait:[--shield-h:38px] portrait:[--levels-w:40px] portrait:[--stats-px:10px] portrait:[--cell-gap:8px]"
       >
         <h2 id="standings-heading" class="sr-only">Team standings</h2>
-        <Leaderboard client:load endpoint={endpoint} pollMs={pollSeconds * 1000} initial={initial} />
+        <Leaderboard client:load groups={groups} pollMs={pollSeconds * 1000} />
       </section>
     </div>
   </div>

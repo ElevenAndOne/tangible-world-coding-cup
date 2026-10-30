@@ -32,6 +32,17 @@ export interface LeaderboardData {
 
 const CATEGORIES: readonly Category[] = ["Junior", "Senior", "Open"];
 
+/**
+ * The tournament runs as two regional groups, each with its own official
+ * ranking (Roslyn Tait, 30 October 2026). The page shows them as tabs.
+ */
+export const LEADERBOARD_GROUPS = [
+  { id: "group-1", name: "Group 1", region: "Africa, Europe, Asia & Oceania", tournamentId: 146 },
+  { id: "group-2", name: "Group 2", region: "The Americas & Caribbean", tournamentId: 156 },
+] as const;
+
+export type LeaderboardGroupId = (typeof LEADERBOARD_GROUPS)[number]["id"];
+
 function compareTeams(a: LeaderboardTeam, b: LeaderboardTeam): number {
   if (a.rank != null && b.rank != null && a.rank !== b.rank) return a.rank - b.rank;
   if (b.levels !== a.levels) return b.levels - a.levels;
@@ -132,7 +143,19 @@ const DEMO_TEAMS: DemoTeam[] = [
   ["Gqeberha Gamechangers", "za", "South Africa", "Senior"],
   ["Surabaya Stars", "id", "Indonesia", "Junior"],
   ["Mombasa Makers", "ke", "Kenya", "Junior"],
+  ["Toronto Tilers", "ca", "Canada", "Junior"],
+  ["Monterrey Movers", "mx", "Mexico", "Open"],
+  ["Kingston Coders", "jm", "Jamaica", "Junior"],
+  ["Bogotá Builders", "co", "Colombia", "Senior"],
+  ["Buenos Aires Bits", "ar", "Argentina", "Junior"],
+  ["Santiago Sparks", "cl", "Chile", "Senior"],
+  ["Port of Spain Pathfinders", "tt", "Trinidad and Tobago", "Junior"],
+  ["Lima Loopers", "pe", "Peru", "Open"],
+  ["Austin Algorithms", "us", "United States", "Senior"],
+  ["Rio Racers", "br", "Brazil", "Open"],
 ];
+
+const AMERICAS = new Set(["us", "ca", "mx", "jm", "co", "ar", "cl", "tt", "pe", "br"]);
 
 // Each demo "race" loops over two hours so a board left open keeps moving.
 const DEMO_LOOP_MINUTES = 120;
@@ -150,22 +173,29 @@ function seeded(seed: number): () => number {
 }
 
 /** Dummy standings that progress with the clock, so polling visibly changes the board. */
-export function getDemoLeaderboard(now: Date = new Date()): LeaderboardData {
+export function getDemoLeaderboard(
+  now: Date = new Date(),
+  group: LeaderboardGroupId = "group-1",
+): LeaderboardData {
   const minute = Math.floor(now.getTime() / 60_000);
   const elapsed = minute % DEMO_LOOP_MINUTES;
   const raceStart = (minute - elapsed) * 60_000;
 
-  const teams = DEMO_TEAMS.map(([name, countryCode, countryName, category], index) => {
-    const random = seeded(index + 1);
+  const inGroup = DEMO_TEAMS.filter(([, countryCode]) =>
+    group === "group-2" ? AMERICAS.has(countryCode) : !AMERICAS.has(countryCode),
+  );
+
+  const teams = inGroup.map(([name, countryCode, countryName, category], index) => {
+    const random = seeded(index + 1 + (group === "group-2" ? 100 : 0));
     const head = Math.floor(random() * 6);
     // Earlier teams in the list are a touch faster, so the dummy podium starts
     // close to the Figma layout before the race shuffles it.
-    const pace = 0.32 + random() * 0.18 + (DEMO_TEAMS.length - index) * 0.006;
+    const pace = 0.32 + random() * 0.18 + (inGroup.length - index) * 0.006;
     const levels = head + Math.floor(pace * elapsed);
     const minutesSinceLevel = Math.min(elapsed, Math.floor(random() * 3));
 
     return {
-      id: `team-${index + 1}`,
+      id: `${group}-team-${index + 1}`,
       name,
       countryCode,
       countryName,

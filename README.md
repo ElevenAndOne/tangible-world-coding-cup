@@ -44,15 +44,18 @@ Every page section follows the same composition:
 
 - [Leaderboard.tsx](src/components/react/Leaderboard.tsx) (`client:load`) polls the results feed, pauses while the tab is hidden, refreshes as soon as it is visible again, keeps the last good standings if a request fails, and slides rows to their new positions when ranks change (skipped under reduced motion).
 - [leaderboard.ts](src/data/leaderboard.ts) defines the feed contract (`LeaderboardData`), validates payloads, ranks teams (levels, then who reached that level first) and generates the dummy standings.
-- [api/leaderboard.json.ts](src/pages/api/leaderboard.json.ts) serves the dummy feed. In `astro dev` it changes every minute on a two-hour loop; a static build writes a single snapshot.
+- The tournament runs as two regional groups with separate official rankings, shown as tabs: Group 1 (Africa, Europe, Asia & Oceania, tournament 146) and Group 2 (the Americas & Caribbean, tournament 156). The selected tab is kept in the URL, so `/leaderboard#group-2` opens the Americas board. Only the visible group is polled.
+- [api/demo/[group].json.ts](src/pages/api/demo/[group].json.ts) serves dummy standings for each group. In `astro dev` they change every minute on a two-hour loop; a build writes one snapshot per group.
+- [api/standings/[group].json.ts](src/pages/api/standings/[group].json.ts) is the live results route. It runs as a Vercel function (via `@astrojs/vercel`; every page stays prerendered), calls the Tangible tournament API with the secret `API-KEY` header and caches responses for 30 seconds. `/api/standings/test.json` reads the test tournament (id 1). **Its field mapping still has to be checked against a real response.**
 - Flags come from [`flag-icons`](https://github.com/lipis/flag-icons) using each team's ISO country code.
 
-| Env var | Default | Purpose |
+| Env var | Where | Purpose |
 | --- | --- | --- |
-| `PUBLIC_LEADERBOARD_API_URL` | `/api/leaderboard.json` | Live results feed. When set, the page skips the dummy data and loads straight from the feed (which must allow CORS from the site). |
-| `PUBLIC_LEADERBOARD_POLL_SECONDS` | `60` | Refresh interval (minimum 10). |
+| `PUBLIC_LEADERBOARD_SOURCE` | Build | `live` reads `/api/standings/[group].json`; anything else uses the dummy feed |
+| `PUBLIC_LEADERBOARD_POLL_SECONDS` | Build | Refresh interval (default 60, minimum 10) |
+| `LEADERBOARD_API_KEY` | Vercel runtime (secret) | Key for the tournament API. Never prefix it with `PUBLIC_` |
 
-Both are read at build time, so rebuild after changing them.
+The `PUBLIC_` variables are read at build time, so rebuild after changing them.
 
 ## Breakpoints (desktop-first)
 
