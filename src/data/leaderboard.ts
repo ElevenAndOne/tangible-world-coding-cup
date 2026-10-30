@@ -1,4 +1,4 @@
-// Leaderboard contract shared by the API endpoint (src/pages/api/leaderboard.json.ts)
+// Leaderboard contract shared by the API routes (src/pages/api/demo and src/pages/api/standings)
 // and the live board (src/components/react/Leaderboard.tsx).
 //
 // The live results feed only needs to return JSON in the `LeaderboardData`
