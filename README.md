@@ -46,7 +46,16 @@ Every page section follows the same composition:
 - [leaderboard.ts](src/data/leaderboard.ts) defines the feed contract (`LeaderboardData`), validates payloads, ranks teams (levels, then who reached that level first) and generates the dummy standings.
 - The tournament runs as two regional groups with separate official rankings, shown as tabs: Group 1 (Africa, Europe, Asia & Oceania, tournament 146) and Group 2 (the Americas & Caribbean, tournament 156). The selected tab is kept in the URL, so `/leaderboard#group-2` opens the Americas board. Only the visible group is polled.
 - [api/demo/[group].json.ts](src/pages/api/demo/[group].json.ts) serves dummy standings for each group. In `astro dev` they change every minute on a two-hour loop; a build writes one snapshot per group.
-- [api/standings/[group].json.ts](src/pages/api/standings/[group].json.ts) is the live results route. It runs as a Vercel function (via `@astrojs/vercel`; every page stays prerendered), calls the Tangible tournament API with the secret `API-KEY` header and caches responses for 30 seconds. `/api/standings/test.json` reads the test tournament (id 1). **Its field mapping still has to be checked against a real response.**
+- [api/standings/[group].json.ts](src/pages/api/standings/[group].json.ts) is the live results route. It runs as a Vercel function (via `@astrojs/vercel`; every page stays prerendered), calls the Tangible tournament API with the secret `API-KEY` header and caches responses for 30 seconds. `/api/standings/test.json` reads the test tournament (id 1).
+- [tournament.ts](src/data/tournament.ts) maps the API's `{ success: [{ rank, name, country, category, levels_completed, time }] }` to `LeaderboardData` (checked against tournament 1 on 2 November 2026):
+  - `rank` is kept as the official position (most levels, least attempts, fastest time).
+  - `country` is an English name, mapped to an ISO alpha-2 code for the flag via `Intl.DisplayNames`, plus aliases for other spellings and the typos in the test data (`Cuprus`, `Bosnia and Hercegovina`). `World` and unknown names keep their text and get a blank flag.
+  - `category` is matched to Junior/Senior/Open ignoring case. `levels_completed` becomes `levels`.
+  - `time` is elapsed time, not a clock time, so it isn't used or shown (the design only has Category and Levels).
+  - The API has no team id and names repeat, so ids come from the name and country, with `-2`, `-3`… for repeats.
+  - An empty tournament (`{ "success": [] }`, as 146 and 156 return before race day) shows "No results yet". A payload without `success` returns a 502, and the board keeps its last good standings.
+  - Unknown countries or categories and dropped rows are logged by the function (`[standings] … unmapped values`, without team names).
+- `npm test` runs the mapping tests against an anonymised sample in [src/data/fixtures](src/data/fixtures/).
 - Flags come from [`flag-icons`](https://github.com/lipis/flag-icons) using each team's ISO country code.
 
 | Env var | Where | Purpose |
