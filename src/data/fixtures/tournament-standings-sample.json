@@ -1,0 +1,108 @@
+{
+  "success": [
+    {
+      "rank": 1,
+      "name": "Sample Team 1",
+      "country": "World",
+      "category": "Open",
+      "levels_completed": 6,
+      "time": "00:01:05"
+    },
+    {
+      "rank": 2,
+      "name": "Sample Team 2",
+      "country": "North Macedonia",
+      "category": "Open",
+      "levels_completed": 6,
+      "time": "00:02:10"
+    },
+    {
+      "rank": 3,
+      "name": "Sample Library",
+      "country": "South Africa",
+      "category": "Open",
+      "levels_completed": 6,
+      "time": "00:02:18"
+    },
+    {
+      "rank": 4,
+      "name": "Sample Library",
+      "country": "South Africa",
+      "category": "Open",
+      "levels_completed": 6,
+      "time": "00:02:55"
+    },
+    {
+      "rank": 5,
+      "name": "Sample Team 5",
+      "country": "Mozambique",
+      "category": "Open",
+      "levels_completed": 6,
+      "time": "00:05:16"
+    },
+    {
+      "rank": 6,
+      "name": "Sample Team 6",
+      "country": "Ghana",
+      "category": "Open",
+      "levels_completed": 6,
+      "time": "00:03:26"
+    },
+    {
+      "rank": 7,
+      "name": "Sample Team 7",
+      "country": "Cuprus",
+      "category": "Open",
+      "levels_completed": 6,
+      "time": "00:08:16"
+    },
+    {
+      "rank": 8,
+      "name": "Sample Team 8",
+      "country": "Bosnia and Herzegovina",
+      "category": "Open",
+      "levels_completed": 6,
+      "time": "00:07:19"
+    },
+    {
+      "rank": 9,
+      "name": "Sample Team 9",
+      "country": "Cyprus",
+      "category": "Open",
+      "levels_completed": 6,
+      "time": "00:10:37"
+    },
+    {
+      "rank": 10,
+      "name": "Sample Library",
+      "country": "South Africa",
+      "category": "Open",
+      "levels_completed": 5,
+      "time": "00:30:00"
+    },
+    {
+      "rank": 11,
+      "name": "Sample Team 11",
+      "country": "Bosnia and Hercegovina",
+      "category": "Open",
+      "levels_completed": 5,
+      "time": "00:30:00"
+    },
+    {
+      "rank": 12,
+      "name": "Sample Team 12",
+      "country": "World",
+      "category": "Open",
+      "levels_completed": 4,
+      "time": "00:23:49"
+    },
+    {
+      "rank": 13,
+      "name": "Sample Library",
+      "country": "South Africa",
+      "category": "Open",
+      "levels_completed": 0,
+      "time": "00:00:04"
+    }
+  ]
+}

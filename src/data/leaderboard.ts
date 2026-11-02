@@ -1,9 +1,10 @@
 // Leaderboard contract shared by the API routes (src/pages/api/demo and src/pages/api/standings)
 // and the live board (src/components/react/Leaderboard.tsx).
 //
-// The live results feed only needs to return JSON in the `LeaderboardData`
-// shape. Ranks are optional: when they're missing the board ranks teams by
-// levels completed (highest first), then by who reached that level first.
+// Both routes return JSON in the `LeaderboardData` shape; the live route
+// converts the tournament API's response with src/data/tournament.ts. Ranks
+// are optional: when they're missing the board ranks teams by levels
+// completed (highest first), then by who reached that level first.
 
 export type Category = "Junior" | "Senior" | "Open";
 

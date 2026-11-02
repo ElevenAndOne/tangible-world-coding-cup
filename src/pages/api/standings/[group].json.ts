@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { getSecret } from "astro:env/server";
 import { LEADERBOARD_GROUPS } from "../../../data/leaderboard";
+import { mapTournamentStandings } from "../../../data/tournament";
 
 // Server-side proxy for the Tangible tournament results API (endpoints from
 // Roslyn Tait, 30 October 2026). The API needs a secret API-KEY header, so the
@@ -40,9 +41,17 @@ export const GET: APIRoute = async ({ params }) => {
     });
     if (!upstream.ok) return json({ error: `Results feed returned ${upstream.status}` }, 502);
 
-    // TODO(field mapping): convert Roslyn's response to LeaderboardData once a
-    // real sample has been checked. Until then the payload is passed through.
-    const data = await upstream.json();
+    // Convert { success: [{ rank, name, country, category, levels_completed, time }] }
+    // to LeaderboardData (see src/data/tournament.ts). Before race day the
+    // groups return { success: [] }, which the board shows as "No results yet".
+    const mapped = mapTournamentStandings(await upstream.json());
+    if (!mapped) return json({ error: "Results feed returned an unexpected format" }, 502);
+
+    const { unknownCountries, unknownCategories, droppedRows } = mapped.issues;
+    if (unknownCountries.length || unknownCategories.length || droppedRows) {
+      console.warn(`[standings] ${params.group}: unmapped values`, mapped.issues);
+    }
+    const data = mapped.data;
 
     // Every viewer polls this route; a short shared cache keeps the load on the
     // tournament API to roughly one request per group every 30 seconds.
