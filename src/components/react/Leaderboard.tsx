@@ -1,10 +1,18 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import "flag-icons/css/flag-icons.min.css";
+import { parseLeaderboard, type LeaderboardData } from "../../data/leaderboard";
 import {
-  parseLeaderboard,
-  type LeaderboardData,
-  type LeaderboardTeam,
-} from "../../data/leaderboard";
+  CATEGORY_OPTIONS,
+  NO_FILTERS,
+  availableFilters,
+  filterOptions,
+  filterTeams,
+  filtersToSearch,
+  isFiltered,
+  parseFilters,
+  type BoardFilters,
+  type RankedTeam,
+} from "../../data/filters";
 
 export interface BoardGroup {
   id: string;
@@ -27,6 +35,9 @@ interface Props {
 type Status = "loading" | "live" | "stale";
 
 const PODIUM_SIZE = 3;
+
+/** Shared empty list, so memos and effects don't rerun while a group has no data. */
+const NO_TEAMS: LeaderboardData["teams"] = [];
 
 const SHIELDS = [
   // gold, silver, bronze — light edge first, then the face
@@ -79,9 +90,11 @@ function Shield({ place }: { place: number }) {
   );
 }
 
-function Row({ team }: { team: LeaderboardTeam }) {
-  const rank = team.rank ?? 0;
+function Row({ team }: { team: RankedTeam }) {
+  // Position within the current filter, so a filtered board has its own podium.
+  const rank = team.position;
   const podium = rank >= 1 && rank <= PODIUM_SIZE;
+  const overall = team.rank != null && team.rank !== rank ? team.rank : null;
 
   const tone = podium
     ? "text-board-ink bg-[linear-gradient(180deg,#edb300_0%,#fde024_100%)]"
@@ -96,7 +109,10 @@ function Row({ team }: { team: LeaderboardTeam }) {
       } ${podium ? "[--flag-h:var(--podium-flag-h)] [--flag-w:var(--podium-flag-w)]" : "[--flag-h:var(--row-flag-h)] [--flag-w:var(--row-flag-w)]"}`}
     >
       {/* Rank */}
-      <div className="relative grid w-(--rank-w) shrink-0 place-items-center">
+      <div
+        className="relative grid w-(--rank-w) shrink-0 place-items-center"
+        title={overall ? `Overall rank ${overall}` : undefined}
+      >
         <span
           className={`absolute inset-0 rounded-l-[4px] ${tone} [clip-path:polygon(0_0,100%_0,calc(100%-var(--slant))_100%,0_100%)]`}
           aria-hidden="true"
@@ -109,6 +125,7 @@ function Row({ team }: { team: LeaderboardTeam }) {
         >
           <span className="sr-only">Rank </span>
           {rank}
+          {overall && <span className="sr-only"> (overall rank {overall})</span>}
         </span>
       </div>
 
@@ -143,7 +160,7 @@ function Row({ team }: { team: LeaderboardTeam }) {
 }
 
 /** Animates rows to their new positions when the order changes (FLIP). */
-function useRankAnimation(teams: LeaderboardTeam[]) {
+function useRankAnimation(teams: RankedTeam[]) {
   const nodes = useRef(new Map<string, HTMLLIElement>());
   const previous = useRef(new Map<string, number>());
 
@@ -222,14 +239,67 @@ function useActiveGroup(groups: BoardGroup[]) {
 
   const select = useCallback((id: string) => {
     setActive(id);
-    history.replaceState(null, "", `#${id}`);
+    history.replaceState(null, "", `${window.location.search}#${id}`);
   }, []);
 
   return [active, select] as const;
 }
 
+/** Category / continent / country filters, kept in the query string so a filtered board can be shared. */
+function useFilters() {
+  // Start unfiltered so the server render matches; read the URL once mounted.
+  const [filters, setFilters] = useState<BoardFilters>(NO_FILTERS);
+  useEffect(() => setFilters(parseFilters(window.location.search)), []);
+
+  const update = useCallback((next: BoardFilters) => {
+    setFilters(next);
+    history.replaceState(null, "", `${window.location.pathname}${filtersToSearch(next)}${window.location.hash}`);
+  }, []);
+
+  return [filters, update] as const;
+}
+
+const SELECT_CLASS =
+  "w-full min-w-0 cursor-pointer appearance-none truncate rounded-xl border border-sky/50 bg-white/5 bg-[url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2012%208%22%3E%3Cpath%20d=%22M1%201l5%205%205-5%22%20fill=%22none%22%20stroke=%22white%22%20stroke-width=%222%22/%3E%3C/svg%3E')] bg-[length:0.7rem] bg-[position:right_0.8rem_center] bg-no-repeat py-1.5 pr-8 pl-3 font-board text-sm tablet:py-2 font-bold text-white transition-colors hover:border-sky focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime data-active:border-lime data-active:bg-lime/15 [&_option]:bg-board [&_option]:text-white";
+
+function FilterSelect({
+  label,
+  value,
+  onChange,
+  options,
+  allLabel,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: { value: string; label: string }[];
+  allLabel: string;
+}) {
+  return (
+    <label className="flex min-w-0 flex-1 flex-row items-center gap-2.5 tablet:flex-col tablet:items-stretch tablet:gap-1">
+      <span className="shrink-0 font-display text-[0.75rem] leading-none tracking-[0.06em] text-white/75 uppercase">
+        {label}
+      </span>
+      <select
+        className={SELECT_CLASS}
+        value={value}
+        data-active={value || undefined}
+        onChange={(event) => onChange(event.target.value)}
+      >
+        <option value="">{allLabel}</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
 export default function Leaderboard({ groups, pollMs }: Props) {
   const [activeId, selectGroup] = useActiveGroup(groups);
+  const [filters, setFilters] = useFilters();
   const active = groups.find((group) => group.id === activeId) ?? groups[0];
 
   const [dataById, setDataById] = useState<Record<string, LeaderboardData | null>>(() =>
@@ -246,7 +316,23 @@ export default function Leaderboard({ groups, pollMs }: Props) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   const updated = mounted && data ? formatTime(data.updatedAt) : "";
-  const rowRef = useRankAnimation(data?.teams ?? []);
+
+  const allTeams = data?.teams ?? NO_TEAMS;
+  const teams = useMemo(() => filterTeams(allTeams, filters), [allTeams, filters]);
+  const options = useMemo(
+    () => filterOptions(allTeams, { category: filters.category, continent: filters.continent }),
+    [allTeams, filters.category, filters.continent],
+  );
+  const filtered = isFiltered(filters);
+  const rowRef = useRankAnimation(teams);
+
+  // Continents and countries differ between groups (and a category can rule a
+  // country out), so once the visible group has loaded, drop any continent or
+  // country it can't offer: from a shared link, a tab switch or a hash change.
+  useEffect(() => {
+    const next = availableFilters(allTeams, filters);
+    if (next !== filters) setFilters(next);
+  }, [allTeams, filters, setFilters]);
 
   // Polls only the visible group; switching tabs loads the new group at once.
   useEffect(() => {
@@ -317,7 +403,6 @@ export default function Leaderboard({ groups, pollMs }: Props) {
     tabRefs.current.get(next.id)?.focus();
   };
 
-  const teams = data?.teams ?? [];
   const [listRef, fades] = useScrollFades(teams.length);
 
   return (
@@ -364,21 +449,66 @@ export default function Leaderboard({ groups, pollMs }: Props) {
               tabIndex={selected ? 0 : -1}
               onClick={() => selectGroup(group.id)}
               onKeyDown={(event) => onTabKey(event, index)}
-              className={`flex min-w-0 flex-col items-start rounded-2xl border px-5 py-3 text-left transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime landscape:px-4 landscape:py-2.5 portrait:px-3 ${
+              className={`flex min-w-0 flex-row items-baseline gap-3 rounded-xl border px-5 py-2.5 text-left tablet:flex-col tablet:items-start tablet:gap-0 tablet:rounded-2xl tablet:py-3 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime landscape:px-4 landscape:py-2.5 portrait:px-3 ${
                 selected
                   ? "border-lime bg-lime text-board-ink"
                   : "border-sky/50 bg-white/5 text-white hover:border-sky hover:bg-white/10"
               }`}
             >
-              <span className="font-display text-[0.95rem] leading-none tracking-[0.04em] uppercase opacity-80 portrait:text-[0.8rem]">
+              <span className="shrink-0 font-display text-[0.95rem] leading-none tracking-[0.04em] uppercase opacity-80 portrait:text-[0.8rem]">
                 {group.name}
               </span>
-              <span className="mt-1.5 font-board text-lg leading-tight font-bold landscape:text-base portrait:text-sm">
+              <span className="truncate font-board text-lg leading-tight font-bold tablet:mt-1.5 tablet:whitespace-normal landscape:text-base portrait:text-sm">
                 {group.region}
               </span>
             </button>
           );
         })}
+      </div>
+
+      {/* Filters: the official order is kept and the remaining teams are numbered 1, 2, 3… */}
+      <div
+        role="group"
+        aria-label="Filter teams"
+        className="mb-(--tabs-gap) flex items-center gap-4 tablet:items-end tablet:gap-3 landscape:flex-wrap portrait:gap-2"
+      >
+        <FilterSelect
+          label="Category"
+          allLabel="All"
+          value={filters.category}
+          onChange={(category) => setFilters({ ...filters, category: category as BoardFilters["category"] })}
+          options={CATEGORY_OPTIONS.map((c) => ({ value: c, label: c }))}
+        />
+        <FilterSelect
+          label="Continent"
+          allLabel="All"
+          value={filters.continent}
+          // A new continent clears a country that isn't in it.
+          onChange={(continent) =>
+            setFilters({ ...filters, continent: continent as BoardFilters["continent"], country: "" })
+          }
+          options={options.continents.map((c) => ({ value: c, label: c }))}
+        />
+        <FilterSelect
+          label="Country"
+          allLabel="All"
+          value={filters.country}
+          onChange={(country) => setFilters({ ...filters, country })}
+          options={options.countries.map((c) => ({ value: c.key, label: c.name }))}
+        />
+        <div className="flex shrink-0 flex-row items-center gap-3 tablet:flex-col tablet:items-end tablet:gap-1 landscape:w-full landscape:flex-row landscape:items-center landscape:justify-between">
+          <p className="font-board text-xs font-bold whitespace-nowrap text-white/70" aria-live="polite">
+            {filtered ? `${teams.length} of ${allTeams.length} teams` : `${allTeams.length} teams`}
+          </p>
+          <button
+            type="button"
+            onClick={() => setFilters(NO_FILTERS)}
+            disabled={!filtered}
+            className="rounded-xl border border-sky/50 px-3 py-1.5 font-board text-sm font-bold text-white transition-colors hover:border-sky hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime disabled:cursor-default disabled:opacity-40 disabled:hover:border-sky/50 disabled:hover:bg-transparent tablet:py-2 landscape:py-1.5"
+          >
+            Clear
+          </button>
+        </div>
       </div>
 
       {/* Column headings */}
@@ -405,11 +535,15 @@ export default function Leaderboard({ groups, pollMs }: Props) {
         aria-labelledby={`tab-${active.id}`}
         data-fade-top={fades.top || undefined}
         data-fade-bottom={fades.bottom || undefined}
-        className="mt-(--list-gap) min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-color:rgba(123,230,255,0.5)_transparent] [scrollbar-width:thin] [mask-image:linear-gradient(to_bottom,transparent,#000_var(--fade-top),#000_calc(100%-var(--fade-bottom)),transparent)] [transition:--fade-top_250ms_ease,--fade-bottom_250ms_ease] data-fade-top:[--fade-top:3rem] data-fade-bottom:[--fade-bottom:4.5rem] motion-reduce:transition-none tablet:overflow-visible tablet:[mask-image:none]"
+        className="mt-(--list-gap) min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-color:rgba(123,230,255,0.5)_transparent] [scrollbar-width:thin] [mask-image:linear-gradient(to_bottom,transparent,#000_var(--fade-top),#000_calc(100%-var(--fade-bottom)),transparent)] [transition:--fade-top_250ms_ease,--fade-bottom_250ms_ease] data-fade-top:[--fade-top:1.5rem] data-fade-bottom:[--fade-bottom:2.5rem] motion-reduce:transition-none tablet:overflow-visible tablet:[mask-image:none]"
       >
         {teams.length === 0 ? (
           <p className="py-12 text-center font-board text-lg font-bold text-white/80">
-            {status === "loading" ? "Loading the leaderboard…" : "No results yet — check back once racing starts."}
+            {status === "loading"
+              ? "Loading the leaderboard…"
+              : allTeams.length && filtered
+                ? "No teams match these filters."
+                : "No results yet — check back once racing starts."}
           </p>
         ) : (
           <ol className="flex flex-col gap-(--row-gap) py-2" aria-label={`${active.name} standings: ${active.region}`}>

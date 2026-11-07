@@ -31,7 +31,7 @@ export interface LeaderboardData {
   teams: LeaderboardTeam[];
 }
 
-const CATEGORIES: readonly Category[] = ["Junior", "Senior", "Open"];
+export const CATEGORIES: readonly Category[] = ["Junior", "Senior", "Open"];
 
 /**
  * The tournament runs as two regional groups, each with its own official

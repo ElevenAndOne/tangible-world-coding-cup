@@ -18,10 +18,10 @@
 //   country, with a suffix for repeats.
 // - An empty tournament returns { "success": [] }.
 //
-// Only types are imported, so this file also runs under `node --test`.
-import type { Category, LeaderboardData, LeaderboardTeam } from "./leaderboard";
-
-const CATEGORIES: readonly Category[] = ["Junior", "Senior", "Open"];
+// Imports use explicit .ts extensions so this file also
+// runs under `node --test`.
+import { CATEGORIES, type Category, type LeaderboardData, type LeaderboardTeam } from "./leaderboard.ts";
+import { continentFor } from "./continents.ts";
 
 /** Category used when the API sends a value we don't know (reported in `issues`). */
 const FALLBACK_CATEGORY: Category = "Open";
@@ -62,6 +62,7 @@ const ALIASES: Record<string, string> = {
   "cape verde": "cv",
   "cabo verde": "cv",
   burma: "mm",
+  myanmar: "mm",
   palestine: "ps",
   drc: "cd",
   "dr congo": "cd",
@@ -71,11 +72,46 @@ const ALIASES: Record<string, string> = {
   "republic of the congo": "cg",
   "republic of congo": "cg",
   "south korea": "kr",
-  "korea republic of": "kr",
   russia: "ru",
   "russian federation": "ru",
   "viet nam": "vn",
+  // ISO / UN official names (the live groups use these, e.g. the UK's).
+  "united kingdom of great britain and northern ireland": "gb",
+  "korea republic of": "kr",
+  "republic of korea": "kr",
+  "korea democratic people s republic of": "kp",
+  "democratic people s republic of korea": "kp",
+  "iran islamic republic of": "ir",
+  "bolivia plurinational state of": "bo",
+  "venezuela bolivarian republic of": "ve",
+  "tanzania united republic of": "tz",
+  "united republic of tanzania": "tz",
+  "congo democratic republic of the": "cd",
+  "lao people s democratic republic": "la",
+  "syrian arab republic": "sy",
+  "moldova republic of": "md",
+  "republic of moldova": "md",
+  "micronesia federated states of": "fm",
+  "palestine state of": "ps",
+  "state of palestine": "ps",
+  "taiwan province of china": "tw",
+  "hong kong sar": "hk",
+  "macao sar": "mo",
+  "brunei darussalam": "bn",
+  "cote d ivoire": "ci",
+  "turkiye": "tr",
+  "netherlands kingdom of the": "nl",
+  "holy see": "va",
 };
+
+// Current ISO codes with no inhabited continent in continents.ts.
+const NO_CONTINENT_CODES = new Set(["aq", "bv", "cc", "cx", "gs", "hm", "io", "tf"]);
+
+/** A current (not retired) ISO 3166-1 alpha-2 code, so it has a flag. */
+function isCurrentCode(code: string): boolean {
+  const lower = code.toLowerCase();
+  return Boolean(continentFor(lower)) || NO_CONTINENT_CODES.has(lower);
+}
 
 let countryIndex: Map<string, string> | undefined;
 
@@ -94,9 +130,11 @@ function getCountryIndex(): Map<string, string> {
       } catch {
         continue;
       }
-      // Unassigned codes echo back; ZZ/QO/EU/UN etc. aren't countries.
-      if (!name || name === code || /unknown|outlying|european union|united nations|pseudo/i.test(name)) continue;
-      index.set(normalise(name), code.toLowerCase());
+      // Only current country codes: Intl also names retired ones (UK, FX, YU,
+      // ZR…) and regions (EU, UN, QO), which have no flag.
+      if (!name || !isCurrentCode(code)) continue;
+      const key = normalise(name);
+      if (!index.has(key)) index.set(key, code.toLowerCase());
     }
   }
   for (const [alias, code] of Object.entries(ALIASES)) index.set(alias, code);
@@ -107,7 +145,8 @@ function getCountryIndex(): Map<string, string> {
 /** ISO 3166-1 alpha-2 code (lowercase) for a country name or code, or "" when unknown. */
 export function countryCodeFor(country: string): string {
   const trimmed = country.trim();
-  if (/^[a-z]{2}$/i.test(trimmed)) return trimmed.toLowerCase();
+  // Accept a code as-is only if it's current; "UK" falls through to the "uk" alias.
+  if (/^[a-z]{2}$/i.test(trimmed) && isCurrentCode(trimmed)) return trimmed.toLowerCase();
   return getCountryIndex().get(normalise(trimmed)) ?? "";
 }
 
