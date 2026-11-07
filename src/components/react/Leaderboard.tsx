@@ -256,7 +256,7 @@ function useFilters() {
 }
 
 const SELECT_CLASS =
-  "w-full min-w-0 cursor-pointer appearance-none truncate rounded-xl border border-sky/50 bg-white/5 bg-[url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2012%208%22%3E%3Cpath%20d=%22M1%201l5%205%205-5%22%20fill=%22none%22%20stroke=%22white%22%20stroke-width=%222%22/%3E%3C/svg%3E')] bg-[length:0.7rem] bg-[position:right_0.8rem_center] bg-no-repeat py-2 pr-8 pl-3 font-board text-sm font-bold text-white transition-colors hover:border-sky focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime data-active:border-lime data-active:bg-lime/15 [&_option]:bg-board [&_option]:text-white";
+  "w-full min-w-0 cursor-pointer appearance-none truncate rounded-xl border border-sky/50 bg-white/5 bg-[url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2012%208%22%3E%3Cpath%20d=%22M1%201l5%205%205-5%22%20fill=%22none%22%20stroke=%22white%22%20stroke-width=%222%22/%3E%3C/svg%3E')] bg-[length:0.7rem] bg-[position:right_0.8rem_center] bg-no-repeat py-1.5 pr-8 pl-3 font-board text-sm tablet:py-2 font-bold text-white transition-colors hover:border-sky focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime data-active:border-lime data-active:bg-lime/15 [&_option]:bg-board [&_option]:text-white";
 
 function FilterSelect({
   label,
@@ -272,8 +272,8 @@ function FilterSelect({
   allLabel: string;
 }) {
   return (
-    <label className="flex min-w-0 flex-1 flex-col gap-1">
-      <span className="font-display text-[0.7rem] leading-none tracking-[0.06em] text-white/70 uppercase">
+    <label className="flex min-w-0 flex-1 flex-row items-center gap-2.5 tablet:flex-col tablet:items-stretch tablet:gap-1">
+      <span className="shrink-0 font-display text-[0.75rem] leading-none tracking-[0.06em] text-white/75 uppercase">
         {label}
       </span>
       <select
@@ -443,16 +443,16 @@ export default function Leaderboard({ groups, pollMs }: Props) {
               tabIndex={selected ? 0 : -1}
               onClick={() => switchGroup(group.id)}
               onKeyDown={(event) => onTabKey(event, index)}
-              className={`flex min-w-0 flex-col items-start rounded-2xl border px-5 py-3 text-left transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime landscape:px-4 landscape:py-2.5 portrait:px-3 ${
+              className={`flex min-w-0 flex-row items-baseline gap-3 rounded-xl border px-5 py-2.5 text-left tablet:flex-col tablet:items-start tablet:gap-0 tablet:rounded-2xl tablet:py-3 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime landscape:px-4 landscape:py-2.5 portrait:px-3 ${
                 selected
                   ? "border-lime bg-lime text-board-ink"
                   : "border-sky/50 bg-white/5 text-white hover:border-sky hover:bg-white/10"
               }`}
             >
-              <span className="font-display text-[0.95rem] leading-none tracking-[0.04em] uppercase opacity-80 portrait:text-[0.8rem]">
+              <span className="shrink-0 font-display text-[0.95rem] leading-none tracking-[0.04em] uppercase opacity-80 portrait:text-[0.8rem]">
                 {group.name}
               </span>
-              <span className="mt-1.5 font-board text-lg leading-tight font-bold landscape:text-base portrait:text-sm">
+              <span className="truncate font-board text-lg leading-tight font-bold tablet:mt-1.5 tablet:whitespace-normal landscape:text-base portrait:text-sm">
                 {group.region}
               </span>
             </button>
@@ -464,7 +464,7 @@ export default function Leaderboard({ groups, pollMs }: Props) {
       <div
         role="group"
         aria-label="Filter teams"
-        className="mb-(--tabs-gap) flex items-end gap-3 landscape:flex-wrap portrait:gap-2"
+        className="mb-(--tabs-gap) flex items-center gap-4 tablet:items-end tablet:gap-3 landscape:flex-wrap portrait:gap-2"
       >
         <FilterSelect
           label="Category"
@@ -490,7 +490,7 @@ export default function Leaderboard({ groups, pollMs }: Props) {
           onChange={(country) => setFilters({ ...filters, country })}
           options={options.countries.map((c) => ({ value: c.key, label: c.name }))}
         />
-        <div className="flex shrink-0 flex-col items-end gap-1 landscape:w-full landscape:flex-row landscape:items-center landscape:justify-between">
+        <div className="flex shrink-0 flex-row items-center gap-3 tablet:flex-col tablet:items-end tablet:gap-1 landscape:w-full landscape:flex-row landscape:items-center landscape:justify-between">
           <p className="font-board text-xs font-bold whitespace-nowrap text-white/70" aria-live="polite">
             {filtered ? `${teams.length} of ${allTeams.length} teams` : `${allTeams.length} teams`}
           </p>
@@ -498,7 +498,7 @@ export default function Leaderboard({ groups, pollMs }: Props) {
             type="button"
             onClick={() => setFilters(NO_FILTERS)}
             disabled={!filtered}
-            className="rounded-xl border border-sky/50 px-3 py-2 font-board text-sm font-bold text-white transition-colors hover:border-sky hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime disabled:cursor-default disabled:opacity-40 disabled:hover:border-sky/50 disabled:hover:bg-transparent landscape:py-1.5"
+            className="rounded-xl border border-sky/50 px-3 py-1.5 font-board text-sm font-bold text-white transition-colors hover:border-sky hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime disabled:cursor-default disabled:opacity-40 disabled:hover:border-sky/50 disabled:hover:bg-transparent tablet:py-2 landscape:py-1.5"
           >
             Clear
           </button>
@@ -529,7 +529,7 @@ export default function Leaderboard({ groups, pollMs }: Props) {
         aria-labelledby={`tab-${active.id}`}
         data-fade-top={fades.top || undefined}
         data-fade-bottom={fades.bottom || undefined}
-        className="mt-(--list-gap) min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-color:rgba(123,230,255,0.5)_transparent] [scrollbar-width:thin] [mask-image:linear-gradient(to_bottom,transparent,#000_var(--fade-top),#000_calc(100%-var(--fade-bottom)),transparent)] [transition:--fade-top_250ms_ease,--fade-bottom_250ms_ease] data-fade-top:[--fade-top:3rem] data-fade-bottom:[--fade-bottom:4.5rem] motion-reduce:transition-none tablet:overflow-visible tablet:[mask-image:none]"
+        className="mt-(--list-gap) min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-color:rgba(123,230,255,0.5)_transparent] [scrollbar-width:thin] [mask-image:linear-gradient(to_bottom,transparent,#000_var(--fade-top),#000_calc(100%-var(--fade-bottom)),transparent)] [transition:--fade-top_250ms_ease,--fade-bottom_250ms_ease] data-fade-top:[--fade-top:1.5rem] data-fade-bottom:[--fade-bottom:2.5rem] motion-reduce:transition-none tablet:overflow-visible tablet:[mask-image:none]"
       >
         {teams.length === 0 ? (
           <p className="py-12 text-center font-board text-lg font-bold text-white/80">
