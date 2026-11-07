@@ -18,12 +18,10 @@
 //   country, with a suffix for repeats.
 // - An empty tournament returns { "success": [] }.
 //
-// Imports use explicit .ts extensions (or are type-only) so this file also
+// Imports use explicit .ts extensions so this file also
 // runs under `node --test`.
-import type { Category, LeaderboardData, LeaderboardTeam } from "./leaderboard";
+import { CATEGORIES, type Category, type LeaderboardData, type LeaderboardTeam } from "./leaderboard.ts";
 import { continentFor } from "./continents.ts";
-
-const CATEGORIES: readonly Category[] = ["Junior", "Senior", "Open"];
 
 /** Category used when the API sends a value we don't know (reported in `issues`). */
 const FALLBACK_CATEGORY: Category = "Open";
@@ -103,7 +101,17 @@ const ALIASES: Record<string, string> = {
   "cote d ivoire": "ci",
   "turkiye": "tr",
   "netherlands kingdom of the": "nl",
+  "holy see": "va",
 };
+
+// Current ISO codes with no inhabited continent in continents.ts.
+const NO_CONTINENT_CODES = new Set(["aq", "bv", "cc", "cx", "gs", "hm", "io", "tf"]);
+
+/** A current (not retired) ISO 3166-1 alpha-2 code, so it has a flag. */
+function isCurrentCode(code: string): boolean {
+  const lower = code.toLowerCase();
+  return Boolean(continentFor(lower)) || NO_CONTINENT_CODES.has(lower);
+}
 
 let countryIndex: Map<string, string> | undefined;
 
@@ -124,7 +132,7 @@ function getCountryIndex(): Map<string, string> {
       }
       // Only current country codes: Intl also names retired ones (UK, FX, YU,
       // ZR…) and regions (EU, UN, QO), which have no flag.
-      if (!name || !continentFor(code)) continue;
+      if (!name || !isCurrentCode(code)) continue;
       const key = normalise(name);
       if (!index.has(key)) index.set(key, code.toLowerCase());
     }
@@ -137,7 +145,8 @@ function getCountryIndex(): Map<string, string> {
 /** ISO 3166-1 alpha-2 code (lowercase) for a country name or code, or "" when unknown. */
 export function countryCodeFor(country: string): string {
   const trimmed = country.trim();
-  if (/^[a-z]{2}$/i.test(trimmed)) return trimmed.toLowerCase();
+  // Accept a code as-is only if it's current; "UK" falls through to the "uk" alias.
+  if (/^[a-z]{2}$/i.test(trimmed) && isCurrentCode(trimmed)) return trimmed.toLowerCase();
   return getCountryIndex().get(normalise(trimmed)) ?? "";
 }
 

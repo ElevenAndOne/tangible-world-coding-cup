@@ -2,7 +2,14 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import type { LeaderboardTeam } from "../src/data/leaderboard.ts";
 import { continentFor } from "../src/data/continents.ts";
-import { filterOptions, filterTeams, filtersToSearch, NO_FILTERS, parseFilters } from "../src/data/filters.ts";
+import {
+  availableFilters,
+  filterOptions,
+  filterTeams,
+  filtersToSearch,
+  NO_FILTERS,
+  parseFilters,
+} from "../src/data/filters.ts";
 
 const team = (rank: number, category: LeaderboardTeam["category"], countryCode: string, countryName: string) =>
   ({ id: `t${rank}`, name: `Team ${rank}`, rank, levels: 10 - rank, category, countryCode, countryName }) satisfies LeaderboardTeam;
@@ -39,7 +46,10 @@ test("options list only what the group has, one entry per country", () => {
   const { continents, countries } = filterOptions(teams);
   assert.deepEqual(continents, ["Africa", "Asia", "Europe"]);
   assert.deepEqual(countries.map((c) => c.key), ["cy", "de", "za", "world"]);
-  assert.deepEqual(filterOptions(teams, "Africa").countries, [{ key: "za", name: "South Africa" }]);
+  assert.deepEqual(filterOptions(teams, { continent: "Africa" }).countries, [{ key: "za", name: "South Africa" }]);
+  // Germany only has a Senior team, so it isn't offered with Junior.
+  assert.deepEqual(filterOptions(teams, { category: "Junior" }).countries.map((c) => c.key), ["cy", "za"]);
+  assert.deepEqual(filterOptions(teams, { category: "Senior" }).continents, ["Europe"]);
 });
 
 test("filters round-trip through the query string", () => {
@@ -58,4 +68,35 @@ test("continents cover the tournament's regions", () => {
   assert.equal(continentFor("br"), "South America");
   assert.equal(continentFor("au"), "Oceania");
   assert.equal(continentFor(""), undefined);
+});
+
+test("teams tied on the official rank share a filtered position", () => {
+  const tied = [team(1, "Senior", "de", "Germany"), team(2, "Junior", "za", "South Africa"), { ...team(3, "Junior", "ke", "Kenya"), rank: 2 }, team(4, "Junior", "gh", "Ghana")];
+  assert.deepEqual(filterTeams(tied, { ...NO_FILTERS, category: "Junior" }).map((t) => t.position), [1, 1, 3]);
+});
+
+test("filters the group can't offer are dropped", () => {
+  // A shared link for Group 1's Africa, opened on a group without it.
+  const americas = [team(1, "Junior", "us", "United States"), team(2, "Senior", "br", "Brazil")];
+  assert.deepEqual(availableFilters(americas, { category: "Junior", continent: "Africa", country: "za" }), {
+    category: "Junior",
+    continent: "",
+    country: "",
+  });
+  // A category that rules the chosen country out clears the country only.
+  assert.deepEqual(availableFilters(teams, { category: "Junior", continent: "Europe", country: "de" }), {
+    category: "Junior",
+    continent: "",
+    country: "",
+  });
+  assert.deepEqual(availableFilters(teams, { category: "Senior", continent: "Europe", country: "de" }), {
+    category: "Senior",
+    continent: "Europe",
+    country: "de",
+  });
+  // Unchanged filters keep their identity, and an empty (loading) group changes nothing.
+  const kept = { ...NO_FILTERS, category: "Junior" as const };
+  assert.equal(availableFilters(teams, kept), kept);
+  const pending = { ...NO_FILTERS, country: "za" };
+  assert.equal(availableFilters([], pending), pending);
 });

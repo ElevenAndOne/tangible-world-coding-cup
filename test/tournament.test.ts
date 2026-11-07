@@ -63,6 +63,13 @@ test("maps country names, including the misspellings in the test data", () => {
   assert.equal(countryCodeFor("United Kingdom of Great Britain and Northern Ireland"), "gb");
   assert.equal(countryCodeFor("Tanzania, United Republic of"), "tz");
   assert.equal(countryCodeFor("Iran (Islamic Republic of)"), "ir");
+  assert.equal(countryCodeFor("Holy See"), "va");
+  // Two-letter input is only taken as a code when it's current.
+  assert.equal(countryCodeFor("UK"), "gb");
+  assert.equal(countryCodeFor("YU"), "");
+  // Current codes outside the continent table still map.
+  assert.equal(countryCodeFor("Christmas Island"), "cx");
+  assert.equal(countryCodeFor("Antarctica"), "aq");
 });
 
 test('"World" teams get a blank flag without being reported', () => {

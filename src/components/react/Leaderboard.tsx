@@ -4,6 +4,7 @@ import { parseLeaderboard, type LeaderboardData } from "../../data/leaderboard";
 import {
   CATEGORY_OPTIONS,
   NO_FILTERS,
+  availableFilters,
   filterOptions,
   filterTeams,
   filtersToSearch,
@@ -34,6 +35,9 @@ interface Props {
 type Status = "loading" | "live" | "stale";
 
 const PODIUM_SIZE = 3;
+
+/** Shared empty list, so memos and effects don't rerun while a group has no data. */
+const NO_TEAMS: LeaderboardData["teams"] = [];
 
 const SHIELDS = [
   // gold, silver, bronze — light edge first, then the face
@@ -313,20 +317,22 @@ export default function Leaderboard({ groups, pollMs }: Props) {
   useEffect(() => setMounted(true), []);
   const updated = mounted && data ? formatTime(data.updatedAt) : "";
 
-  const allTeams = data?.teams ?? [];
+  const allTeams = data?.teams ?? NO_TEAMS;
   const teams = useMemo(() => filterTeams(allTeams, filters), [allTeams, filters]);
-  const options = useMemo(() => filterOptions(allTeams, filters.continent), [allTeams, filters.continent]);
+  const options = useMemo(
+    () => filterOptions(allTeams, { category: filters.category, continent: filters.continent }),
+    [allTeams, filters.category, filters.continent],
+  );
   const filtered = isFiltered(filters);
   const rowRef = useRankAnimation(teams);
 
-  // Continents and countries differ between groups, so a new tab keeps only the category.
-  const switchGroup = useCallback(
-    (id: string) => {
-      selectGroup(id);
-      if (filters.continent || filters.country) setFilters({ ...filters, continent: "", country: "" });
-    },
-    [filters, selectGroup, setFilters],
-  );
+  // Continents and countries differ between groups (and a category can rule a
+  // country out), so once the visible group has loaded, drop any continent or
+  // country it can't offer: from a shared link, a tab switch or a hash change.
+  useEffect(() => {
+    const next = availableFilters(allTeams, filters);
+    if (next !== filters) setFilters(next);
+  }, [allTeams, filters, setFilters]);
 
   // Polls only the visible group; switching tabs loads the new group at once.
   useEffect(() => {
@@ -393,7 +399,7 @@ export default function Leaderboard({ groups, pollMs }: Props) {
     if (!step) return;
     event.preventDefault();
     const next = groups[(index + step + groups.length) % groups.length];
-    switchGroup(next.id);
+    selectGroup(next.id);
     tabRefs.current.get(next.id)?.focus();
   };
 
@@ -441,7 +447,7 @@ export default function Leaderboard({ groups, pollMs }: Props) {
               aria-selected={selected}
               aria-controls="standings-panel"
               tabIndex={selected ? 0 : -1}
-              onClick={() => switchGroup(group.id)}
+              onClick={() => selectGroup(group.id)}
               onKeyDown={(event) => onTabKey(event, index)}
               className={`flex min-w-0 flex-row items-baseline gap-3 rounded-xl border px-5 py-2.5 text-left tablet:flex-col tablet:items-start tablet:gap-0 tablet:rounded-2xl tablet:py-3 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime landscape:px-4 landscape:py-2.5 portrait:px-3 ${
                 selected

@@ -3,10 +3,10 @@
 // Filtering keeps the official order (the API's rank: most levels, least
 // attempts, fastest time) and numbers the remaining teams 1, 2, 3…, so
 // "Junior" shows who leads the juniors. Each team keeps its overall rank too.
-import type { Category, LeaderboardTeam } from "./leaderboard";
+import { CATEGORIES, type Category, type LeaderboardTeam } from "./leaderboard.ts";
 import { CONTINENTS, continentFor, type Continent } from "./continents.ts";
 
-export const CATEGORY_OPTIONS: readonly Category[] = ["Junior", "Senior", "Open"];
+export const CATEGORY_OPTIONS = CATEGORIES;
 
 export interface BoardFilters {
   category: Category | "";
@@ -35,17 +35,26 @@ export function isFiltered(filters: BoardFilters): boolean {
   return Boolean(filters.category || filters.continent || filters.country);
 }
 
-/** Teams matching every active filter, in official order, numbered from 1. */
+/**
+ * Teams matching every active filter, in official order, numbered from 1.
+ * Teams that tie on the official rank share a position (1, 2, 2, 4).
+ */
 export function filterTeams(teams: LeaderboardTeam[], filters: BoardFilters): RankedTeam[] {
   const filtered = isFiltered(filters);
-  return teams
-    .filter(
-      (team) =>
-        (!filters.category || team.category === filters.category) &&
-        (!filters.continent || continentFor(team.countryCode) === filters.continent) &&
-        (!filters.country || countryKey(team) === filters.country),
-    )
-    .map((team, index) => ({ ...team, position: filtered ? index + 1 : (team.rank ?? index + 1) }));
+  const matches = teams.filter(
+    (team) =>
+      (!filters.category || team.category === filters.category) &&
+      (!filters.continent || continentFor(team.countryCode) === filters.continent) &&
+      (!filters.country || countryKey(team) === filters.country),
+  );
+  const ranked: RankedTeam[] = [];
+  matches.forEach((team, index) => {
+    const previous = ranked[index - 1];
+    const tied = previous && team.rank != null && team.rank === previous.rank;
+    const position = !filtered ? (team.rank ?? index + 1) : tied ? previous.position : index + 1;
+    ranked.push({ ...team, position });
+  });
+  return ranked;
 }
 
 let displayNames: Intl.DisplayNames | undefined;
@@ -61,14 +70,18 @@ function countryLabel(team: LeaderboardTeam): string {
   }
 }
 
-/** Continents and countries present in a group (countries narrowed to the chosen continent). */
+/**
+ * Continents and countries present in a group. Each list is narrowed by the
+ * other filters, so it never offers a choice that would leave the board empty.
+ */
 export function filterOptions(
   teams: LeaderboardTeam[],
-  continent: BoardFilters["continent"] = "",
+  { category = "", continent = "" }: Partial<BoardFilters> = {},
 ): { continents: Continent[]; countries: CountryOption[] } {
-  const present = new Set(teams.map((team) => continentFor(team.countryCode)));
+  const inCategory = category ? teams.filter((team) => team.category === category) : teams;
+  const present = new Set(inCategory.map((team) => continentFor(team.countryCode)));
   const countries = new Map<string, string>();
-  for (const team of teams) {
+  for (const team of inCategory) {
     if (continent && continentFor(team.countryCode) !== continent) continue;
     const key = countryKey(team);
     if (key && !countries.has(key)) countries.set(key, countryLabel(team));
@@ -79,6 +92,20 @@ export function filterOptions(
       .map(([key, name]) => ({ key, name }))
       .sort((a, b) => a.name.localeCompare(b.name)),
   };
+}
+
+/**
+ * Drops a continent or country the current group can't offer (e.g. from a
+ * shared link, or after switching tab). Returns the same object when nothing changes.
+ */
+export function availableFilters(teams: LeaderboardTeam[], filters: BoardFilters): BoardFilters {
+  if (!teams.length) return filters;
+  let next = filters;
+  const { continents } = filterOptions(teams, { category: filters.category });
+  if (next.continent && !continents.includes(next.continent)) next = { ...next, continent: "" };
+  const { countries } = filterOptions(teams, next);
+  if (next.country && !countries.some((c) => c.key === next.country)) next = { ...next, country: "" };
+  return next;
 }
 
 /** Reads filters from a query string (?category=junior&continent=africa&country=za). */
