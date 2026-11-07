@@ -18,8 +18,10 @@
 //   country, with a suffix for repeats.
 // - An empty tournament returns { "success": [] }.
 //
-// Only types are imported, so this file also runs under `node --test`.
+// Imports use explicit .ts extensions (or are type-only) so this file also
+// runs under `node --test`.
 import type { Category, LeaderboardData, LeaderboardTeam } from "./leaderboard";
+import { continentFor } from "./continents.ts";
 
 const CATEGORIES: readonly Category[] = ["Junior", "Senior", "Open"];
 
@@ -62,6 +64,7 @@ const ALIASES: Record<string, string> = {
   "cape verde": "cv",
   "cabo verde": "cv",
   burma: "mm",
+  myanmar: "mm",
   palestine: "ps",
   drc: "cd",
   "dr congo": "cd",
@@ -71,10 +74,35 @@ const ALIASES: Record<string, string> = {
   "republic of the congo": "cg",
   "republic of congo": "cg",
   "south korea": "kr",
-  "korea republic of": "kr",
   russia: "ru",
   "russian federation": "ru",
   "viet nam": "vn",
+  // ISO / UN official names (the live groups use these, e.g. the UK's).
+  "united kingdom of great britain and northern ireland": "gb",
+  "korea republic of": "kr",
+  "republic of korea": "kr",
+  "korea democratic people s republic of": "kp",
+  "democratic people s republic of korea": "kp",
+  "iran islamic republic of": "ir",
+  "bolivia plurinational state of": "bo",
+  "venezuela bolivarian republic of": "ve",
+  "tanzania united republic of": "tz",
+  "united republic of tanzania": "tz",
+  "congo democratic republic of the": "cd",
+  "lao people s democratic republic": "la",
+  "syrian arab republic": "sy",
+  "moldova republic of": "md",
+  "republic of moldova": "md",
+  "micronesia federated states of": "fm",
+  "palestine state of": "ps",
+  "state of palestine": "ps",
+  "taiwan province of china": "tw",
+  "hong kong sar": "hk",
+  "macao sar": "mo",
+  "brunei darussalam": "bn",
+  "cote d ivoire": "ci",
+  "turkiye": "tr",
+  "netherlands kingdom of the": "nl",
 };
 
 let countryIndex: Map<string, string> | undefined;
@@ -94,9 +122,11 @@ function getCountryIndex(): Map<string, string> {
       } catch {
         continue;
       }
-      // Unassigned codes echo back; ZZ/QO/EU/UN etc. aren't countries.
-      if (!name || name === code || /unknown|outlying|european union|united nations|pseudo/i.test(name)) continue;
-      index.set(normalise(name), code.toLowerCase());
+      // Only current country codes: Intl also names retired ones (UK, FX, YU,
+      // ZR…) and regions (EU, UN, QO), which have no flag.
+      if (!name || !continentFor(code)) continue;
+      const key = normalise(name);
+      if (!index.has(key)) index.set(key, code.toLowerCase());
     }
   }
   for (const [alias, code] of Object.entries(ALIASES)) index.set(alias, code);
