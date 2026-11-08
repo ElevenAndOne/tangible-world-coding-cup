@@ -11,9 +11,10 @@
 // - `country` is an English country name, sometimes misspelled, or "World"
 //   for teams without a country. It is mapped to an ISO alpha-2 code for the
 //   flag; unknown names keep their text and get a blank flag.
-// - `time` is the team's elapsed time, not a clock time, so it can't fill
-//   `lastLevelAt`. The board doesn't show it (the design has Category and
-//   Levels columns only) and ordering comes from `rank`.
+// - `time` is the team's elapsed time ("HH:MM:SS", capped at the 30-minute
+//   race), not a clock time, so it can't fill `lastLevelAt`. It isn't shown;
+//   it's kept as `elapsedSeconds` to order teams across groups (see
+//   combineStandings in leaderboard.ts).
 // - There is no team id and names repeat, so ids are derived from the name and
 //   country, with a suffix for repeats.
 // - An empty tournament returns { "success": [] }.
@@ -159,6 +160,14 @@ export interface TournamentMapping {
   issues: { unknownCountries: string[]; unknownCategories: string[]; droppedRows: number };
 }
 
+/** "00:12:34" → 754 seconds; undefined when the value isn't H:MM:SS / MM:SS. */
+export function parseElapsed(value: unknown): number | undefined {
+  if (typeof value !== "string") return undefined;
+  const parts = value.trim().split(":");
+  if (parts.length < 2 || parts.length > 3 || parts.some((part) => !/^\d+$/.test(part))) return undefined;
+  return parts.reduce((total, part) => total * 60 + Number(part), 0);
+}
+
 function slug(value: string): string {
   return normalise(value).replace(/ /g, "-") || "team";
 }
@@ -212,6 +221,7 @@ export function mapTournamentStandings(payload: unknown, now: Date = new Date())
         category: category ?? FALLBACK_CATEGORY,
         levels,
         rank: Number.isInteger(rank) && rank > 0 ? rank : undefined,
+        elapsedSeconds: parseElapsed(row.time),
       },
     ];
   });

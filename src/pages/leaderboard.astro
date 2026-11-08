@@ -3,28 +3,25 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import WccLogo from "../components/brand/WccLogo.astro";
 import Leaderboard from "../components/react/Leaderboard.tsx";
-import { getDemoLeaderboard, LEADERBOARD_GROUPS } from "../data/leaderboard";
+import { getDemoLeaderboard } from "../data/leaderboard";
 import tangibleMark from "../assets/images/hero-deco.svg";
 import armTop from "../assets/leaderboard/arm-top.png";
 import armBottom from "../assets/leaderboard/arm-bottom.png";
 
-// Results feed. By default each tab reads the dummy feed at /api/demo/[group].json.
-// Set PUBLIC_LEADERBOARD_SOURCE=live to read the tournament results through the
-// server route /api/standings/[group].json, which adds the secret API key.
+// Results feed: both groups combined into one list. By default the board reads
+// the dummy feed at /api/demo/all.json. Set PUBLIC_LEADERBOARD_SOURCE=live to
+// read the tournament results through /api/standings/all.json, which adds the
+// secret API key and merges Group 1 (tournament 146) and Group 2 (156).
 const live = import.meta.env.PUBLIC_LEADERBOARD_SOURCE === "live";
 
 // Refresh interval in seconds (default one minute, never faster than 10s).
 const pollSeconds = Math.max(10, Number(import.meta.env.PUBLIC_LEADERBOARD_POLL_SECONDS) || 60);
 
+const endpoint = live ? "/api/standings/all.json" : "/api/demo/all.json";
+
 // Server-render the dummy standings so the page isn't empty before the first
 // poll; with the live feed the board loads straight from the results API.
-const groups = LEADERBOARD_GROUPS.map(({ id, name, region }) => ({
-  id,
-  name,
-  region,
-  endpoint: live ? `/api/standings/${id}.json` : `/api/demo/${id}.json`,
-  initial: live ? null : getDemoLeaderboard(new Date(), id),
-}));
+const initial = live ? null : getDemoLeaderboard(new Date(), "all");
 ---
 
 <BaseLayout
@@ -99,7 +96,7 @@ const groups = LEADERBOARD_GROUPS.map(({ id, name, region }) => ({
           portrait:[--shield-w:34px] portrait:[--shield-h:38px] portrait:[--levels-w:40px] portrait:[--stats-px:10px] portrait:[--cell-gap:8px]"
       >
         <h2 id="standings-heading" class="sr-only">Team standings</h2>
-        <Leaderboard client:load groups={groups} pollMs={pollSeconds * 1000} />
+        <Leaderboard client:load endpoint={endpoint} initial={initial} pollMs={pollSeconds * 1000} />
       </section>
     </div>
   </div>

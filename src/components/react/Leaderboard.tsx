@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import "flag-icons/css/flag-icons.min.css";
 import { parseLeaderboard, type LeaderboardData } from "../../data/leaderboard";
 import {
@@ -14,21 +14,12 @@ import {
   type RankedTeam,
 } from "../../data/filters";
 
-export interface BoardGroup {
-  id: string;
-  /** Short name, e.g. "Group 1". */
-  name: string;
-  /** Regional label shown on the tab. */
-  region: string;
-  /** URL of this group's results feed (JSON in the LeaderboardData shape). */
+interface Props {
+  /** URL of the combined results feed (JSON in the LeaderboardData shape). */
   endpoint: string;
   /** Server-rendered snapshot; null shows the loading state until the first fetch. */
   initial: LeaderboardData | null;
-}
-
-interface Props {
-  groups: BoardGroup[];
-  /** How often to re-fetch the visible group while the page is visible. */
+  /** How often to re-fetch while the page is visible. */
   pollMs: number;
 }
 
@@ -36,7 +27,7 @@ type Status = "loading" | "live" | "stale";
 
 const PODIUM_SIZE = 3;
 
-/** Shared empty list, so memos and effects don't rerun while a group has no data. */
+/** Shared empty list, so memos and effects don't rerun while there's no data. */
 const NO_TEAMS: LeaderboardData["teams"] = [];
 
 const SHIELDS = [
@@ -221,30 +212,6 @@ function useScrollFades(deps: unknown) {
   return [ref, fades] as const;
 }
 
-/** The selected tab, kept in the URL hash (#group-2) so links can open a region. */
-function useActiveGroup(groups: BoardGroup[]) {
-  const ids = groups.map((group) => group.id);
-  const [active, setActive] = useState(ids[0]);
-
-  useEffect(() => {
-    const fromHash = () => {
-      const id = window.location.hash.slice(1);
-      if (ids.includes(id)) setActive(id);
-    };
-    fromHash();
-    window.addEventListener("hashchange", fromHash);
-    return () => window.removeEventListener("hashchange", fromHash);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ids.join()]);
-
-  const select = useCallback((id: string) => {
-    setActive(id);
-    history.replaceState(null, "", `${window.location.search}#${id}`);
-  }, []);
-
-  return [active, select] as const;
-}
-
 /** Category / continent / country filters, kept in the query string so a filtered board can be shared. */
 function useFilters() {
   // Start unfiltered so the server render matches; read the URL once mounted.
@@ -297,19 +264,10 @@ function FilterSelect({
   );
 }
 
-export default function Leaderboard({ groups, pollMs }: Props) {
-  const [activeId, selectGroup] = useActiveGroup(groups);
+export default function Leaderboard({ endpoint, initial, pollMs }: Props) {
   const [filters, setFilters] = useFilters();
-  const active = groups.find((group) => group.id === activeId) ?? groups[0];
-
-  const [dataById, setDataById] = useState<Record<string, LeaderboardData | null>>(() =>
-    Object.fromEntries(groups.map((group) => [group.id, group.initial])),
-  );
-  const [statusById, setStatusById] = useState<Record<string, Status>>(() =>
-    Object.fromEntries(groups.map((group) => [group.id, group.initial ? "live" : "loading"])),
-  );
-  const data = dataById[active.id] ?? null;
-  const status = statusById[active.id] ?? "loading";
+  const [data, setData] = useState<LeaderboardData | null>(initial);
+  const [status, setStatus] = useState<Status>(initial ? "live" : "loading");
 
   // Times are only shown once mounted: the server can't know the visitor's
   // timezone, so formatting during SSR would cause a hydration mismatch.
@@ -326,17 +284,14 @@ export default function Leaderboard({ groups, pollMs }: Props) {
   const filtered = isFiltered(filters);
   const rowRef = useRankAnimation(teams);
 
-  // Continents and countries differ between groups (and a category can rule a
-  // country out), so once the visible group has loaded, drop any continent or
-  // country it can't offer: from a shared link, a tab switch or a hash change.
+  // Once the standings load, drop a continent or country they can't offer
+  // (e.g. from a shared link, or a country with no teams in the category).
   useEffect(() => {
     const next = availableFilters(allTeams, filters);
     if (next !== filters) setFilters(next);
   }, [allTeams, filters, setFilters]);
 
-  // Polls only the visible group; switching tabs loads the new group at once.
   useEffect(() => {
-    const { id, endpoint } = active;
     let timer: number | undefined;
     let controller: AbortController | undefined;
 
@@ -352,16 +307,13 @@ export default function Leaderboard({ groups, pollMs }: Props) {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const next = parseLeaderboard(await response.json());
         if (!next) throw new Error("Unexpected leaderboard payload");
-        setDataById((current) => ({ ...current, [id]: next }));
-        setStatusById((current) => ({ ...current, [id]: "live" }));
+        setData(next);
+        setStatus("live");
       } catch (error) {
         if ((error as Error).name === "AbortError") return;
         // Keep showing the last good standings; the badge flags the problem.
-        setStatusById((current) => ({
-          ...current,
-          [id]: current[id] === "loading" ? "loading" : "stale",
-        }));
-        console.warn(`[leaderboard] ${id} refresh failed:`, error);
+        setStatus((current) => (current === "loading" ? "loading" : "stale"));
+        console.warn("[leaderboard] refresh failed:", error);
       }
     };
 
@@ -391,17 +343,7 @@ export default function Leaderboard({ groups, pollMs }: Props) {
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("online", load);
     };
-  }, [active, pollMs]);
-
-  const tabRefs = useRef(new Map<string, HTMLButtonElement>());
-  const onTabKey = (event: KeyboardEvent, index: number) => {
-    const step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
-    if (!step) return;
-    event.preventDefault();
-    const next = groups[(index + step + groups.length) % groups.length];
-    selectGroup(next.id);
-    tabRefs.current.get(next.id)?.focus();
-  };
+  }, [endpoint, pollMs]);
 
   const [listRef, fades] = useScrollFades(teams.length);
 
@@ -426,45 +368,6 @@ export default function Leaderboard({ groups, pollMs }: Props) {
         {status === "live" && (updated ? <>Live · updated {updated}</> : "Live")}
         {status === "stale" && (updated ? <>Reconnecting · last update {updated}</> : "Reconnecting")}
       </p>
-
-      {/* Regional tabs: each group keeps its own official ranking */}
-      <div
-        role="tablist"
-        aria-label="Tournament groups"
-        className="mb-(--tabs-gap) grid grid-cols-2 gap-3 portrait:gap-2"
-      >
-        {groups.map((group, index) => {
-          const selected = group.id === active.id;
-          return (
-            <button
-              key={group.id}
-              ref={(node) => {
-                if (node) tabRefs.current.set(group.id, node);
-              }}
-              type="button"
-              role="tab"
-              id={`tab-${group.id}`}
-              aria-selected={selected}
-              aria-controls="standings-panel"
-              tabIndex={selected ? 0 : -1}
-              onClick={() => selectGroup(group.id)}
-              onKeyDown={(event) => onTabKey(event, index)}
-              className={`flex min-w-0 flex-row items-baseline gap-3 rounded-xl border px-5 py-2.5 text-left tablet:flex-col tablet:items-start tablet:gap-0 tablet:rounded-2xl tablet:py-3 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime landscape:px-4 landscape:py-2.5 portrait:px-3 ${
-                selected
-                  ? "border-lime bg-lime text-board-ink"
-                  : "border-sky/50 bg-white/5 text-white hover:border-sky hover:bg-white/10"
-              }`}
-            >
-              <span className="shrink-0 font-display text-[0.95rem] leading-none tracking-[0.04em] uppercase opacity-80 portrait:text-[0.8rem]">
-                {group.name}
-              </span>
-              <span className="truncate font-board text-lg leading-tight font-bold tablet:mt-1.5 tablet:whitespace-normal landscape:text-base portrait:text-sm">
-                {group.region}
-              </span>
-            </button>
-          );
-        })}
-      </div>
 
       {/* Filters: the official order is kept and the remaining teams are numbered 1, 2, 3… */}
       <div
@@ -531,8 +434,6 @@ export default function Leaderboard({ groups, pollMs }: Props) {
       <div
         ref={listRef}
         id="standings-panel"
-        role="tabpanel"
-        aria-labelledby={`tab-${active.id}`}
         data-fade-top={fades.top || undefined}
         data-fade-bottom={fades.bottom || undefined}
         className="mt-(--list-gap) min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-color:rgba(123,230,255,0.5)_transparent] [scrollbar-width:thin] [mask-image:linear-gradient(to_bottom,transparent,#000_var(--fade-top),#000_calc(100%-var(--fade-bottom)),transparent)] [transition:--fade-top_250ms_ease,--fade-bottom_250ms_ease] data-fade-top:[--fade-top:1.5rem] data-fade-bottom:[--fade-bottom:2.5rem] motion-reduce:transition-none tablet:overflow-visible tablet:[mask-image:none]"
@@ -546,7 +447,7 @@ export default function Leaderboard({ groups, pollMs }: Props) {
                 : "No results yet — check back once racing starts."}
           </p>
         ) : (
-          <ol className="flex flex-col gap-(--row-gap) py-2" aria-label={`${active.name} standings: ${active.region}`}>
+          <ol className="flex flex-col gap-(--row-gap) py-2" aria-label="Standings, all regions">
             {teams.map((team) => (
               <li key={team.id} ref={rowRef(team.id)} className="relative">
                 <Row team={team} />

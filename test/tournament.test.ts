@@ -2,7 +2,9 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
-import { countryCodeFor, mapTournamentStandings } from "../src/data/tournament.ts";
+import type { LeaderboardTeam } from "../src/data/leaderboard.ts";
+import { combineStandings } from "../src/data/leaderboard.ts";
+import { countryCodeFor, mapTournamentStandings, parseElapsed } from "../src/data/tournament.ts";
 
 // Trimmed from the test tournament (id 1) on 2 November 2026, team names anonymised.
 const sample = JSON.parse(
@@ -28,6 +30,7 @@ test("maps every row and keeps the API's rank", () => {
     category: "Open",
     levels: 6,
     rank: 2,
+    elapsedSeconds: 130,
   });
 });
 
@@ -106,4 +109,62 @@ test("an empty tournament maps to no teams", () => {
 test("rejects payloads without a success array", () => {
   assert.equal(mapTournamentStandings({ error: "Unauthorized" }), null);
   assert.equal(mapTournamentStandings(null), null);
+});
+
+test("parses the API's elapsed time", () => {
+  assert.equal(parseElapsed("00:01:05"), 65);
+  assert.equal(parseElapsed("00:30:00"), 1800);
+  assert.equal(parseElapsed("1:02:03"), 3723);
+  assert.equal(parseElapsed("12:34"), 754);
+  assert.equal(parseElapsed("soon"), undefined);
+  assert.equal(parseElapsed(undefined), undefined);
+});
+
+const t = (id: string, rank: number, levels: number, elapsedSeconds?: number): LeaderboardTeam => ({
+  id, name: id, countryCode: "", countryName: "World", category: "Open", levels, rank, elapsedSeconds,
+});
+
+test("combines the groups by levels and keeps each group's official order", () => {
+  // Group 1's official order puts b (slower) ahead of c on attempts; that order is kept.
+  const group1 = [t("a", 1, 30, 1800), t("b", 2, 25, 1500), t("c", 3, 25, 900), t("d", 4, 10, 600)];
+  const group2 = [t("x", 1, 28, 1800), t("y", 2, 25, 1200), t("z", 3, 5, 300)];
+  const combined = combineStandings([{ id: "g1", teams: group1 }, { id: "g2", teams: group2 }]);
+  assert.deepEqual(
+    combined.map((team) => team.id),
+    ["g1-a", "g2-x", "g2-y", "g1-b", "g1-c", "g1-d", "g2-z"],
+  );
+  assert.deepEqual(combined.map((team) => team.rank), [1, 2, 3, 4, 5, 6, 7]);
+});
+
+test("cross-group ties on levels and time go to group order", () => {
+  const combined = combineStandings([
+    { id: "g1", teams: [t("a", 1, 30, 1800)] },
+    { id: "g2", teams: [t("x", 1, 30, 1800)] },
+  ]);
+  assert.deepEqual(combined.map((team) => team.id), ["g1-a", "g2-x"]);
+});
+
+test("one empty group leaves the other's order and ranks unchanged", () => {
+  const group1 = [t("a", 1, 30), t("b", 2, 20)];
+  const groups = (one: LeaderboardTeam[], two: LeaderboardTeam[]) => [
+    { id: "g1", teams: one },
+    { id: "g2", teams: two },
+  ];
+  assert.deepEqual(
+    combineStandings(groups(group1, [])).map((team) => [team.id, team.rank]),
+    [["g1-a", 1], ["g1-b", 2]],
+  );
+  assert.deepEqual(combineStandings(groups([], [])), []);
+});
+
+test("an unranked row can't land below teams with fewer levels", () => {
+  // The mapper puts rows without a rank last; the merge still orders by levels.
+  const group1 = [t("a", 1, 10), { ...t("lost", 0, 30), rank: undefined }];
+  const combined = combineStandings([{ id: "g1", teams: group1 }, { id: "g2", teams: [t("x", 1, 20)] }]);
+  assert.deepEqual(combined.map((team) => [team.id, team.rank]), [["g1-lost", 1], ["g2-x", 2], ["g1-a", 3]]);
+});
+
+test("the same team name in both groups gets distinct ids", () => {
+  const combined = combineStandings([{ id: "g1", teams: [t("same", 1, 5)] }, { id: "g2", teams: [t("same", 1, 4)] }]);
+  assert.deepEqual(combined.map((team) => team.id), ["g1-same", "g2-same"]);
 });
