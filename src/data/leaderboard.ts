@@ -23,6 +23,8 @@ export interface LeaderboardTeam {
   lastLevelAt?: string;
   /** 1-based position. Filled in by `rankTeams` when the feed omits it. */
   rank?: number;
+  /** Elapsed race time in seconds (results API `time`), used to order teams across groups. */
+  elapsedSeconds?: number;
 }
 
 export interface LeaderboardData {
@@ -34,8 +36,10 @@ export interface LeaderboardData {
 export const CATEGORIES: readonly Category[] = ["Junior", "Senior", "Open"];
 
 /**
- * The tournament runs as two regional groups, each with its own official
- * ranking (Roslyn Tait, 30 October 2026). The page shows them as tabs.
+ * The tournament runs as two regional groups at different times, each with
+ * its own official ranking (Roslyn Tait, 30 October 2026). They play the same
+ * competition, so the page combines them into one list (see combineStandings
+ * in src/data/tournament.ts).
  */
 export const LEADERBOARD_GROUPS = [
   { id: "group-1", name: "Group 1", region: "Africa, Europe, Asia & Oceania", tournamentId: 146 },
@@ -176,8 +180,14 @@ function seeded(seed: number): () => number {
 /** Dummy standings that progress with the clock, so polling visibly changes the board. */
 export function getDemoLeaderboard(
   now: Date = new Date(),
-  group: LeaderboardGroupId = "group-1",
+  group: LeaderboardGroupId | "all" = "all",
 ): LeaderboardData {
+  if (group === "all") {
+    // Both groups in one list, ranked by levels and then who got there first.
+    const teams = LEADERBOARD_GROUPS.flatMap(({ id }) => getDemoLeaderboard(now, id).teams);
+    return { updatedAt: now.toISOString(), teams: rankTeams(teams.map(({ rank: _rank, ...team }) => team)) };
+  }
+
   const minute = Math.floor(now.getTime() / 60_000);
   const elapsed = minute % DEMO_LOOP_MINUTES;
   const raceStart = (minute - elapsed) * 60_000;
