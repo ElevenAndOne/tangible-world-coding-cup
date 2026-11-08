@@ -434,7 +434,6 @@ export default function Leaderboard({ endpoint, initial, pollMs }: Props) {
       <div
         ref={listRef}
         id="standings-panel"
-        aria-label="Standings"
         data-fade-top={fades.top || undefined}
         data-fade-bottom={fades.bottom || undefined}
         className="mt-(--list-gap) min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-color:rgba(123,230,255,0.5)_transparent] [scrollbar-width:thin] [mask-image:linear-gradient(to_bottom,transparent,#000_var(--fade-top),#000_calc(100%-var(--fade-bottom)),transparent)] [transition:--fade-top_250ms_ease,--fade-bottom_250ms_ease] data-fade-top:[--fade-top:1.5rem] data-fade-bottom:[--fade-bottom:2.5rem] motion-reduce:transition-none tablet:overflow-visible tablet:[mask-image:none]"

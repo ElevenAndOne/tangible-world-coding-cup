@@ -65,6 +65,48 @@ export function rankTeams(teams: LeaderboardTeam[]): LeaderboardTeam[] {
     .map((team, index) => ({ ...team, rank: allRanked ? team.rank : index + 1 }));
 }
 
+/**
+ * Combines the groups' standings into one ranked list, used by the live feed
+ * (/api/standings/all.json) and the demo feed alike.
+ *
+ * Each group is first put in levels order (a no-op for the official ranking,
+ * which is most levels, least attempts, fastest time, but it keeps a stray
+ * unranked row from landing below teams with fewer levels), and that order is
+ * then kept: the groups are merged by levels, so the combined list is exact on
+ * levels and each group's official order is unchanged.
+ *
+ * Limitation: the API doesn't send attempts, so teams from different groups
+ * with the same levels are ordered by elapsed time, then Group 1 first. The
+ * time is capped at the 30-minute race, so teams that both ran the full race
+ * tie on time and are simply placed in group order.
+ *
+ * Ids are prefixed with the group id, since the same team name can appear in
+ * both groups. Ranks are renumbered 1, 2, 3…
+ */
+export function combineStandings(groups: { id: string; teams: LeaderboardTeam[] }[]): LeaderboardTeam[] {
+  const lists = groups.map(({ id, teams }) =>
+    // Array#sort is stable, so teams on the same levels keep their official order.
+    [...teams].sort((a, b) => b.levels - a.levels).map((team) => ({ ...team, id: `${id}-${team.id}` })),
+  );
+  const heads = lists.map(() => 0);
+  const combined: LeaderboardTeam[] = [];
+  const ahead = (a: LeaderboardTeam, b: LeaderboardTeam) =>
+    a.levels !== b.levels
+      ? a.levels > b.levels
+      : (a.elapsedSeconds ?? Infinity) < (b.elapsedSeconds ?? Infinity);
+
+  for (;;) {
+    let next = -1;
+    lists.forEach((teams, list) => {
+      const team = teams[heads[list]];
+      if (team && (next < 0 || ahead(team, lists[next][heads[next]]))) next = list;
+    });
+    if (next < 0) break;
+    combined.push(lists[next][heads[next]++]);
+  }
+  return combined.map((team, index) => ({ ...team, rank: index + 1 }));
+}
+
 /** Validates an unknown API payload, dropping malformed rows instead of failing the whole board. */
 export function parseLeaderboard(payload: unknown): LeaderboardData | null {
   if (!payload || typeof payload !== "object") return null;
@@ -183,9 +225,11 @@ export function getDemoLeaderboard(
   group: LeaderboardGroupId | "all" = "all",
 ): LeaderboardData {
   if (group === "all") {
-    // Both groups in one list, ranked by levels and then who got there first.
-    const teams = LEADERBOARD_GROUPS.flatMap(({ id }) => getDemoLeaderboard(now, id).teams);
-    return { updatedAt: now.toISOString(), teams: rankTeams(teams.map(({ rank: _rank, ...team }) => team)) };
+    // Both groups in one list, merged the same way as the live feed.
+    const teams = combineStandings(
+      LEADERBOARD_GROUPS.map(({ id }) => ({ id, teams: getDemoLeaderboard(now, id).teams })),
+    );
+    return { updatedAt: now.toISOString(), teams };
   }
 
   const minute = Math.floor(now.getTime() / 60_000);
@@ -206,7 +250,7 @@ export function getDemoLeaderboard(
     const minutesSinceLevel = Math.min(elapsed, Math.floor(random() * 3));
 
     return {
-      id: `${group}-team-${index + 1}`,
+      id: `team-${index + 1}`,
       name,
       countryCode,
       countryName,

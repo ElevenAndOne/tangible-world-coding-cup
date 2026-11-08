@@ -1,12 +1,12 @@
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getDemoLeaderboard, LEADERBOARD_GROUPS, type LeaderboardGroupId } from "../../../data/leaderboard";
 
-// Dummy feed for the combined board and each group, in the shape the live board expects (see
-// LeaderboardData in src/data/leaderboard.ts). In `astro dev` it is evaluated
-// on every request, so the standings move between polls. A build writes one
-// snapshot per group. Set PUBLIC_LEADERBOARD_SOURCE=live to use the real
-// results via /api/standings/[group].json instead.
-// `all` combines both groups, as the page shows them; each group is also available.
+// Dummy feeds in the shape the live board expects (see LeaderboardData in
+// src/data/leaderboard.ts): `all` (what the page reads, both groups combined
+// with combineStandings, like the live feed) and one per group. In `astro dev`
+// they're evaluated on every request, so the standings move between polls; a
+// build writes one snapshot of each. Set PUBLIC_LEADERBOARD_SOURCE=live to use
+// the real results via /api/standings/all.json instead.
 export const getStaticPaths = (() =>
   [...LEADERBOARD_GROUPS.map(({ id }) => id), "all"].map((group) => ({ params: { group } }))) satisfies GetStaticPaths;
 

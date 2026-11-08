@@ -14,7 +14,7 @@
 // - `time` is the team's elapsed time ("HH:MM:SS", capped at the 30-minute
 //   race), not a clock time, so it can't fill `lastLevelAt`. It isn't shown;
 //   it's kept as `elapsedSeconds` to order teams across groups (see
-//   combineStandings).
+//   combineStandings in leaderboard.ts).
 // - There is no team id and names repeat, so ids are derived from the name and
 //   country, with a suffix for repeats.
 // - An empty tournament returns { "success": [] }.
@@ -237,33 +237,4 @@ export function mapTournamentStandings(payload: unknown, now: Date = new Date())
       droppedRows,
     },
   };
-}
-
-/**
- * Combines the groups' standings into one ranked list.
- *
- * Each group is already in official order (most levels, least attempts,
- * fastest time), and that order is kept. The groups are merged by levels, so
- * the combined list is exact on levels. The API doesn't send attempts, so
- * when teams from different groups have the same levels they're ordered by
- * elapsed time, then by group order. Ranks are renumbered 1, 2, 3…
- */
-export function combineStandings(groups: LeaderboardTeam[][]): LeaderboardTeam[] {
-  const heads = groups.map(() => 0);
-  const combined: LeaderboardTeam[] = [];
-  const ahead = (a: LeaderboardTeam, b: LeaderboardTeam) =>
-    a.levels !== b.levels
-      ? a.levels > b.levels
-      : (a.elapsedSeconds ?? Infinity) < (b.elapsedSeconds ?? Infinity);
-
-  for (;;) {
-    let next = -1;
-    groups.forEach((teams, group) => {
-      const team = teams[heads[group]];
-      if (team && (next < 0 || ahead(team, groups[next][heads[next]]))) next = group;
-    });
-    if (next < 0) break;
-    combined.push(groups[next][heads[next]++]);
-  }
-  return combined.map((team, index) => ({ ...team, rank: index + 1 }));
 }
